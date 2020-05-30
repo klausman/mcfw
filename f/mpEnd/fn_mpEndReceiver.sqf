@@ -12,7 +12,7 @@ if (isServer) then {
 };
 
 if (f_var_debugMode == 1) then {
-    ["f\\mpEnd\\fn_mpEndReceiver.sqf", "_ending = %1, _state = %2"] call pa_fnc_bothlog;
+    ["f\\mpEnd\\fn_mpEndReceiver.sqf", "_ending = %1, _state = %2"] call mc_fnc_bothlog;
 };
 
 // CLEAN-UP OBJECTIVES & TRIGGER CUT-SCENES ETC.

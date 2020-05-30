@@ -272,7 +272,7 @@ private _fnc_spawnUnit = {
         } foreach units _newGroup;
     };
     // Enable ACEX Headless for this group and trigger a rebalance pass
-    if (pa_murk_headless == 1) then {
+    if (mc_murk_headless == 1) then {
         _newGroup setVariable ["acex_headless_blacklist", false];
         [false] call acex_headless_fnc_rebalance;
     };

@@ -16,7 +16,7 @@ waitUntil {!isnil "f_var_debugMode"};
 _unitSide = side player;
 
 if (f_var_debugMode == 1) then {
-    [nil, "Player faction: %1",str _unitSide] call pa_fnc_rptlog;
+    [nil, "Player faction: %1",str _unitSide] call mc_fnc_rptlog;
 };
 
 // BRIEFING: ADMIN
@@ -27,7 +27,7 @@ if (f_var_debugMode == 1) then {
 if (serverCommandAvailable "#kick") then {
 #include "f\briefing\f_briefing_admin.sqf"
     if (f_var_debugMode == 1) then {
-        [nil, "Briefing for host selected."] call pa_fnc_rptlog;
+        [nil, "Briefing for host selected."] call mc_fnc_rptlog;
     };
 };
 
@@ -74,6 +74,6 @@ if (_unitSide == sideLogic) exitwith {};
 // ERROR CHECKING
 // If the faction of the unit cannot be defined, the script exits with an
 // error.
-["briefing.sqf", "Side %1 has no briefing defined.", str _unitSide] call pa_fnc_rptlog;
+["briefing.sqf", "Side %1 has no briefing defined.", str _unitSide] call mc_fnc_rptlog;
 
 // vim: sts=-1 ts=4 et sw=4

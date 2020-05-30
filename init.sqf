@@ -87,11 +87,11 @@ if (!isserver && hasInterface) then {
     //run on all player clients incl. player host and excl. headless clients
     []spawn {
     waitUntil {sleep 0.1; !isNull player};
-    waitUntil{!isNil "pa_param_cscaching"};
-        if (pa_param_cscaching == 1) then {
-            handle_pacaching2 = [{[] call pa_fnc_CscGroupmanagement;}, 30] call CBA_fnc_addPerFrameHandler;
-            waitUntil{!isNil "pa_AIGroups"};
-            handle_pacaching1 = [{[] call pa_fnc_ClientsideCaching;}, 6] call CBA_fnc_addPerFrameHandler;
+    waitUntil{!isNil "mc_param_cscaching"};
+        if (mc_param_cscaching == 1) then {
+            handle_pacaching2 = [{[] call mc_fnc_CscGroupmanagement;}, 30] call CBA_fnc_addPerFrameHandler;
+            waitUntil{!isNil "mc_AIGroups"};
+            handle_pacaching1 = [{[] call mc_fnc_ClientsideCaching;}, 6] call CBA_fnc_addPerFrameHandler;
         };
     };
 };
@@ -99,18 +99,18 @@ if (!isserver && hasInterface) then {
 // Thermals
 // Disable thermal sights for everything
 //player addEventHandler ["WeaponAssembled",{(_this select 1) disableTIEquipment true}];
-//[] execVM "pa\disableThermals.sqf";
+//[] execVM "extras\disableThermals.sqf";
 
 // PabstMirror - Mission Intro
 // Credits: PabstMirror
-[] execVM "pa\PM_missionIntro.sqf";
+[] execVM "extras\PM_missionIntro.sqf";
 
 // Force First Person
 // Disable 3PV regardless of server settings
-//[] execVM "pa\forceFirstPerson.sqf";
+//[] execVM "extras\forceFirstPerson.sqf";
 
 // WS - AI Flashlights
 // Credits: Wolfenswan
-// [] execVM "pa\forceFlashlightAI.sqf";
+// [] execVM "extras\forceFlashlightAI.sqf";
 
 // vim: sts=-1 ts=4 et sw=4

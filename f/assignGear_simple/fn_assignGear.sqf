@@ -35,7 +35,7 @@ _unit setVariable ["f_var_assignGear",_typeofUnit,true];
 _unit setVariable ["f_var_assignGear_done", false, true];
 
 if (f_var_debugMode == 1) then {
-    [nil, "Unit faction: %1",_faction] call pa_fnc_bothlog;
+    [nil, "Unit faction: %1",_faction] call mc_fnc_bothlog;
 };
 
 // Any unit with a faction of "blu_f" gets a NATO loadout.
@@ -67,7 +67,7 @@ if (_faction in ["blu_g_f","opf_g_f","ind_g_f"]) then {
 };
 
 if (!_ff) then {
-    [nil, "Faction '%1' is not known, unit '%2' left untouched.", _faction, _unit] call pa_fnc_bothlog;
+    [nil, "Faction '%1' is not known, unit '%2' left untouched.", _faction, _unit] call mc_fnc_bothlog;
 };
 
 // vim: sts=-1 ts=4 et sw=4

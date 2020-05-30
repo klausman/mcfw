@@ -19,7 +19,7 @@ class Header {
 onLoadName = "Insert mission name here";
 onLoadMission = "Made with a framework";
 author = "Insert mission author name here";
-//loadScreen = "project.paa"; // TODO: add MC logo 
+loadScreen = "mc.paa";
 
 // Debug Console
 enableDebugConsole = 1;
@@ -165,19 +165,19 @@ class Params {
 
     // Clientside Caching
     // Credits: Captainblaffer
-    class pa_param_cscaching {
+    class mc_param_cscaching {
         title = "Enable Clientside caching? NOTE: Disable this when spawning AI with Zeus";
         values[] = {0,1};
         texts[] = {"Off","On"};
         default = 1;
-        code = "pa_param_cscaching = %1";
+        code = "mc_param_cscaching = %1";
     };
-    class pa_murk_headless {
+    class mc_murk_headless {
         title = "Enable Headless Client takeover of murk-spawned units";
         values[] = {0, 1};
         texts[] = {"Off", "On"};
         default = 1;
-        code = "pa_murk_headless = %1";
+        code = "mc_murk_headless = %1";
     }
 };
 // End of Params code blocks.
@@ -320,17 +320,17 @@ class CfgFunctions {
         #include "f\spect\functions.hpp"
     };
 
-    class PA {
+    class mc {
         class ClientsideCaching {
-            file = "pa";
+            file = "extras";
             class ClientsideCaching{};
         };
         class CscGroupmanagement {
-            file = "pa";
+            file = "extras";
             class CscGroupmanagement{};
         };
         class log {
-            file = "pa\log";
+            file = "extras\log";
             class rptlog{};
             class chatlog{};
             class bothlog{};

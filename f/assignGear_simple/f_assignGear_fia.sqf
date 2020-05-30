@@ -114,7 +114,7 @@ switch (_typeofUnit) do {
     if (true) exitwith {
         ["f\\assignGear_simple\\f_assignGear_fia.sqf",
          "Unit:%1. Gear template %2 does not exist, used Rifleman instead.",
-         _unit,_typeofunit] call pa_fnc_bothlog;
+         _unit,_typeofunit] call mc_fnc_bothlog;
     };
   };
 // End of loadouts

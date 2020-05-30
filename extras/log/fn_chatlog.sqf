@@ -1,8 +1,7 @@
-// PA logging helpers: pa_fnc_chatlog
-// TODO: rename these to something group-neutral
+// Logging helpers: mc_fnc_chatlog
 //
 // Usage:
-// [category, formatstring, arguments...] call pa_fnc_chatlog;
+// [category, formatstring, arguments...] call mc_fnc_chatlog;
 //
 // Will log a message to the global chat.
 //
@@ -15,12 +14,12 @@
 // Examples:
 //
 // private -foo = 1;
-// [nil, "Current value of _foo: %1", _foo] call pa_fnc_bothlog;
+// [nil, "Current value of _foo: %1", _foo] call mc_fnc_bothlog;
 //     This will log: 
 //     "14:42:54 (0:00:00) F_fnc_LocalFTMarkerSync - Current value of _foo: 1"
 //     assuming the call comes from F_fnc_LocalFTMarkerSync
 //
-// ["assignGear Early init", "Initializing"]  call pa_fnc_bothlog;
+// ["assignGear Early init", "Initializing"]  call mc_fnc_bothlog;
 // 	This will log:
 // 	"14:42:54 (0:00:00) assignGear Early init - Initializing"
 // 	assuming the same call from above

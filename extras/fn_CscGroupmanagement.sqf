@@ -1,15 +1,15 @@
 /*
 fn_CscGroupmanagement
-make pa_AIGroups array to be used in clientside caching.
+make mc_AIGroups array to be used in clientside caching.
 delete empty groups
 */
-pa_AIGroups = [];
+mc_AIGroups = [];
 {
     if ((count (units _x)) > 0) then {
         if (alive leader _x) then {
             if (!isplayer leader _x) then {
                 // leader is a player: dont add to array
-                pa_AIGroups pushback _x;
+                mc_AIGroups pushback _x;
             };
         } else {
             // if leader is dead, check other units in group
@@ -19,7 +19,7 @@ pa_AIGroups = [];
                 if (isplayer _x) exitWith {_hasplayer = true;};
             } foreach units _x;
             if (!_hasplayer) then {
-                pa_AIGroups pushback _x;
+                mc_AIGroups pushback _x;
             };
         };
     } else { // delete empty groups

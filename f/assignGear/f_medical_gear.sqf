@@ -1,4 +1,4 @@
-// PA: Add medical gear to assignGear-enabled units
+// Add medical gear to assignGear-enabled units
 
 private _typeofUnit = _this select 0;
 private _unit = _this select 1;

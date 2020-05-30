@@ -1,10 +1,9 @@
-// PA logging helpers: pa_fnc_rptlog
-// TODO: rename
+// Logging helpers: mc_fnc_bothlog
 //
 // Usage:
-// [category, formatstring, arguments...] call pa_fnc_rptlog;
+// [category, formatstring, arguments...] call mc_fnc_bothlog;
 //
-// Will log a message to the RPT file.
+// Will log a message to both the RPT file and the global chat.
 //
 // category: String that describes where the log message is from (e.g. a
 //     subsystem like assignGear. If nil, use the calling script's name.
@@ -15,12 +14,12 @@
 // Examples:
 //
 // private -foo = 1;
-// [nil, "Current value of _foo: %1", _foo] call pa_fnc_bothlog;
+// [nil, "Current value of _foo: %1", _foo] call mc_fnc_bothlog;
 //     This will log: 
 //     "14:42:54 (0:00:00) F_fnc_LocalFTMarkerSync - Current value of _foo: 1"
 //     assuming the call comes from F_fnc_LocalFTMarkerSync
 //
-// ["assignGear Early init", "Initializing"]  call pa_fnc_bothlog;
+// ["assignGear Early init", "Initializing"]  call mc_fnc_bothlog;
 // 	This will log:
 // 	"14:42:54 (0:00:00) assignGear Early init - Initializing"
 // 	assuming the same call from above
@@ -46,6 +45,6 @@ if (isNil "_cat") then {
         _cat = _fnc_scriptNameParent;
     };
 };
-[format _fmtargs, _cat, [false, true, false]] call CBA_fnc_debug;
+[format _fmtargs, _cat, [true, true, false]] call CBA_fnc_debug;
 
 // vim: sts=-1 ts=4 et sw=4

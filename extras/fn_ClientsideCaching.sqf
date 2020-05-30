@@ -50,6 +50,6 @@ private _checkDist = getObjectViewDistance select 0;
         };
 
     };
-} foreach pa_AIGroups;
+} foreach mc_AIGroups;
 
 // vim: sts=-1 ts=4 et sw=4

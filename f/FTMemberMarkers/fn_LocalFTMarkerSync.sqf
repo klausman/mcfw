@@ -32,7 +32,7 @@ while{_unit == (leader _grp) && alive _unit} do {
                 if (f_var_debugMode == 1) then {
                     ["f\\FTMemberMarkers\\fn_LocalFTMarkerSync.sqf", "%1 -> %2 by %3",
                      (_x getvariable ["assignedTeam","ColorWhite"]),
-                     _colorTeam,_unit] call pa_fnc_bothlog;
+                     _colorTeam,_unit] call mc_fnc_bothlog;
                 };
 
                 // sends a call to each unit in the group to use the local

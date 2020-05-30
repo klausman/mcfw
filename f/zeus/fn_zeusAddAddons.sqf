@@ -25,7 +25,7 @@ if !(_curator in allCurators) then {
 if (isNull _curator || typeOf _curator != "ModuleCurator_F") exitWith {
     ["f\\zeus\\fn_zeusAddAddons.sqf",
      "Error: curator==null (%1) or wrong type. Wanted ModuleCurator_F, got %2",
-     isNull _curator,typeOf _curator] call pa_fnc_bothlog;
+     isNull _curator,typeOf _curator] call mc_fnc_bothlog;
 };
 
 // Decide which addons to add based on passed mode

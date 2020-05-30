@@ -308,7 +308,7 @@ _isMan = _unit isKindOf "CAManBase";
 if (_debug) then {
     ["f\\assingGear\\f_assignGear_aaf.sqf",
      "Unit '%1' is a '%2' (man: %3)",
-     _unit, _typeofUnit, _isman] call pa_fnc_rptlog;
+     _unit, _typeofUnit, _isman] call mc_fnc_rptlog;
 };
 
 // This block needs only to be run on an infantry unit
@@ -444,7 +444,7 @@ switch (_typeofUnit) do {
         if (true) exitwith {
             ["f\\assignGear\\f_assignGear_aaf.sqf",
              "Unit:%1. Gear template %2 does not exist, used Rifleman instead.",
-             _unit,_typeofunit] call pa_fnc_bothlog;
+             _unit,_typeofunit] call mc_fnc_bothlog;
         }
    };
 // END SWITCH FOR DEFINE UNIT TYPE LOADOUTS

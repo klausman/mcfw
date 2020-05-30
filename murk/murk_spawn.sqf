@@ -49,6 +49,9 @@
 //  is reached and no players are within 300m. IF players return, squad
 //  respawns from their beginning.
 // -----------------------------------------------------------------------------
+// V10 (klausman)
+// - Massive reformat and overhaul
+// - Added HC-awareness
 // V9.PA_1 (Captainblaffer)
 // - Changes for PA
 // V9.? Working Build (Wulfy Wulf)
@@ -107,7 +110,7 @@ private _triggerObject = (synchronizedObjects _unit) select 0;
 if (isnil "_triggerObject") then {
     // Always log, ...
     ["murk_spawn.sqf",
-     "The trigger object for %1 is not defined.", _unit] call pa_fnc_bothlog;
+     "The trigger object for %1 is not defined.", _unit] call mc_fnc_bothlog;
     // ... but only mark things on the map if debugging is on
     if (_debug) exitWith {
         private _mname = format ["mstestmrk_%1",_unit];
@@ -129,7 +132,7 @@ while { count units _unitGroup > 0 } do {
     // The currently worked on unit
     private _unitsInGroup = units _unitGroup;
     private _unit = _unitsInGroup select 0;
-    ["murk_spawn.sqf", "Handling unit %1, units left: %2", _unit, count units _unitGroup] call pa_fnc_rptlog;
+    ["murk_spawn.sqf", "Handling unit %1, units left: %2", _unit, count units _unitGroup] call mc_fnc_rptlog;
     // Check if it's a vehicle
     if ( (vehicle _unit) isKindOf "LandVehicle" OR (vehicle _unit) isKindOf "Air") then {
         private _vcl = vehicle _unit;
@@ -218,7 +221,7 @@ for "_i" from 0 to _countWaypoints do {
 };
 
 if (_debug) then {
-    ["murk_spawn.sqf", "Waypoints: %1", _waypointsArray] call pa_fnc_rptlog;
+    ["murk_spawn.sqf", "Waypoints: %1", _waypointsArray] call mc_fnc_rptlog;
 };
 
 deleteGroup _unitGroup;
@@ -523,7 +526,7 @@ private _fnc_spawnUnit = {
         [_newGroup, _bodyRemove] spawn _fnc_cleanGroup;
     };
     // Enable ACEX Headless for this group and trigger a rebalance pass
-    if (pa_murk_headless == 1) then {
+    if (mc_murk_headless == 1) then {
         _newGroup setVariable ["acex_headless_blacklist", false];
         [false] call acex_headless_fnc_rebalance;
     };
@@ -593,7 +596,7 @@ if (_spawntype == "reset") then {
 // ONCE MODE
 if (_spawntype == "once") then {
     private _unitGroup = [_unitGroup,_side,_waypointsArray] call _fnc_spawnUnit;
-    ["murk_spawn.sqf", "Spawned group %1", _unitGroup] call pa_fnc_rptlog;
+    ["murk_spawn.sqf", "Spawned group %1", _unitGroup] call mc_fnc_rptlog;
 };
 
 // vim: sts=-1 ts=4 et sw=4

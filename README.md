@@ -1,12 +1,10 @@
-# PA Mission Framework
+# MC Mission Framework
 
-TODO: Rewrite for MC
-
-This is the PA mission making framework, used for Arma 3 missions played with
-PA. There are quite a few documents on how to use it and achieve different
+This is the MC mission making framework, used for Arma 3 missions played with
+MC. There are quite a few documents on how to use it and achieve different
 things with it:
 
-https://swifty.projectawesome.net/docs/mission_making/
+https://www.misfit-company.com/arma3/
 
-For questions about the framework, or mission making for PA in general, find
-us in `#arma-missionmaking` on our Discord.
+For questions about the framework, or mission making for MC in general, find
+us in `#mission-making` on our Discord.

@@ -130,30 +130,30 @@ f_var_vehicles_CIV = [];
 
 // DEBUG
 if (f_var_debugMode == 1) then {
-    ["f_setLocalVars.sqf", "f_var_units = %1", str f_var_units] call pa_fnc_bothlog;
-    ["f_setLocalVars.sqf", "f_var_units_BLU = %1", str f_var_units_BLU] call pa_fnc_bothlog;
-    ["f_setLocalVars.sqf", "f_var_units_RES = %1", str f_var_units_RES] call pa_fnc_bothlog;
-    ["f_setLocalVars.sqf", "f_var_units_OPF = %1", str f_var_units_OPF] call pa_fnc_bothlog;
-    ["f_setLocalVars.sqf", "f_var_units_CIV = %1", str f_var_units_CIV] call pa_fnc_bothlog;
+    ["f_setLocalVars.sqf", "f_var_units = %1", str f_var_units] call mc_fnc_bothlog;
+    ["f_setLocalVars.sqf", "f_var_units_BLU = %1", str f_var_units_BLU] call mc_fnc_bothlog;
+    ["f_setLocalVars.sqf", "f_var_units_RES = %1", str f_var_units_RES] call mc_fnc_bothlog;
+    ["f_setLocalVars.sqf", "f_var_units_OPF = %1", str f_var_units_OPF] call mc_fnc_bothlog;
+    ["f_setLocalVars.sqf", "f_var_units_CIV = %1", str f_var_units_CIV] call mc_fnc_bothlog;
 
-    ["f_setLocalVars.sqf", "f_var_men = %1", str f_var_men] call pa_fnc_bothlog;
-    ["f_setLocalVars.sqf", "f_var_men_BLU = %1", str f_var_men_BLU] call pa_fnc_bothlog;
-    ["f_setLocalVars.sqf", "f_var_men_RES = %1", str f_var_men_RES] call pa_fnc_bothlog;
-    ["f_setLocalVars.sqf", "f_var_men_OPF = %1", str f_var_men_OPF] call pa_fnc_bothlog;
-    ["f_setLocalVars.sqf", "f_var_men_CIV = %1", str f_var_men_CIV] call pa_fnc_bothlog;
-    ["f_setLocalVars.sqf", "f_var_men_players = %1", str f_var_men_players] call pa_fnc_bothlog;
+    ["f_setLocalVars.sqf", "f_var_men = %1", str f_var_men] call mc_fnc_bothlog;
+    ["f_setLocalVars.sqf", "f_var_men_BLU = %1", str f_var_men_BLU] call mc_fnc_bothlog;
+    ["f_setLocalVars.sqf", "f_var_men_RES = %1", str f_var_men_RES] call mc_fnc_bothlog;
+    ["f_setLocalVars.sqf", "f_var_men_OPF = %1", str f_var_men_OPF] call mc_fnc_bothlog;
+    ["f_setLocalVars.sqf", "f_var_men_CIV = %1", str f_var_men_CIV] call mc_fnc_bothlog;
+    ["f_setLocalVars.sqf", "f_var_men_players = %1", str f_var_men_players] call mc_fnc_bothlog;
 
-    ["f_setLocalVars.sqf", "f_var_groups_BLU = %1", str f_var_groups_BLU] call pa_fnc_bothlog;
-    ["f_setLocalVars.sqf", "f_var_groups_RES = %1", str f_var_groups_RES] call pa_fnc_bothlog;
-    ["f_setLocalVars.sqf", "f_var_groups_OPF = %1", str f_var_groups_OPF] call pa_fnc_bothlog;
-    ["f_setLocalVars.sqf", "f_var_groups_CIV = %1", str f_var_groups_CIV] call pa_fnc_bothlog;
-    ["f_setLocalVars.sqf", "f_var_groups = %1", str f_var_groups] call pa_fnc_bothlog;
-    ["f_setLocalVars.sqf", "f_var_groups_players = %1", str f_var_groups_players] call pa_fnc_bothlog;
+    ["f_setLocalVars.sqf", "f_var_groups_BLU = %1", str f_var_groups_BLU] call mc_fnc_bothlog;
+    ["f_setLocalVars.sqf", "f_var_groups_RES = %1", str f_var_groups_RES] call mc_fnc_bothlog;
+    ["f_setLocalVars.sqf", "f_var_groups_OPF = %1", str f_var_groups_OPF] call mc_fnc_bothlog;
+    ["f_setLocalVars.sqf", "f_var_groups_CIV = %1", str f_var_groups_CIV] call mc_fnc_bothlog;
+    ["f_setLocalVars.sqf", "f_var_groups = %1", str f_var_groups] call mc_fnc_bothlog;
+    ["f_setLocalVars.sqf", "f_var_groups_players = %1", str f_var_groups_players] call mc_fnc_bothlog;
 
-    ["f_setLocalVars.sqf", "f_var_vehicles = %1",  str f_var_vehicles] call pa_fnc_bothlog;
-    ["f_setLocalVars.sqf", "f_var_vehicles_BLU = %1", str f_var_vehicles_BLU] call pa_fnc_bothlog;
-    ["f_setLocalVars.sqf", "f_var_vehicles_RES = %1", str f_var_vehicles_RES] call pa_fnc_bothlog;
-    ["f_setLocalVars.sqf", "f_var_vehicles_CIV = %1", str f_var_vehicles_CIV] call pa_fnc_bothlog;
+    ["f_setLocalVars.sqf", "f_var_vehicles = %1",  str f_var_vehicles] call mc_fnc_bothlog;
+    ["f_setLocalVars.sqf", "f_var_vehicles_BLU = %1", str f_var_vehicles_BLU] call mc_fnc_bothlog;
+    ["f_setLocalVars.sqf", "f_var_vehicles_RES = %1", str f_var_vehicles_RES] call mc_fnc_bothlog;
+    ["f_setLocalVars.sqf", "f_var_vehicles_CIV = %1", str f_var_vehicles_CIV] call mc_fnc_bothlog;
 };
 
 // vim: sts=-1 ts=4 et sw=4
