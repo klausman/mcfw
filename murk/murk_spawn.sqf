@@ -202,22 +202,27 @@ _waypointsArray = [];
 _countWaypoints = count(waypoints _unitGroup);
 
 for "_i" from 0 to _countWaypoints do {
-    private _waypointsEntry = [
-        waypointPosition [_unitGroup, _i],
-        waypointHousePosition [_unitGroup, _i],
-        waypointBehaviour [_unitGroup, _i],
-        waypointCombatMode [_unitGroup, _i],
-        waypointCompletionRadius [_unitGroup, _i],
-        waypointDescription [_unitGroup, _i],
-        waypointFormation [_unitGroup, _i],
-        waypointScript [_unitGroup, _i],
-        waypointShow [_unitGroup, _i],
-        waypointSpeed [_unitGroup, _i],
-        waypointStatements [_unitGroup, _i],
-        waypointTimeout [_unitGroup, _i],
-        waypointType [_unitGroup, _i]
-    ];
-    _waypointsArray pushBack _waypointsEntry;
+    private _wppos =  waypointPosition [_unitGroup, _i];
+    if (_wppos isEqualTo [0,0,0]) then {
+        ["murk_spawn.sqf", "Group %1 waypoint %2 is 000, dropping", _unitGroup, _i] call mc_fnc_rptlog;
+    } else {
+        private _waypointsEntry = [
+            waypointPosition [_unitGroup, _i],
+            waypointHousePosition [_unitGroup, _i],
+            waypointBehaviour [_unitGroup, _i],
+            waypointCombatMode [_unitGroup, _i],
+            waypointCompletionRadius [_unitGroup, _i],
+            waypointDescription [_unitGroup, _i],
+            waypointFormation [_unitGroup, _i],
+            waypointScript [_unitGroup, _i],
+            waypointShow [_unitGroup, _i],
+            waypointSpeed [_unitGroup, _i],
+            waypointStatements [_unitGroup, _i],
+            waypointTimeout [_unitGroup, _i],
+            waypointType [_unitGroup, _i]
+        ];
+        _waypointsArray pushBack _waypointsEntry;
+    };
 };
 
 if (_debug) then {
@@ -270,12 +275,14 @@ private _fnc_returnVehicleTurrets = {
             // Make sure the entry was found.
             if (!(isNil "_hasGunner")) then {
                 if (_hasGunner == 1) then {
-                    _turrets = _turrets pushBack _turretIndex;
+                    _turrets pushBack _turretIndex;
                     // Include sub-turrets, if present.
                     if (isClass (_subEntry >> "Turrets")) then {
-                        _turrets = _turrets pushBack [_subEntry >> "Turrets"] call _fnc_returnVehicleTurrets;
+                        // This recursive call may retunr either a turret, or
+                        // an array of them, so we can't use pushBack easily.
+                        _turrets = _turrets + [[_subEntry >> "Turrets"] call _fnc_returnVehicleTurrets];
                     } else {
-                        _turrets = _turrets pushBack [];
+                        _turrets pushBack [];
                     };
                 };
             };
