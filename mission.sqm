@@ -8,7 +8,7 @@ class EditorData
 	toggles=5;
 	class ItemIDProvider
 	{
-		nextID=371;
+		nextID=374;
 	};
 	class MarkerIDProvider
 	{
@@ -18790,7 +18790,7 @@ class CustomAttributes
 																"BOOL"
 															};
 														};
-														value=0;
+														value=1;
 													};
 												};
 												class Item1
@@ -18880,7 +18880,7 @@ class CustomAttributes
 																"BOOL"
 															};
 														};
-														value=0;
+														value=1;
 													};
 												};
 												class Item1
@@ -23684,7 +23684,7 @@ class CustomAttributes
 																"SCALAR"
 															};
 														};
-														value=0;
+														value=1;
 													};
 												};
 												class Item1
@@ -25302,7 +25302,7 @@ class Mission
 	};
 	class Entities
 	{
-		items=71;
+		items=74;
 		class Item0
 		{
 			dataType="Marker";
@@ -32957,6 +32957,48 @@ class Mission
 				};
 				nAttributes=2;
 			};
+		};
+		class Item71
+		{
+			dataType="Logic";
+			class PositionInfo
+			{
+				position[]={14527.438,17.930481,16682.49};
+				angles[]={-0,0,6.2751918};
+			};
+			name="hc1";
+			isPlayable=1;
+			description="HC1";
+			id=371;
+			type="HeadlessClient_F";
+			atlOffset=-1.9073486e-006;
+		};
+		class Item72
+		{
+			dataType="Logic";
+			class PositionInfo
+			{
+				position[]={14544,17.91,16683};
+			};
+			name="hc2";
+			isPlayable=1;
+			description="HC2";
+			id=372;
+			type="HeadlessClient_F";
+		};
+		class Item73
+		{
+			dataType="Logic";
+			class PositionInfo
+			{
+				position[]={14536.242,17.918474,16672.598};
+				angles[]={6.2818484,0,6.2818484};
+			};
+			name="hc3";
+			isPlayable=1;
+			description="HC3";
+			id=373;
+			type="HeadlessClient_F";
 		};
 	};
 };

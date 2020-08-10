@@ -169,7 +169,7 @@ class Params {
         title = "Enable Clientside caching? NOTE: Disable this when spawning AI with Zeus";
         values[] = {0,1};
         texts[] = {"Off","On"};
-        default = 1;
+        default = 0;
         code = "mc_param_cscaching = %1";
     };
     class mc_murk_headless {
