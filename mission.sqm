@@ -8,7 +8,7 @@ class EditorData
 	toggles=5;
 	class ItemIDProvider
 	{
-		nextID=374;
+		nextID=380;
 	};
 	class MarkerIDProvider
 	{
@@ -16,10 +16,10 @@ class EditorData
 	};
 	class Camera
 	{
-		pos[]={14641.107,42.91,16677.25};
-		dir[]={0,-0.70710683,0.70710683};
-		up[]={0,0.70710677,0.70710677};
-		aside[]={0.99999994,0,0};
+		pos[]={14515.748,43.018326,16682.256};
+		dir[]={0.95634341,-0.29069945,0.030495856};
+		up[]={0.29055908,0.95681101,0.0092643453};
+		aside[]={0.0318707,-2.7969691e-007,-0.99950254};
 	};
 };
 binarizationWanted=0;
@@ -30,26 +30,28 @@ addons[]=
 	"ace_realisticnames",
 	"A3_Soft_F_Beta_Truck_01",
 	"A3_Soft_F_Exp_Truck_01",
+	"UK3CB_BAF_Vehicles_Servicing",
 	"ace_cargo",
 	"A3_Soft_F_EPC_Truck_03",
 	"A3_Weapons_F_Ammoboxes",
 	"A3_Characters_F",
 	"ace_nouniformrestrictions",
 	"ace_explosives",
-	"A3_Modules_F_Curator_Curator",
 	"A3_Armor_F_Beta_APC_Wheeled_01",
 	"A3_Armor_F_Gamma_MBT_01",
 	"A3_Armor_F_EPC_MBT_01",
 	"ace_cookoff",
 	"A3_Air_F_Beta_Heli_Attack_01",
 	"A3_Air_F_Beta_Heli_Transport_01",
-	"A3_Data_F_Curator_Virtual"
+	"A3_Modules_F_Curator_Curator",
+	"A3_Data_F_Curator_Virtual",
+	"A3_Structures_F_Mil_Flags"
 };
 class AddonsMetaData
 {
 	class List
 	{
-		items=16;
+		items=18;
 		class Item0
 		{
 			className="A3_Ui_F";
@@ -80,10 +82,8 @@ class AddonsMetaData
 		};
 		class Item4
 		{
-			className="A3_Data_F_Curator";
-			name="Arma 3 Zeus Update - Main Configuration";
-			author="Bohemia Interactive";
-			url="https://www.arma3.com";
+			className="UK3CB_BAF_Vehicles_Servicing";
+			name="UK3CB_BAF_Vehicles_Servicing";
 		};
 		class Item5
 		{
@@ -122,43 +122,57 @@ class AddonsMetaData
 		};
 		class Item10
 		{
-			className="A3_Modules_F_Curator";
-			name="Arma 3 Zeus Update - Scripted Modules";
-			author="Bohemia Interactive";
-			url="https://www.arma3.com";
-		};
-		class Item11
-		{
 			className="A3_Armor_F_Beta";
 			name="Arma 3 Beta - Armored Land Vehicles";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
-		class Item12
+		class Item11
 		{
 			className="A3_Armor_F_Gamma";
 			name="Arma 3 - Armored Land Vehicles";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
-		class Item13
+		class Item12
 		{
 			className="A3_Armor_F_EPC";
 			name="Arma 3 Win Episode - Armored Land Vehicles";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
-		class Item14
+		class Item13
 		{
 			className="ace_cookoff";
 			name="ACE3 - Cook off";
 			author="ACE-Team";
 			url="http://ace3mod.com/";
 		};
-		class Item15
+		class Item14
 		{
 			className="A3_Air_F_Beta";
 			name="Arma 3 Beta - Aircraft";
+			author="Bohemia Interactive";
+			url="https://www.arma3.com";
+		};
+		class Item15
+		{
+			className="A3_Modules_F_Curator";
+			name="Arma 3 Zeus Update - Scripted Modules";
+			author="Bohemia Interactive";
+			url="https://www.arma3.com";
+		};
+		class Item16
+		{
+			className="A3_Data_F_Curator";
+			name="Arma 3 Zeus Update - Main Configuration";
+			author="Bohemia Interactive";
+			url="https://www.arma3.com";
+		};
+		class Item17
+		{
+			className="A3_Structures_F_Mil";
+			name="Arma 3 - Military Buildings and Structures";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
@@ -25296,7 +25310,7 @@ class Mission
 	};
 	class Entities
 	{
-		items=74;
+		items=76;
 		class Item0
 		{
 			dataType="Marker";
@@ -32362,116 +32376,6 @@ class Mission
 		};
 		class Item61
 		{
-			dataType="Logic";
-			class PositionInfo
-			{
-				position[]={14533.329,17.92,16693.107};
-			};
-			name="zeusmodule1";
-			id=260;
-			type="ModuleCurator_F";
-			class CustomAttributes
-			{
-				class Attribute0
-				{
-					property="ModuleCurator_F_Owner";
-					expression="_this setVariable ['Owner',_value,true];";
-					class Value
-					{
-						class data
-						{
-							class type
-							{
-								type[]=
-								{
-									"STRING"
-								};
-							};
-							value="#adminVoted";
-						};
-					};
-				};
-				class Attribute1
-				{
-					property="ModuleCurator_F_Forced";
-					expression="_this setVariable ['Forced',_value,true];";
-					class Value
-					{
-						class data
-						{
-							class type
-							{
-								type[]=
-								{
-									"SCALAR"
-								};
-							};
-							value=0;
-						};
-					};
-				};
-				class Attribute2
-				{
-					property="ModuleCurator_F_Name";
-					expression="_this setVariable ['Name',_value,true];";
-					class Value
-					{
-						class data
-						{
-							class type
-							{
-								type[]=
-								{
-									"STRING"
-								};
-							};
-							value="";
-						};
-					};
-				};
-				class Attribute3
-				{
-					property="ModuleInfo";
-					expression="false";
-					class Value
-					{
-						class data
-						{
-							class type
-							{
-								type[]=
-								{
-									"BOOL"
-								};
-							};
-							value=1;
-						};
-					};
-				};
-				class Attribute4
-				{
-					property="ModuleCurator_F_Addons";
-					expression="_this setVariable ['Addons',_value,true];";
-					class Value
-					{
-						class data
-						{
-							class type
-							{
-								type[]=
-								{
-									"SCALAR"
-								};
-							};
-							value=3;
-						};
-					};
-				};
-				nAttributes=5;
-			};
-		};
-		class Item62
-		{
 			dataType="Object";
 			class PositionInfo
 			{
@@ -32513,7 +32417,7 @@ class Mission
 				nAttributes=1;
 			};
 		};
-		class Item63
+		class Item62
 		{
 			dataType="Object";
 			class PositionInfo
@@ -32556,7 +32460,7 @@ class Mission
 				nAttributes=1;
 			};
 		};
-		class Item64
+		class Item63
 		{
 			dataType="Object";
 			class PositionInfo
@@ -32599,7 +32503,7 @@ class Mission
 				nAttributes=1;
 			};
 		};
-		class Item65
+		class Item64
 		{
 			dataType="Object";
 			class PositionInfo
@@ -32661,7 +32565,7 @@ class Mission
 				nAttributes=2;
 			};
 		};
-		class Item66
+		class Item65
 		{
 			dataType="Object";
 			class PositionInfo
@@ -32723,7 +32627,7 @@ class Mission
 				nAttributes=2;
 			};
 		};
-		class Item67
+		class Item66
 		{
 			dataType="Object";
 			class PositionInfo
@@ -32766,7 +32670,7 @@ class Mission
 				nAttributes=1;
 			};
 		};
-		class Item68
+		class Item67
 		{
 			dataType="Object";
 			class PositionInfo
@@ -32809,13 +32713,14 @@ class Mission
 				nAttributes=1;
 			};
 		};
-		class Item69
+		class Item68
 		{
 			dataType="Logic";
 			class PositionInfo
 			{
 				position[]={14552.775,17.91,16694.035};
 			};
+			name="zeus_module";
 			id=369;
 			type="ModuleCurator_F";
 			class CustomAttributes
@@ -32899,7 +32804,7 @@ class Mission
 				nAttributes=4;
 			};
 		};
-		class Item70
+		class Item69
 		{
 			dataType="Logic";
 			class PositionInfo
@@ -32952,13 +32857,13 @@ class Mission
 				nAttributes=2;
 			};
 		};
-		class Item71
+		class Item70
 		{
 			dataType="Logic";
 			class PositionInfo
 			{
 				position[]={14527.438,17.930481,16682.49};
-				angles[]={-0,0,6.2751918};
+				angles[]={0,0,6.2751918};
 			};
 			name="hc1";
 			isPlayable=1;
@@ -32967,7 +32872,7 @@ class Mission
 			type="HeadlessClient_F";
 			atlOffset=-1.9073486e-006;
 		};
-		class Item72
+		class Item71
 		{
 			dataType="Logic";
 			class PositionInfo
@@ -32980,7 +32885,7 @@ class Mission
 			id=372;
 			type="HeadlessClient_F";
 		};
-		class Item73
+		class Item72
 		{
 			dataType="Logic";
 			class PositionInfo
@@ -32993,6 +32898,54 @@ class Mission
 			description="HC3";
 			id=373;
 			type="HeadlessClient_F";
+		};
+		class Item73
+		{
+			dataType="Object";
+			class PositionInfo
+			{
+				position[]={14640.5,21.886805,16704.193};
+			};
+			side="Empty";
+			flags=5;
+			class Attributes
+			{
+				init="call{[this, west] call mc_fnc_telepole;}";
+			};
+			id=374;
+			type="Flag_NATO_F";
+		};
+		class Item74
+		{
+			dataType="Object";
+			class PositionInfo
+			{
+				position[]={15047.219,21.885141,16736.533};
+			};
+			side="Empty";
+			flags=5;
+			class Attributes
+			{
+				init="call{[this, east] call mc_fnc_telepole;}";
+			};
+			id=378;
+			type="Flag_CSAT_F";
+		};
+		class Item75
+		{
+			dataType="Object";
+			class PositionInfo
+			{
+				position[]={14715.467,21.862526,16368.677};
+			};
+			side="Empty";
+			flags=5;
+			class Attributes
+			{
+				init="call{[this, resistance] call mc_fnc_telepole;}";
+			};
+			id=379;
+			type="Flag_AAF_F";
 		};
 	};
 };

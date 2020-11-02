@@ -1,13 +1,39 @@
 // Teleport script
+// (C) 2020 T. Klausmann
 
-params ["_tObj", "_tSide"];
+params ["_tObj", "_tSide", "_quiet", "_scheduled"];
 
 private _grpLeaders = [];
 
-["telepole", "Initializing object %1 for side %2", _tObj, _tSide] call mc_fnc_rptlog;
+if (isNil "_scheduled") then {_scheduled=false;};
+if (isNil "_quiet") then {_quiet=false;};
+
+if (!_quiet && !_scheduled) then {
+    ["telepole", "Initializing object %1 for side %2", _tObj, _tSide] call mc_fnc_rptlog;
+};
 
 removeAllActions _tObj;
 
+if (!_scheduled) then {
+    // Re-run ourselves periodically *silently*
+    [_tSide, _tObj]spawn {
+        private _tSide = _this select 0;
+        private _tObj = _this select 1;
+        while {true} do {
+            //["telepole",
+            // "Scheduled update for %1/%2", _tObj, _tSide] call mc_fnc_rptlog;
+            [_tObj, _tSide, true, true] call mc_fnc_telepole;
+            sleep 60;
+        };
+    };
+    // Add telepole to global list so it can be re-inited on the player kill
+    // event handler.
+    private _poles = missionNameSpace getVariable ["telepole_poles", []];
+    _poles pushBack [_tObj, _tSide];
+    missionNameSpace setVariable ["telepole_poles", _poles, true];
+};
+
+// "Reset my gear" action to work around assignGear limitations
 if (mc_assigngear_telepole == 1) then {
     _tobj addAction [
         "Reset my gear",
@@ -22,55 +48,38 @@ if (mc_assigngear_telepole == 1) then {
     ];
 };
 
-// Get all groups on the player's side
+// Get all groups leaders that are alive and players on the indicated side.
 {
-  //["telepole", "Considering group %1", _x] call mc_fnc_rptlog;
   private _l = leader _x;
-  //["telepole", "Leader is %1", _l] call mc_fnc_rptlog;
-  //["telepole", "Leader side is %1", side _l] call mc_fnc_rptlog;
-  //if (isPlayer _l && side _l == _tSide) then {
-
-  if (side _l == _tSide) then {
-    ["telepole", "Everything lines up, adding leader %1", _l] call mc_fnc_rptlog;
+  //if (side _l == _tSide && alive _l) then {
+  if (/*isPlayer _l &&*/ side _l == _tSide && alive _l) then {
+    if (!_quiet) then {
+        ["telepole",
+         "Leader %1 is a player, alive and on side %2, adding TP entry",
+         _l, _tSide] call mc_fnc_rptlog;
+    };
     _grpLeaders pushBack _l
   }
 } foreach allGroups;
 
-["telepole", "Leaders: %1", _grpLeaders] call mc_fnc_rptlog;
-
 // Add action for every leader
 {
   _tObj addaction [
-   format ["Teleport to %1 (SL: %2)", group _x, name _x],
+   format ["Teleport to %1 (SL: %2)", groupID group _x, name _x],
    {
      params ["_target", "_caller", "_actionId", "_arguments"];
-     //["telepole", "XXY: target %1, caller %2 actionId %3 args %4", _target, _caller, _actionId, _arguments] call mc_fnc_rptlog;
      [_arguments, _caller] call mc_fnc_teleport;
    },
    _x
   ]
 } forEach _grpLeaders;
 
-// Reset pole in case there are new groups or something else broke.
+// Add Reset Pole action in case something broke.
 _tobj addAction [
     "Reset Teleport pole",
     {
         params ["_target", "_caller", "_actionId", "_arguments"];
-        
         [_target, _arguments] call mc_fnc_telepole;
     },
     _tSide
 ];
-
-// Debug option
-/*_tobj addAction [
-    "Launch Bob 10km into the air",
-    {
-        params ["_target", "_caller", "_actionId", "_arguments"];
-        private _pos = getPos bob;
-        bob setPos [_pos select 0, _pos select 1, 10000];
-    }
-];*/
-
-
-// vim: sts=-1 ts=4 et sw=4

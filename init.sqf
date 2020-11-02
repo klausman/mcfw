@@ -1,4 +1,4 @@
-diag_log "MC Framework v0.0.4 starting init.sqf";
+diag_log "MC Framework v0.1.0 starting init.sqf";
 
 // SETTING: Disable Saving and Auto Saving
 enableSaving [false, false];
@@ -94,5 +94,21 @@ if (!isserver && hasInterface) then {
 // WS - AI Flashlights
 // Credits: Wolfenswan
 // [] execVM "extras\forceFlashlightAI.sqf";
+
+// Speed up player corpse removal and re-initialize any teleport poles
+if (hasInterface) then {
+    []spawn {
+        waitUntil {sleep 1; !isNull player};
+        player addEventHandler [
+            "killed",
+            "(_this select 0) spawn {
+                sleep 5;
+                hideBody _this;
+                sleep 10;
+                deleteVehicle _this;
+                call mc_fnc_telepole_reinit;
+            };"];
+    };
+};
 
 // vim: sts=-1 ts=4 et sw=4

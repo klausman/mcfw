@@ -36,9 +36,11 @@ enableDebugConsole = 1;
 // If 3 is chosen, place down makers with the following names as necessary:
 // respawn_west, respawn_guerilla, respawn_east, respawn_civillian.
 respawn = 3;
-respawndelay = 4;
+respawndelay = 5;
 respawnOnStart = 0;
 respawnDialog = 0;
+// Useful values here are: "Group", "Counter" and "Spectator"
+respawnTemplates[] = {"Group"};
 
 // RotorLib Simulation Setting
 // 0 - default: player options, 1 - all on, 2 - all off.
@@ -172,6 +174,13 @@ class Params {
         texts[] = {"Off", "On"};
         default = 1;
         code = "mc_murk_headless = %1";
+    };
+    class mc_assigngear_telepole {
+        title = "Allow players to re-run assignGear on teleport pole";
+        values[] = {0, 1};
+        texts[] = {"Off", "On"};
+        default = 1;
+        code = "mc_assigngear_telepole = %1";
     }
 };
 // End of Params code blocks.
@@ -252,10 +261,10 @@ class CfgFunctions {
         class assignGear {
             // Defines the functions to preInit the compling of the assignGear
             // function used by units.
-            file = "f\assignGear";
-            // If you want to use simple AssignGear, delete the line above and
+            file = "f\assignGear_simple";
+            // If you want to use the old AssignGear, delete the line above and
             // uncomment (remove the //) the line below.
-            //file = "f\assignGear_simple";
+            //file = "f\assignGear";
             class assignGear{};
         };
         class ace3 {
@@ -306,6 +315,12 @@ class CfgFunctions {
             class rptlog{};
             class chatlog{};
             class bothlog{};
+        };
+        class teleport {
+            file = "extras\telepole";
+            class telepole{};
+            class telepole_reinit{};
+            class teleport{};
         };
     };
 
