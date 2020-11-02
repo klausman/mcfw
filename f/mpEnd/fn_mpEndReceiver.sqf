@@ -62,11 +62,4 @@ switch (_ending) do{
 _ending = format ["end%1",_ending];
 [_ending,_state] spawn BIS_fnc_endMission;
 
-// EXIT THE SPECTATOR SCRIPT IF IS OPEN
-// Clients just "hang" if the mission has ended but are still inside the
-// spectator script.
-if (dialog) then {
-    closeDialog 0;
-};
-
 // vim: sts=-1 ts=4 et sw=4

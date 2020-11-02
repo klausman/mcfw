@@ -63,26 +63,6 @@ if(isServer) then {
 // Comment out this line to hard-disable the safe start timer.
 [] execVM "f\safeStart\f_safeStart.sqf";
 
-// SETTING: JIP setup
-// Note: if you *don't* want respawn (and spectator instead), go to
-// description.ext and follow the instructions there (look for f_spectator)
-
-// Note: respawn_west etc. markers are mandatory. When not using respawn,
-// place these markers somewhere players will not go
-f_var_JIP_JIPMenu = true;       // Do JIP players get the JIP menu?
-f_var_JIP_RespawnMenu = true;   // Do respawning players get the JIP menu?
-f_var_JIP_RemoveCorpse = false; // Remove corpses of respawning players?
-f_var_JIP_Spectate = false;     // JIP players go into spectate straight away?
-
-// WARNING: DO NOT DISABLE THIS COMPONENT
-if (hasInterface) then {
-    []spawn {
-        waitUntil {sleep 0.1; !isNull player};
-        player addEventHandler ["killed", "['F_ScreenSetup'] call BIS_fnc_blackOut"];
-    };
-};
-
-
 // Clientside caching
 // run this instead of SETTING: AI unit caching (server side)
 if (!isserver && hasInterface) then {

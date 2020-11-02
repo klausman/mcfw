@@ -25,18 +25,19 @@ loadScreen = "mc.paa";
 enableDebugConsole = 1;
 
 // Respawn Settings
+//
+// More Info:
+// https://community.bistudio.com/wiki/Arma_3_Respawn
+//
 // 1    Respawn as Bird (for normal mission, no reinforcements).
 // 2    Respawn on death location without gear, used in special missions.
 // 3    Respawn at base marker (used when reinforcements are an option).
 // 4    Respawn either in group if an AI slot is filled or as seagull.
 // If 3 is chosen, place down makers with the following names as necessary:
 // respawn_west, respawn_guerilla, respawn_east, respawn_civillian.
-respawn = 3; //Suggested NOT to change this
+respawn = 3;
 respawndelay = 4;
 respawnOnStart = 0;
-// Uncomment the first line (delete the second) for Spectator-on-Respawn
-//respawnTemplates[] = {"f_JIP","f_spectator"};
-respawnTemplates[] = {"f_JIP"};
 respawnDialog = 0;
 
 // RotorLib Simulation Setting
@@ -98,13 +99,6 @@ class cfgNotifications {
         iconPicture="\A3\UI_F\data\IGUI\Cfg\Actions\settimer_ca.paa";
         duration = 3;
         priority = 1;
-    };
-    class JIP { 
-        title= "REINFORCEMENTS";
-        description= "%1";
-        iconPicture = "\A3\ui_f\data\map\markers\military\flag_ca.paa";
-        duration = 3;
-        priority = 5;
     };
 };
 // End of Notification templates
@@ -235,27 +229,6 @@ class CfgDebriefing {
     };
 };
 
-// Respawn Templates
-class CfgRespawnTemplates {
-    // Spectator Script
-    class f_Spectator {
-        onPlayerRespawn = "f_fnc_CamInit";
-    };
-    // JIP Menu
-    class f_JIP {
-        onPlayerRespawn = "f\JIP\f_JIP_playerRespawn.sqf";
-    };
-};
-
-// Menu components
-// DO NOT REMOVE OR DISABLE THIS BLOCK OF CODE
-
-// Menu components for the JIP Menu
-#include "f\JIP\f_JIP_kitpicker.h"
-#include "f\JIP\f_JIP_grppicker.h"
-// Menu components for the Spectator Script
-#include "f\spect\config.hpp"
-
 // Functions
 // DO NOT REMOVE OR DISABLE THIS BLOCK OF CODE
 class CfgFunctions {
@@ -317,7 +290,6 @@ class CfgFunctions {
             file = "f\safeStart";
             class safety{};
         };
-        #include "f\spect\functions.hpp"
     };
 
     class mc {
