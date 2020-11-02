@@ -6,6 +6,7 @@
             if ( !( _x getVariable ["TIEquipmentDisabled", false] ) ) then {
                 _x setVariable ["TIEquipmentDisabled", true];
                 _x disableTIEquipment true;
+                _x setVariable ["A3TI_Disable, true"];
             };
         } forEach vehicles;
         sleep 5;
