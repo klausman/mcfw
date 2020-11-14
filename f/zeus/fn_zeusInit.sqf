@@ -55,16 +55,6 @@ _unit assignCurator _curator;
 _curator setCuratorWaypointCost 0;
 {_curator setCuratorCoef [_x,0];} forEach ["place","edit","delete","destroy","group","synchronize"];
 
-// Check if AI Skill Selector is active and assign corresponding event-handler
-if({!isNil _x} count ["f_param_AISkill_BLUFOR","f_param_AISkill_INDP","f_param_AISkill_OPFOR"] > 0) then {
-    _curator addEventHandler ['CuratorObjectPlaced',{
-        params ["", "_obj"];
-        {
-            [[_x],"f_fnc_setAISkill",_x,false,true] spawn BIS_fnc_MP;
-        } forEach crew _obj;
-    }];
-};
-
 // If announce is set to true, the new curator will be announced to all
 // players
 if (_announce) then {

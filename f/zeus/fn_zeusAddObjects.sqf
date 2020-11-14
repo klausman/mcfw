@@ -1,18 +1,17 @@
 // Zeus Support - Add Objects
 
+params [
+    ["_curator", objNull],
+    ["_mode" ,[], [true, west, objNull, []]],
+    ["_groupLeaders", false]
+];
+
 // DECLARE VARIABLES
-private ["_curator","_mode","_objects","_getGlobalVars","_groupLeaders", "_leaders"];
+private ["_objects","_getGlobalVars","_leaders"];
 
 // SERVER CHECK
 // Ensure this script only executes on the server:
 if !(isServer) exitWith {};
-
-// SET KEY VARIABLES
-// Using variables passed to the script instance, we will create some local
-// variables:
-_curator = [_this,0,objNull] call bis_fnc_param;
-_mode = [_this,1,[],[true,west,objNull,[]]] call bis_fnc_param;
-_groupLeaders = [_this,2,false] call bis_fnc_param;
 
 // RESOLVE CURATOR VARIABLE
 // If the passed unit is not in the list of all curators, check whether the

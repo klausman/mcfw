@@ -1,17 +1,16 @@
 // Zeus Support - Add Addons
 
+params [
+    ["_curator", objNull],
+    ["_mode", [], ["",true,[]]]
+];
+
 // DECLARE VARIABLES
-private ["_curator","_mode","_addons","_cfgPatches","_class"];
+private ["_addons","_cfgPatches","_class"];
 
 // SERVER CHECK
 // Ensure this script only executes on the server:
 if !(isServer) exitWith {};
-
-// SET KEY VARIABLES
-// Using variables passed to the script instance, we will create some local
-// variables:
-_curator = [_this,0,objNull] call bis_fnc_param;
-_mode = [_this,1,[],["",true,[]]] call bis_fnc_param;
 
 // RESOLVE CURATOR VARIABLE
 // If the passed unit is not in the list of all curators, check whether the

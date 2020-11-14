@@ -136,29 +136,6 @@ class Params {
             code = "f_param_mission_timer = %1";
     };
 
-	// AI Skill Selector --- disabled by default
-	//  class f_param_AISkill_BLUFOR {
-	//      title = "$STR_f_param_AISkill_BLUFOR";
-	//      values[] = {0,1,2,3};
-	//      texts[] = {$STR_f_param_AISkill_Option0,$STR_f_param_AISkill_Option1,$STR_f_param_AISkill_Option2,$STR_f_param_AISkill_Option3};
-	//      default = 1;
-	//      code = "f_param_AISkill_BLUFOR = %1";
-	//  };
-	//  class f_param_AISkill_OPFOR {
-	//      title = "$STR_f_param_AISkill_OPFOR";
-	//      values[] = {0,1,2,3};
-	//      texts[] = {$STR_f_param_AISkill_Option0,$STR_f_param_AISkill_Option1,$STR_f_param_AISkill_Option2,$STR_f_param_AISkill_Option3};
-	//      default = 1;
-	//      code = "f_param_AISkill_OPFOR = %1";
-	//  };
-	//  class f_param_AISkill_INDP {
-	//      title = "$STR_f_param_AISkill_INDP";
-	//      values[] = {0,1,2,3};
-	//      texts[] = {$STR_f_param_AISkill_Option0,$STR_f_param_AISkill_Option1,$STR_f_param_AISkill_Option2,$STR_f_param_AISkill_Option3};
-	//      default = 1;
-	//      code = "f_param_AISkill_INDP = %1";
-	//  };
-
     // Clientside Caching
     // Credits: Captainblaffer
     class mc_param_cscaching {
