@@ -118,6 +118,7 @@ if (isNull (getAssignedCuratorLogic player)) then {hintsilent 'Assign ZEUS first
 
 
 // CREATE DIARY ENTRY
-player createDiaryRecord ["diary", ["Admin",_briefing]];
+private _clb = [_briefing, ["&"], "&amp;"] call mc_fnc_stringReplace;
+player createDiaryRecord ["diary", ["Admin",_clb]];
 
 // vim: sts=-1 ts=4 et sw=4

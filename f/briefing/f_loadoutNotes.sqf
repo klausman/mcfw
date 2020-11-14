@@ -131,6 +131,7 @@ if (count _items > 0) then {
 // Wait for the briefing script to finish, then add the created text
 
 waitUntil {scriptDone f_script_briefing};
-player createDiaryRecord ["diary", ["Loadout", _text]];
+private _clt = [_text, ["&"], "&amp;"] call mc_fnc_stringReplace;
+player createDiaryRecord ["diary", ["Loadout", _clt]];
 
 // vim: sts=-1 ts=4 et sw=4

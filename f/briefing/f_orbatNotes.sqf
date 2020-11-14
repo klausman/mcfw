@@ -109,6 +109,7 @@ _orbatText = _orbatText + "<br />VEHICLE CREWS + PASSENGERS<br />";
 
 // Insert final result into subsection ORBAT of section Notes
 waitUntil {scriptDone f_script_briefing};
-player createDiaryRecord ["diary", ["ORBAT", _orbatText]];
+private _clt = [_orbatText, ["&"], "&amp;"] call mc_fnc_stringReplace;
+player createDiaryRecord ["diary", ["ORBAT", _clt]];
 
 // vim: sts=-1 ts=4 et sw=4

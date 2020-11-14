@@ -287,6 +287,10 @@ class CfgFunctions {
             class telepole_reinit{};
             class teleport{};
         };
+        class strReplace {
+            file = "extras";
+            class stringReplace{};
+        };
     };
 
     class MURK {
