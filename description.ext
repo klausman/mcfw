@@ -254,10 +254,6 @@ class CfgFunctions {
             class GetMarkerColor{};
             class LocalFTMarkerSync{};
         };
-        class setAISkill {
-            file = "f\setAISKill";
-            class setAISKill{};
-        };
         class zeus {
             file = "f\zeus";
             class zeusInit{};
