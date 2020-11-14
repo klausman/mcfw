@@ -1,10 +1,8 @@
 // Assign Insignia
-
-private ["_badge","_groupBadges","_roleBadge","_unit","_typeofUnit", "_faction"];
+params ["_typeOfUnit", "_unit"];
+private ["_badge","_groupBadges","_roleBadge","_faction"];
 
 _badge = "";
-_unit = _this select 0;
-_typeofUnit = _this select 1;
 _faction = toLower (faction _unit);
 
 // Note all badges must be defined in description.ext or be included your

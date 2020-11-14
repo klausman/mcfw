@@ -12,11 +12,9 @@
 //   Airdrop module to your mission and add this line in `List function`:
 //   ["gl"] call compile preprocessFileLineNumbers "extras\sss_airdrops.sqf"
 //
-private ["_mode", "_boxes"];
-_mode = _this select 0;
+params["_mode", "_box", "_boxidx", "_boxes"];
 
-[format ["Called in mode %1", _mode], "SSS CADS", [false, true, true]] call CBA_fnc_debug;
-
+["SSS_airdrops", "Called in mode %1", _mode] call mc_fnc_rptlog;
 
 // BOX DEFINITIONS START
 
@@ -65,14 +63,14 @@ _boxes = [
 
 // BOX DEFINITIONS END -- no need to edit below this line
 
-if (_mode == "bi")  
-    exitWith {
-	[_this select 1, _this select 2, _boxes] call 
-	compile preprocessFileLineNumbers "extras\sss_airdrops_bi.sqf";
-  };
+if (_mode == "bi") exitWith {
+    [_box, _boxidx, _boxes] call 
+    compile preprocessFileLineNumbers "extras\sss_airdrops_bi.sqf";
+};
   
-if (_mode == "gl") 
-    exitWith {
-	[_boxes] 
-	call compile preprocessFileLineNumbers "extras\sss_airdrops_gl.sqf";
-  };
+if (_mode == "gl") exitWith {
+    [_boxes] 
+    call compile preprocessFileLineNumbers "extras\sss_airdrops_gl.sqf";
+};
+
+// vim: sts=-1 ts=4 et sw=4

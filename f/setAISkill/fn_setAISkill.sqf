@@ -1,11 +1,10 @@
 // SetAISkill
-
+params ["_unit", "_skillset"];
 // DECLARE VARIABLES
-private ["_unit","_skill","_skillset","_skillarray"];
+private ["_skill","_skillset","_skillarray"];
 
 // SET KEY VARIABLES
-_unit = _this select 0;
-_skillset = if (count _this > 1) then [{_this select 1},{false}];
+_skillset = [_skillset, false];
 _skill = 99;
 // If _skillset is not an array of skills, _skillarray will be properly set
 // further down
@@ -40,7 +39,7 @@ if (typename _skillset == typename 0) then {
     _skill = _skillset;
     _skillArray = [];
     for '_x' from 0 to 9 do {
-        _skilllevel = (f_var_skillSet select _x) * _skill;
+        private _skilllevel = (f_var_skillSet select _x) * _skill;
         _skillArray pushBack (_skilllevel + random f_var_skillRandom - random f_var_skillRandom);
     };
 };

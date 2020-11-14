@@ -1,7 +1,9 @@
 // Assign Gear Script
 
+params ["_typeOfUnit", "_unit", "_faction"];
+
 // DECLARE VARIABLES AND FUNCTIONS
-private ["_faction","_typeofUnit","_unit", "_ff", "_isMan"];
+private ["_ff", "_isMan"];
 
 _ff = false; // Track whether we have found a faction for this unit
 
@@ -10,20 +12,20 @@ _ff = false; // Track whether we have found a faction for this unit
 // stores it in the private variable _faction. It can also be passed as an
 // optional parameter.
 
-_typeofUnit = toLower (_this select 0);
-_unit = _this select 1;
-
+_typeofUnit = toLower _typeOfUnit;
 _isMan = _unit isKindOf "CAManBase";
 _faction = toLower (faction _unit);
 
-if(count _this > 2) then {
-  _faction = toLower (_this select 2);
+if(!isNil "_faction") then {
+  _faction = toLower _faction;
+} else {
+  _faction = toLower (faction _unit);
 };
 
 // INSIGNIA
 // This block will give units insignia on their uniforms.
 [_unit,_typeofUnit] spawn {
-    [_this select 0, _this select 1] call compile preprocessFileLineNumbers "f\assignGear\f_assignInsignia.sqf";
+    [_typeOfUnit, _unit] call compile preprocessFileLineNumbers "f\assignGear\f_assignInsignia.sqf";
 };
 
 // DECIDE IF THE SCRIPT SHOULD RUN

@@ -54,10 +54,7 @@
 //
 // Then the unit will get the "stuff" loadout. This way, you can have
 // multiple different types of Automatic Rifleman, for example.
-
-// Define a few shorthand variables from parameters
-private _typeofUnit = toLower (_this select 0); // "co", "ar" etc.
-private _unit = _this select 1;         // E.g. B A 1-3 (bluefor, Alpha 1-3)
+params ["_typeOfUnit", "_unit"];
 
 // Remove everything
 removeBackpack _unit;

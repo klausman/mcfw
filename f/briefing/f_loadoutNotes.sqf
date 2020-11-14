@@ -1,11 +1,11 @@
 // Loadout Notes
 
 // DECLARE VARIABLES AND FUNCTIONS
-private ["_text","_weps","_items","_fnc_wepMags","_wepMags","_s","_mags","_bp"];
+private ["_text","_weps","_items","_wepItems", "_fnc_wepMags","_wepMags","_s","_mags","_bp"];
 
 // Local function to set the proper magazine count.
 _fnc_wepMags = {
-        private _w = _this select 0;
+        params ["_w"];
 
         //Get possible magazines for weapon
         _wepMags = getArray (configFile >> "CfgWeapons" >> _w >> "magazines");
@@ -75,7 +75,7 @@ if (count _weps > 0) then {
 
         // List weapon attachments
         // Get attached items
-        _attachments = _wepItems select (([_wepItems,_x] call BIS_fnc_findNestedElement) select 0);
+        private _attachments = _wepItems select (([_wepItems,_x] call BIS_fnc_findNestedElement) select 0);
         // Remove the first element as it points to the weapon itself
         _attachments = [_attachments,0] call BIS_fnc_removeIndex;
 

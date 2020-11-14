@@ -28,8 +28,11 @@
 //
 // This function uses CBA functions to do the actual logging.
 
-private _cat = _this select 0;
-private _fmtargs = _this select [1,999];
+params ["_cat"];
+
+// Unfortunately, SQF is not great with variable-length arg lists
+private _fmtargs = _this select [1, 999];
+
 /* diag_log text "fooey Args:";
 diag_log text format ["fooey _cat: %1", _cat];
 diag_log text format ["fooey _fmtargs: %1", _fmtargs];

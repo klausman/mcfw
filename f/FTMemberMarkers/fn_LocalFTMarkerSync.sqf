@@ -9,10 +9,9 @@
 //      [grp,unit] call f_fnc_LocalFTMarkerSync;
 //
 // ==========================================================================
+params ["_grp", "_unit"];
+private ["_colorTeam"];
 
-private ["_grp","_unit","_colorTeam"];
-_grp = _this select 0;
-_unit = _this select 1;
 waitUntil {!isnil "f_var_debugMode"};
 
 // ==========================================================================

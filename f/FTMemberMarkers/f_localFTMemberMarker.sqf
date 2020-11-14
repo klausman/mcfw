@@ -1,13 +1,12 @@
 // Fireteam Member Markers
-
+params ["_unit"];
 // DECLARE PRIVATE VARIABLES
-private ["_unit","_mkrName","_mkr","_mkrBorder","_mkrborderName","_pos", "_dir"];
+private ["_mkrName","_mkr","_mkrBorder","_mkrborderName","_pos", "_dir"];
 
 // SET KEY VARIABLES
 // Using variables passed to the script instance, we will create some local
 // variables:
 
-_unit = _this select 0;
 _mkrName = format ["mkr_%1",_unit];
 _mkrborderName = format ["mkrB_%1",_unit];
 

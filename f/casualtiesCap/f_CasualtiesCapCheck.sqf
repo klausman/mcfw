@@ -4,14 +4,6 @@
 // Ensure this script only executes on the server:
 if !(isServer) exitWith {};
 
-// WAIT FOR THE MISSION TO START
-// A short sleep makes sure the script only starts once the mission is live
-sleep 0.1;
-
-// DECLARE PRIVATE VARIABLES
-private ["_grp", "_grps","_pc","_end","_started","_remaining","_grpstemp","_alive","_faction","_onlyPlayers"];
-
-// SET KEY VARIABLES
 // Using variables passed to the script instance, we will create some local
 // variables.
 // Up to 5 variables are passed to the script:
@@ -19,24 +11,23 @@ private ["_grp", "_grps","_pc","_end","_started","_remaining","_grpstemp","_aliv
 // ["mrGroup1","myGroup2"])
 // 1: = What % of units must be dead before the ending is triggered
 // 2: = What ending will be executed. Can also be code.
-
-_grpstemp = _this select 0; // either SIDE or array with group strings
-_pc = _this select 1;
-_end = _this select 2;
-
-// SET OPTIONAL VARIABLES
-// The last two variables are optional, and may not be passed to the script.
+// The last two variables are optional, and might not be passed to the script.
 // 3: = If only groups with a playable leader slot will be included (default
 // is true)
 // 4: = What faction(s) to filter for if the first variable is a side  (e.g.
 // ["blu_f"])
+params ["_grpstemp", "_pc", "_end", "_onlyPlayers", "_faction"];
 
-_onlyPlayers = if (count _this > 3) then {_this select 3} else {true};
-_faction = if (count _this > 4) then {_this select 4} else {[]};
+// WAIT FOR THE MISSION TO START
+// A short sleep makes sure the script only starts once the mission is live
+sleep 0.1;
+
+// DECLARE PRIVATE VARIABLES
+private ["_grp", "_grps","_end","_started","_remaining","_alive"];
+
 
 // COLLECT GROUPS TO CHECK
 // If a side variable was passed we collect all relevant groups
-
 _grps = [];
 
 // If the variable is any of the side variables use it to consturct a list of

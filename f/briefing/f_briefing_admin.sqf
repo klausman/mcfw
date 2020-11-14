@@ -1,5 +1,7 @@
 // Briefing
 
+private ["_title", "_ending", "_endings", "_customText", "_briefing", "_i"];
+
 // ADD MISSION MAKER NOTES SECTIONS
 // All text added below will only be visible to the current admin
 _customText = "";
@@ -37,7 +39,7 @@ _endings = [];
 _i = 1;
 while {true} do {
     _title = getText (missionconfigfile >> "CfgDebriefing" >> format ["end%1",_i] >> "title");
-    _description = getText (missionconfigfile >> "CfgDebriefing" >> format ["end%1",_i] >> "description");
+    private _description = getText (missionconfigfile >> "CfgDebriefing" >> format ["end%1",_i] >> "description");
     if (_title == "") exitWith {};
     _ending = [_i,_title,_description];
     _endings append ([_ending]);
@@ -52,7 +54,6 @@ These endings are available. To trigger an ending click on its link.<br/><br/>
 ";
 
 {
-    _end = _this select 0;
     _briefing = _briefing + format [
     "<execute expression=""[[%1],'f_fnc_mpEnd',false] spawn BIS_fnc_MP;"">'end%1'</execute> - %2:<br/>
     %3<br/><br/>"

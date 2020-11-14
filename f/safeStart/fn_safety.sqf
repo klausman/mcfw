@@ -1,14 +1,17 @@
 // Safe Start, Safety Toggle
-
+params ["_safetyOn"];
 //Exit if server
 if(isDedicated) exitwith {};
 
-switch (_this select 0) do {
+switch (_safetyOn) do {
     //Turn safety on
     case true: {
         // Delete bullets from fired weapons
         if (isNil "f_eh_safetyMan") then {
-            f_eh_safetyMan = player addEventHandler["Fired", {deletevehicle (_this select 6);}];
+            f_eh_safetyMan = player addEventHandler["Fired", {
+                params ["","","","","","","_projectile"];
+                deletevehicle _projectile;
+            }];
         };
 
         // Disable guns and damage for vehicles if player is crewing a vehicle
@@ -17,7 +20,10 @@ switch (_this select 0) do {
             (player getVariable "f_var_safetyVeh") allowDamage false;
 
             if (isNil "f_eh_safetyVeh") then {
-                f_eh_safetyVeh = (player getVariable "f_var_safetyVeh") addEventHandler["Fired", {deletevehicle (_this select 6);}];
+                f_eh_safetyVeh = (player getVariable "f_var_safetyVeh") addEventHandler["Fired", {
+                params ["","","","","","","_projectile"];
+                deletevehicle _projectile;
+                }];
             };
         };
 

@@ -1,19 +1,16 @@
 // Zeus Support  - Initialization
+params [["_unit", [objNull]], ["_addons", [],["",true,[]]], ["_objects", [],[objNull,true,[],west]], ["_announce", [false]]];
 
 // SERVER CHECK
 // Ensure this script only executes on the server:
 if !(isServer) exitWith {};
 
 // DECLARE VARIABLES
-private ["_unit","_addons","_objects","_curator", "_announce"];
+private ["_curator"];
 
 // SET KEY VARIABLES
 // Using variables passed to the script instance, we will create some local
 // variables:
-_unit = [_this,0,objNull] call bis_fnc_param;
-_addons = [_this,1,[],["",true,[]]] call bis_fnc_param;
-_objects = [_this,2,[],[objNull,true,[],west]] call bis_fnc_param;
-_announce = [_this,3,false] call bis_fnc_param;
 
 // SETUP CURATOR
 // Exit if no unit was passed
@@ -55,7 +52,12 @@ _curator setCuratorWaypointCost 0;
 
 // Check if AI Skill Selector is active and assign corresponding event-handler
 if({!isNil _x} count ["f_param_AISkill_BLUFOR","f_param_AISkill_INDP","f_param_AISkill_OPFOR"] > 0) then {
-    _curator addEventHandler ['CuratorObjectPlaced',{{[[_x],"f_fnc_setAISkill",_x,false,true] spawn BIS_fnc_MP;} forEach crew(_this select 1)}];
+    _curator addEventHandler ['CuratorObjectPlaced',{
+        params ["", "_obj"];
+        {
+            [[_x],"f_fnc_setAISkill",_x,false,true] spawn BIS_fnc_MP;
+        } forEach crew _obj;
+    }];
 };
 
 // If announce is set to true, the new curator will be announced to all

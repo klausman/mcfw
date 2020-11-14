@@ -8,8 +8,9 @@
 //      ["MAIN"] call f_fnc_GetMarkerColor;
 //
 // ==========================================================================
+params ["_colstr"];
 private _color = "ColorWhite";
-switch ((_this select 0)) do {
+switch (_colstr) do {
   case "MAIN": {_color = "ColorWhite"};
   case "RED": {_color = "ColorRed"};
   case "GREEN": {_color = "ColorGreen"};
