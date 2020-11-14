@@ -3,6 +3,9 @@
 
 params ["_tObj", "_tSide", "_quiet", "_scheduled"];
 
+// Only run serverside
+if (!isServer) exitwith {};
+
 private _grpLeaders = [];
 
 if (isNil "_scheduled") then {_scheduled=false;};
@@ -17,8 +20,7 @@ removeAllActions _tObj;
 if (!_scheduled) then {
     // Re-run ourselves periodically *silently*
     [_tSide, _tObj]spawn {
-        private _tSide = _this select 0;
-        private _tObj = _this select 1;
+	params ["_tSide", "_tObj"];
         while {true} do {
             //["telepole",
             // "Scheduled update for %1/%2", _tObj, _tSide] call mc_fnc_rptlog;
@@ -38,7 +40,7 @@ if (mc_assigngear_telepole == 1) then {
     _tobj addAction [
         "Reset my gear",
         {
-            params ["_target", "_caller", "_actionId", "_arguments"];
+            params ["", "_caller", "", "_arguments"];
             if (typeName (_caller getVariable "f_var_assignGear") == typeName "") then {
                 private _loadout = (_caller getVariable "f_var_assignGear");
                 _caller setVariable ["f_var_assignGear_done",false,true];
@@ -67,7 +69,7 @@ if (mc_assigngear_telepole == 1) then {
   _tObj addaction [
    format ["Teleport to %1 (SL: %2)", groupID group _x, name _x],
    {
-     params ["_target", "_caller", "_actionId", "_arguments"];
+     params ["", "_caller", "", "_arguments"];
      [_arguments, _caller] call mc_fnc_teleport;
    },
    _x
@@ -78,7 +80,7 @@ if (mc_assigngear_telepole == 1) then {
 _tobj addAction [
     "Reset Teleport pole",
     {
-        params ["_target", "_caller", "_actionId", "_arguments"];
+        params ["_target", "", "", "_arguments"];
         [_target, _arguments] call mc_fnc_telepole;
     },
     _tSide

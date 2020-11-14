@@ -95,7 +95,10 @@ if (!isserver && hasInterface) then {
 // Credits: Wolfenswan
 // [] execVM "extras\forceFlashlightAI.sqf";
 
-// Speed up player corpse removal and re-initialize any teleport poles
+// Add two event handlers:
+// - The first quickly removes a player's body upon death or respawn
+// - The second runs on respawn, checks if the unit has an associated
+//   assignGear loadout, and if so, re-runs assignGear.
 if (hasInterface) then {
     []spawn {
         waitUntil {sleep 1; !isNull player};
@@ -106,9 +109,25 @@ if (hasInterface) then {
                 hideBody _this;
                 sleep 10;
                 deleteVehicle _this;
+             };"];
+    };
+    []spawn {
+        waitUntil {sleep 1; !isNull player};
+        player addEventHandler [
+            "respawn",
+             "[] spawn {
+                sleep 5;
+                private _loadout = player getVariable ['f_var_assignGear', 'NO_LOADOUT'];
+                if (_loadout!='NO_LOADOUT') then {
+                    ['respawnEH', 'Unit %1 had a %2 loadout, recreating', player, _loadout] call mc_fnc_rptlog;
+                    player setVariable ['f_var_assignGear_done',false,true];
+                    [_loadout, player] call f_fnc_assignGear;
+                } else {
+                    ['respawnEH', 'Unit %1 had no loadout, doing nothing'] call mc_fnc_rptlog;
+                };
+                sleep 5;
                 call mc_fnc_telepole_reinit;
-            };"];
+             };"];
     };
 };
-
 // vim: sts=-1 ts=4 et sw=4

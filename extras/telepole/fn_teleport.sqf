@@ -1,23 +1,25 @@
 // Teleport script
 // (C) 2020 T. Klausmann
 
-private ["_leader", "_lpos", "_tgt", "_caller", "_lalt", "_lvic", "_debug", "_keep_going", "_vicname", "_leaderfn", "_callerfn"];
+params ["_leader", "_caller"];
 
-_leader = _this select 0;
-_caller = _this select 1;
+private ["_leader", "_lpos", "_tgt", "_caller", "_lalt", "_lvic", "_debug",
+         "_keep_going", "_vicname", "_leaderfn", "_callerfn"];
+
+private _mindist = 100; // meters
 
 // These are only used for logging or messages. E.g.:
 // Corey Harris (UnitNATO_A1_AR)
 _leaderfn = format ["%1 (%2)", name _leader, _leader];
 _callerfn = format ["%1 (%2)", name _caller, _caller];
 
-_keep_going=true;
+_keep_going = true;
 
 // If the *leader* respawns, we have to teleport them to someone in their
 // squad. We prefer the closest (to the player) unit as a TP location, since
 // that is the most likely to not be under fire, but they have to be at least
-// 100m away (inc ase multiple people of the same unit respawn at the same
-// time).
+// _mindist meters away (in case multiple people of the same unit respawn at
+// the same time).
 if (_leader == _caller) then {
     ["telepole",
      "%1 (%2) is a leader, looking for a distant squad member",
@@ -27,7 +29,7 @@ if (_leader == _caller) then {
 
     {
         private _dst = _x distance2d _caller;
-        if (_dst > 100 &&_dst < _mindst) then {
+        if (_dst > _mindist &&_dst < _mindst) then {
             ["telepole", "Best candidate so far: %1 (%2) is %3m from caller",
              name _x, _x, _dst] call mc_fnc_rptlog;
             _leader = _x;
@@ -52,20 +54,18 @@ if (!_keep_going) exitWith{};
 _lpos = getPos _leader;
 _lalt = _lpos select 2;
 _lvic = vehicle _leader;
-_vicname = getText (
-    configFile >> "CfgVehicles" >> typeOf _lvic >> "displayName");
 
-["telepole", "Leader is %1, vic is %2 (%3), alt is %4",
-    _leader, _lvic, _vicname, _lalt] call mc_fnc_rptlog;
+["telepole", "Leader is %1, vic is %2, alt is %4",
+    _leader, _lvic, _lalt] call mc_fnc_rptlog;
 
 switch(true) do {
-    // Leader is not in a vehicle and close to the ground/walkable surface
+    // Leader is not in a vehicle and close to the ground/a walkable surface
     case (_lalt<=2 && (_lvic == _leader)): {
         ["telepole",
          "%1 is on/near the ground and not in a vehicle, direct teleport",
          _leaderfn] call mc_fnc_rptlog;
         _tgt = _lpos findEmptyPosition [1, 10];
-       _caller setPos _tgt;
+        _caller setPos _tgt;
     };
 
     // Leader is in a vehicle, and it's not a parachute
@@ -93,6 +93,8 @@ switch(true) do {
 
     default {
         // Can't-happen catchall.
+        _vicname = getText(
+            configFile >> "CfgVehicles" >> typeOf _lvic >> "displayName");
         ["telepole", "Dunno what to do! leader: %1 lalt: %2, lvic: %3 vicname: %4",
              _leader, _lalt, _lvic, _vicname] call mc_fnc_rptlog;
         hintSilent format [

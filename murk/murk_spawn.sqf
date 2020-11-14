@@ -86,7 +86,9 @@
 
 // This script is serverside
 if(!isServer) exitwith{};
+
 private ["_autoDeleteDist", "_bodyRemove", "_countThis", "_countWaypoints", "_debug", "_f3gear", "_initString", "_spawndelay", "_spawnlives", "_spawntype", "_unit", "_waitingPeriod", "_waypointsArray"];
+
 // Init
 _countThis = count _this;
 _waitingPeriod = 8;  // Waiting period between script refresh
@@ -95,6 +97,7 @@ _waitingPeriod = 8;  // Waiting period between script refresh
 _unit = _this select 0;
 _f3gear = _this select 1;
 _spawntype = _this select 2;
+
 // The rest are optional
 _spawnlives = if (_countThis >= 4) then { _this select 3; } else { 1 };
 _spawndelay = if (_countThis >= 5) then { _this select 4; } else { 1 };
@@ -114,10 +117,17 @@ if (isnil "_triggerObject") then {
     // ... but only mark things on the map if debugging is on
     if (_debug) exitWith {
         private _mname = format ["mstestmrk_%1",_unit];
-        createMarker [_mname,(position _unit)];
-        _mname setMarkercolor "ColorRed";
-        _mname setMarkerShape "ICON";
-        _mname setMarkerType "mil_dot";
+        // From the Biki:
+        // - local commands avoid network messages
+        // - using a global command makes a marker global, with all local
+        //   attributes broadcast in one network message.
+        // So do everything local and then use one global command to broadcats
+        // the whole thing.
+        createMarkerLocal [_mname,(position _unit)];
+        _mname setMarkerColorLocal "ColorRed";
+        _mname setMarkerShapeLocal "ICON";
+        _mname setMarkerTypeLocal "mil_dot";
+        _mname setMarkerText format ["Missing trigger for %1", _unit];
     };
 };
 _triggerObject setVariable ["murk_spawn", false, false];
@@ -398,6 +408,9 @@ private _fnc_spawnUnit = {
     private _oldGroup = _this select 0;
     private _newGroup = createGroup (_this select 1);
     // Disable ACEX Headless messing with this group until we're done
+    [nil,
+     "Adding new group %1 to ACEX Headless blacklist",
+     _newgroup] call mc_fnc_rptlog;
     _newGroup setVariable ["acex_headless_blacklist", true];
     private _waypointsArray = _this select 2;
     // If the old group doesnt have any units in it its a spawned group rather
@@ -407,7 +420,8 @@ private _fnc_spawnUnit = {
     };
 
     {
-        // TODO(klausman): Wouldn't it be possible to use get/setUnitLoadout here?
+        // TODO(klausman): Wouldn't it be possible to use get/setUnitLoadout
+        // here?
         private _spawnUnit = nil;
         private _unitType = _x select 0;
         private _unitPos  = _x select 1;
@@ -484,7 +498,8 @@ private _fnc_spawnUnit = {
         // disable ACE unconsciousness
         [_spawnUnit] spawn {
             private _spawnUnit = _this select 0;
-            _spawnUnit setvariable ["ace_medical_enableUnconsciousnessAI",0,false];
+            _spawnUnit setvariable [
+             "ace_medical_enableUnconsciousnessAI", 0, false];
         };
         if (!isNil _unitName AND (_spawntype == "once" OR _spawntype == "repeated")) then {
             _spawnUnit call compile format ["%1= _this; _this setVehicleVarName '%1'; PublicVariable '%1';",_unitName];
@@ -534,6 +549,9 @@ private _fnc_spawnUnit = {
     };
     // Enable ACEX Headless for this group and trigger a rebalance pass
     if (mc_murk_headless == 1) then {
+        [nil,
+         "Removing %1 from ACEX Headless blacklist and triggering rebalance",
+         _newgroup] call mc_fnc_rptlog;
         _newGroup setVariable ["acex_headless_blacklist", false];
         [false] call acex_headless_fnc_rebalance;
     };

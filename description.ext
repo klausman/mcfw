@@ -253,11 +253,6 @@ class CfgFunctions {
 
             class nearPlayer{};
         };
-        class mpEnd {
-            file = "f\mpEnd";
-            class mpEnd{};
-            class mpEndReceiver{};
-        };
         class assignGear {
             // Defines the functions to preInit the compling of the assignGear
             // function used by units.
@@ -266,9 +261,6 @@ class CfgFunctions {
             // uncomment (remove the //) the line below.
             //file = "f\assignGear";
             class assignGear{};
-        };
-        class ace3 {
-            file="f\ace3";
         };
         class setGroupID {
             file = "f\setGroupID";

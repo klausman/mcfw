@@ -189,6 +189,9 @@ private _fnc_spawnUnit = {
     private _oldGroup = _this select 0;
     private _newGroup = createGroup (_this select 1);
     // Disable ACEX Headless messing with this group until we're done
+    [nil,
+     "Adding new group %1 to ACEX Headless blacklist", 
+     _newgroup] call mc_fnc_rptlog;
     _newGroup setVariable ["acex_headless_blacklist", true];
     // If the old group doesn't have any units in it its a spawned group rather
     // than respawned
@@ -273,6 +276,9 @@ private _fnc_spawnUnit = {
     };
     // Enable ACEX Headless for this group and trigger a rebalance pass
     if (mc_murk_headless == 1) then {
+    [nil,
+     "Removing group %1 from ACEX Headless blacklist and triggering rebalance", 
+     _newgroup] call mc_fnc_rptlog;
         _newGroup setVariable ["acex_headless_blacklist", false];
         [false] call acex_headless_fnc_rebalance;
     };
@@ -283,8 +289,8 @@ private _fnc_spawnUnit = {
 
 
 // finding group center
-_xpos = 0;
-_ypos = 0;
+private _xpos = 0;
+private _ypos = 0;
 {
     _xpos = _xpos + (_x select 0);
     _ypos = _ypos + (_x select 1);
@@ -306,13 +312,8 @@ _unitGroup = [_unitGroup,_side] call _fnc_spawnUnit;
 
 // delete and re-cache when no players near
 [_unitGroup,_f3gear,_spawndistance,_remainingtoattack,_initString,_centerpos,_waitingPeriod] spawn {
-    private _unitGroup = _this select 0;
-    private _f3gear = _this select 1;
-    private _spawndistance = _this select 2;
-    private _remainingtoattack = _this select 3;
-    private _initString = _this select 4;
-    private _centerpos = _this select 5;
-    private _waitingPeriod = _this select 6;
+    params ["_unitGroup", "_f3gear", "_spawndistance", "_remainingtoattack",
+            "_initString", "_centerpos", "_waitingPeriod"];   
     private _alivedudes = [];
     private _uncachedistance = _spawndistance + 100 + (0.33 * _spawndistance);
 
