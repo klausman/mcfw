@@ -47,7 +47,7 @@ params["_mode", "_box", "_boxidx", "_boxes"];
 _boxes = [
   ["Rifle Ammo", "Box_NATO_Ammo_F", "", [],
    [
-    ["hlc_30rnd_556x45_EPR_G36", 50], 
+    ["rhs_mag_30Rnd_556x45_M855_PMAG_Tan_Tracer_Red", 50],
     ["U_B_CombatUniform_mcam", 10]
    ]
   ],

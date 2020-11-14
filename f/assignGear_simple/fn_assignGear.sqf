@@ -1,9 +1,9 @@
 // klausman's simple assignGear
 
-params ["_typeOfUnit", "_unit", "_faction"];
+params ["_typeOfUnit", "_unit", ["_faction", ""]];
 
 // DECLARE VARIABLES AND FUNCTIONS
-private ["_faction", "_ff"];
+private ["_ff"];
 
 // The unit's faction is defined by the base game (or the mod) and
 // can be an arbitrary string, though "BLU_F" and OPF_F" are
@@ -13,15 +13,16 @@ _ff = false; // Track if we have found a script for this unit's faction
 
 // faction was explicitly specified in the init call of the unit, e.g.
 // [_this, "ar", "blu_f"] call f_fnc_assignGear;
-if(!isNil _faction) then {
-    _faction = toLower _faction;
-} else {
+if(_faction == "") then {
     _faction = toLower (faction _unit);
+} else {
+    _faction = toLower _faction;
 };
 
 // This block will give units insignia on their uniforms, i.e.
 // "CO" or "A1" or the like, from the insignia subdirectory.
-[_unit,_typeofUnit] spawn {
+[_unit, _typeofUnit] spawn {
+    params ["_unit", "_typeofUnit"];
     [_typeOfUnit, _unit] call compile preprocessFileLineNumbers "f\assignGear_simple\f_assignInsignia.sqf";
 };
 

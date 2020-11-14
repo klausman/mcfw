@@ -1,5 +1,10 @@
 // Zeus Support  - Initialization
-params [["_unit", [objNull]], ["_addons", [],["",true,[]]], ["_objects", [],[objNull,true,[],west]], ["_announce", [false]]];
+params [
+    ["_unit", [objNull]], 
+    ["_addons", [],["",true,[]]], 
+    ["_objects", [],[objNull,true,[],west]], 
+    ["_announce", false]
+];
 
 // SERVER CHECK
 // Ensure this script only executes on the server:

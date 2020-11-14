@@ -323,6 +323,8 @@ private _groups = [
 
 // SET GROUP IDS
 // Execute setGroupID Function for all factions
-{_x call f_fnc_setGroupID} forEach _groups;
+{
+    [_x select 1, _x select 2] call f_fnc_setGroupID
+} forEach _groups;
 
 // vim: sts=-1 ts=4 et sw=4

@@ -1,6 +1,6 @@
 // Assign Gear Script
 
-params ["_typeOfUnit", "_unit", "_faction"];
+params ["_typeOfUnit", "_unit", ["_faction", ""]];
 
 // DECLARE VARIABLES AND FUNCTIONS
 private ["_ff", "_isMan"];
@@ -16,15 +16,16 @@ _typeofUnit = toLower _typeOfUnit;
 _isMan = _unit isKindOf "CAManBase";
 _faction = toLower (faction _unit);
 
-if(!isNil "_faction") then {
-  _faction = toLower _faction;
-} else {
+if(_faction == "") then {
   _faction = toLower (faction _unit);
+} else {
+  _faction = toLower _faction;
 };
 
 // INSIGNIA
 // This block will give units insignia on their uniforms.
-[_unit,_typeofUnit] spawn {
+[_unit, _typeofUnit] spawn {
+    params ["_unit", "_typeofUnit"];
     [_typeOfUnit, _unit] call compile preprocessFileLineNumbers "f\assignGear\f_assignInsignia.sqf";
 };
 

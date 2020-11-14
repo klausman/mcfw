@@ -1,7 +1,7 @@
 // Assign Insignia
 
-private ["_group","_badge","_groupBadges","_roleBadge","_faction"];
 params ["_typeOfUnit", "_unit"];
+private ["_group","_badge","_groupBadges","_roleBadge","_faction"];
 
 _badge = "";
 _faction = toLower (faction _unit);

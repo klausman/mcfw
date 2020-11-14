@@ -1,20 +1,21 @@
 // Unit Markers for Specialists
 
-params ["_unitName", "_mkrType", "_mkrText", "_mkrColor"]; 
-
 // DECLARE PRIVATE VARIABLES
-private ["_unit","_mkrName","_mkr", "_ldr", "_pos", "_posX", "_posY"];
+private ["_grp", "_unit","_mkrType","_mkrText","_mkrColor","_mkrName","_mkr","_unitName"];
 
 // SET KEY VARIABLES
 // Using variables passed to the script instance, we will create some local
 // variables:
-// TODO(klausman) Very suspect code
 call compile format ["
 if(!isnil '%1') then {
     _unit = %1;
 };
-",_unitName];
+",_this select 0];
 
+_unitName = _this select 0;
+_mkrType = _this select 1;
+_mkrText = _this select 2;
+_mkrColor = _this select 3;
 _mkrName = format ["mkr_%1",_unitName];
 
 // WAIT FOR UNIT TO EXIST IN-MISSION
@@ -34,16 +35,11 @@ if (isNil "_unit") then {
 if (!alive _unit) exitWith {};
 
 // CREATE MARKER
-_ldr = leader _unit;
-_pos = getPos _ldr;
-_posX = _pos select 0;
-_posY = _pos select 1;
-
-_mkr = createMarkerLocal [_mkrName,[_posX, _posY]];
 // Depending on the value of _mkrType a different type of marker is created.
 switch (_mkrType) do {
     // Medics
     case 0: {
+        _mkr = createMarkerLocal [_mkrName,[(getPos _unit select 0),(getPos _unit select 1)]];
         _mkr setMarkerShapeLocal "ICON";
         _mkrName setMarkerTypeLocal "b_med";
         _mkrName setMarkerColorLocal _mkrColor;
@@ -52,6 +48,7 @@ switch (_mkrType) do {
     };
     // UAV Operator
     case 1: {
+        _mkr = createMarkerLocal [_mkrName,[(getPos _unit select 0),(getPos _unit select 1)]];
         _mkr setMarkerShapeLocal "ICON";
         _mkrName setMarkerTypeLocal "b_uav";
         _mkrName setMarkerColorLocal _mkrColor;
@@ -65,11 +62,7 @@ switch (_mkrType) do {
 // position is updated periodically. This only happens locally - so as not to
 // burden the server.
 while {alive _unit} do {
-    _ldr = leader _unit;
-    _pos = getPos _ldr;
-    _posX = _pos select 0;
-    _posY = _pos select 1;
-    _mkrName setMarkerPosLocal [_posX, _posY];
+    _mkrName setMarkerPosLocal [(getPos _unit select 0),(getPos  _unit select 1)];
     sleep 6;
 };
 

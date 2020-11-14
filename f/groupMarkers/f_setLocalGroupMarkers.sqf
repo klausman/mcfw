@@ -1,20 +1,25 @@
 // Group Markers
 
-params ["_unitfaction"];
+// DECLARE VARIABLES AND FUNCTIONS
+private ["_unitfaction"];
 
 // MAKE SURE THE PLAYER INITIALIZES PROPERLY
-if (!(isDedicated) && (isNull player)) then {
+if (!isDedicated && (isNull player)) then {
     waitUntil {sleep 0.1; !isNull player};
 };
 
 // DETECT PLAYER FACTION
 // The following code detects what faction the player's slot belongs to, and
 // stores it in the private variable _unitfaction
-if(isNil _unitfaction) then {
+if(count _this == 0) then {
     _unitfaction = toLower (faction player);
     // If the unitfaction is different from the group leader's faction, the
     // latters faction is used
-    _unitfaction = toLower (faction (leader group player))
+    if (_unitfaction != toLower (faction (leader group player))) then {
+        _unitfaction = toLower (faction (leader group player))
+    };
+} else {
+    _unitfaction = (_this select 0);
 };
 
 switch (_unitfaction) do {
