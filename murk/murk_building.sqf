@@ -4,12 +4,13 @@
 // when players are near.
 //
 // Parameters:
-//      _this select 0: OBJECT - unit name (this)
-//      _this select 1: BOOL - use F3 assigngear? (true/false)
-//      _this select 2: NUMBER - spawn distance
-//      _this select 3 (optional): NUMBER - once x units are remaining have
-//                     them move out and patrol outside
-//      _this select 4 (optional): STRING - init string called for the leader of the group
+//      _unit: OBJECT - unit name (this)
+//      _f3Gear:  BOOL - use F3 assigngear? (true/false)
+//      _spawnDistance: NUMBER - spawn distance
+//      _remainingtoattack (optional): NUMBER - once x units are remaining have
+//      them move out and patrol outside
+//      _initString (optional): STRING - init string called for the leader of
+//      the group
 
 // Usage:
 //      Unit (leader of group):
@@ -31,18 +32,15 @@
 // This script is serverside
 if(!isServer) exitWith{};
 
-private ["_countThis","_waitingPeriod","_unit","_spawndistance","_remainingtoattack","_initString","_centerpos","_posarray","_unitArray","_unitGroup","_unitsInGroup","_unitsInGroupAdd","_side", "_f3gear"];
+params ["_unit", "_f3Gear", "_spawnDistance", ["_remainingtoAttack", 0],
+        ["_initstring", ""]];
+
+private ["_waitingPeriod","_centerpos","_posarray","_unitArray",
+        "_unitGroup","_unitsInGroup","_unitsInGroupAdd","_side"];
 
 // Init
-_countThis = count _this;
 _waitingPeriod = 8;  // Waiting period between script refresh
 
-// Parameters
-_unit = _this select 0;
-_f3gear = _this select 1;
-_spawndistance = _this select 2;
-_remainingtoattack = if (_countThis >= 4) then { _this select 3; } else { 0 };
-_initString = if (_countThis >= 5) then { _this select 4; } else { "" };
 // Some mission makers prefer using nil over ""
 if (isNil "_initString") then {
     _initstring = "";
@@ -112,9 +110,8 @@ deleteGroup _unitGroup;
 // *WARNING* BIS FUNCTION RIPOFF - Taken from fn_returnConfigEntry as it is
 // needed for turrets and shortened a bit
 private _fnc_returnConfigEntry = {
-    private ["_config", "_entryName","_entry", "_value"];
-    _config = _this select 0;
-    _entryName = _this select 1;
+    params ["_config", "_entryName"];
+    private ["_entry", "_value"];
     _entry = _config >> _entryName;
     // If the entry is not found and we are not yet at the config root, explore
     // the class' parent.
@@ -137,8 +134,8 @@ private _fnc_returnConfigEntry = {
 // *WARNING* BIS FUNCTION RIPOFF - Taken from fn_fnc_returnVehicleTurrets and
 // shortened a bit
 private _fnc_returnVehicleTurrets = {
-    private ["_entry","_turrets", "_turretIndex"];
-    _entry = _this select 0;
+    params ["_entry"];
+    private ["_turrets", "_turretIndex"];
     _turrets = [];
     _turretIndex = 0;
     // Explore all turrets and sub-turrets recursively.
@@ -167,11 +164,7 @@ private _fnc_returnVehicleTurrets = {
 };
 
 private _fnc_moveInTurrets = {
-    private _turrets = _this select 0;
-    private _path = _this select 1;
-    private _currentCrewMember = _this select 2;
-    private _crew = _this select 3;
-    private _spawnUnit = _this select 4;
+    params ["_turrets", "_path", "_currentCrewMember", "_crew", "_spawnUnit"];
     private _i = 0;
     while {_i < (count _turrets) AND _currentCrewMember < count _crew} do {
         private _turretIndex = _turrets select _i;
@@ -186,8 +179,8 @@ private _fnc_moveInTurrets = {
 private _fnc_spawnUnit = {
     // We need to pass the old group so we can copy waypoints from it, the rest
     // we already know
-    private _oldGroup = _this select 0;
-    private _newGroup = createGroup (_this select 1);
+    params ["_oldGroup", "_side"];
+    private _newGroup = createGroup _side;
     // Disable ACEX Headless messing with this group until we're done
     [nil,
      "Adding new group %1 to ACEX Headless blacklist", 
@@ -258,8 +251,9 @@ private _fnc_spawnUnit = {
 
     // leader _newGroup enableAttack false; // why was this even here?
     [units _newGroup] spawn {
+        params ["_newUnits"];
         sleep 10;
-        { _x setUnitPos "UP"; } foreach (_this select 0);
+        { _x setUnitPos "UP"; } foreach (_newUnits);
     };
     if (_f3gear) then {
         units _newGroup execVM "f\assignGear\f_assignGear_AI.sqf";

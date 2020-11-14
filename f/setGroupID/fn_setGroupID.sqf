@@ -4,7 +4,7 @@ params ["_g", "_n"];
 private ["_grp"];
 
 // Check first if the group exists
-if(!isnil (_this select 0)) then {
+if(!isnil "_g") then {
     // Compile a variable from the parsed string
     _grp = call compile format ["%1",_g];
     _grp setGroupId [format ["%1",_n],"GroupColor0"];

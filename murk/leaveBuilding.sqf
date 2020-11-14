@@ -1,6 +1,7 @@
+params ["_unit"];
 private ["_alivedudes","_grp","_remainingtoattack"];
 
-_grp = group _this;
+_grp = group _unit;
 _remainingtoattack = _grp getvariable "remainingtoattack";
 
 _alivedudes = 0;
@@ -14,8 +15,9 @@ if (_alivedudes <= _remainingtoattack) then {
         _x forceSpeed -1;
         _x enableAI "TARGET";
         [_x] spawn {
+            params ["_man"];
             sleep 5;
-            (_this select 0) commandMove (getpos (_this select 0));
+            (_man) commandMove (getpos (_man));
         };
     } foreach (units group _this);
 

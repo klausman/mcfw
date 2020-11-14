@@ -1,9 +1,9 @@
 // Near Player Function
+params ["_cPos", "_distance"];
 
 // DECLARE VARIABLES AND FUNCTIONS
-private ["_distance","_pos","_cPos","_players","_countP"];
+private ["_pos","_players","_countP"];
 
-_cPos = (_this select 0);
 if (_cPos in allMapMarkers) then {
     _pos = getMarkerPos _cPos;
 } else {
@@ -13,7 +13,6 @@ if (_cPos in allMapMarkers) then {
         _pos = getPosATL _cPos;
     };
 };
-_distance = _this select 1;
 
 // Create a list of all players
 _players = [];

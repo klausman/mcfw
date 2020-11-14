@@ -87,23 +87,21 @@
 // This script is serverside
 if(!isServer) exitwith{};
 
-private ["_autoDeleteDist", "_bodyRemove", "_countThis", "_countWaypoints", "_debug", "_f3gear", "_initString", "_spawndelay", "_spawnlives", "_spawntype", "_unit", "_waitingPeriod", "_waypointsArray"];
+params [
+    "_unit", 
+    "_f3Gear", 
+    "_spawntype", 
+    ["_spawnlives", 1], 
+    ["_spawndelay", 1], 
+    ["_initstring", ""], 
+    ["_bodyremove", 360], 
+    ["_autoDeleteDist", 0]
+];
+
+private ["_countWaypoints", "_debug", "_waitingPeriod", "_waypointsArray"];
 
 // Init
-_countThis = count _this;
 _waitingPeriod = 8;  // Waiting period between script refresh
-
-// Parameters
-_unit = _this select 0;
-_f3gear = _this select 1;
-_spawntype = _this select 2;
-
-// The rest are optional
-_spawnlives = if (_countThis >= 4) then { _this select 3; } else { 1 };
-_spawndelay = if (_countThis >= 5) then { _this select 4; } else { 1 };
-_initString = if (_countThis >= 6) then { _this select 5; } else { "" };
-_bodyRemove = if (_countThis >= 7) then { _this select 6; } else { 360 };
-_autoDeleteDist = if (_countThis >= 8) then { _this select 7; } else { 0 };
 _debug = false;
 
 // The object (trigger, whatever) the unit is synchronized to hold the trigger
@@ -246,9 +244,8 @@ deleteGroup _unitGroup;
 // *WARNING* BIS FUNCTION RIPOFF - Taken from fn_returnConfigEntry as its
 // needed for turrets and shortened a bit
 private _fnc_returnConfigEntry = {
-    private ["_config", "_entryName","_entry", "_value"];
-    _config = _this select 0;
-    _entryName = _this select 1;
+    params ["_config", "_entryname"];
+    private ["_entry", "_value"];
     _entry = _config >> _entryName;
     // If the entry is not found and we are not yet at the config root, explore
     // the class' parent.
@@ -271,8 +268,8 @@ private _fnc_returnConfigEntry = {
 // *WARNING* BIS FUNCTION RIPOFF - Taken from fn_fnc_returnVehicleTurrets and
 // shortened a bit
 private _fnc_returnVehicleTurrets = {
-    private ["_entry","_turrets", "_turretIndex"];
-    _entry = _this select 0;
+    params ["_entry"];
+    private ["_turrets", "_turretIndex"];
     _turrets = [];
     _turretIndex = 0;
     // Explore all turrets and sub-turrets recursively.
@@ -303,13 +300,8 @@ private _fnc_returnVehicleTurrets = {
 };
 
 private _fnc_moveInTurrets = {
-    private ["_turrets","_path","_i"];
-    _turrets = _this select 0;
-    _path = _this select 1;
-    private _currentCrewMember = _this select 2;
-    private _crew = _this select 3;
-    private _spawnUnit = _this select 4;
-    _i = 0;
+    params ["_turrets", "_path", "_currentCrewMember", "_crew", "_spawnUnit"];
+    private _i = 0;
     while {_i < (count _turrets) AND _currentCrewMember < count _crew} do {
         private _turretIndex = _turrets select _i;
         private _thisTurret = _path + [_turretIndex];
@@ -324,9 +316,8 @@ private _fnc_moveInTurrets = {
 // This is the general cleanup function running in the background for the
 // group, replaces the removebody eventhandler and delete group in V5
 private _fnc_cleanGroup = {
-    private _group = _this select 0;
+    params ["_group", "_sleep"];
     private _unitsGroup = units _group;
-    private _sleep = _this select 1;
     // Hold until the entire group is dead
     while { ({alive _x} count _unitsGroup) > 0 } do { sleep 5; };
     sleep _sleep;
@@ -355,15 +346,11 @@ private _fnc_cleanGroup = {
 
  // This deletes group when waypoint reached and no players nearby
 private _fnc_autoDeleteGroup = {
-    private _group = _this select 0;
-    private _unitsGroup = units _group;
-    private _sleep = _this select 1;
-    private _dist = _this select 2;
-    private _wpPos = _this select 3;
-    private _triggerObject = _this select 4;
-
-    private _nearWP = false;
-    private _pNear = true;
+    params ["_group", "_sleep", "_dist", "_wpPos", "_triggerObject"];
+    private["_unitsGroup", "_nearWP", "_pNear"];
+    _unitsGroup = units _group;
+    _nearWP = false;
+    _pNear = true;
     // Hold until the entire group is dead
     while { ({alive _x} count _unitsGroup) > 0 } do {
         sleep 5;
@@ -405,14 +392,13 @@ private _fnc_autoDeleteGroup = {
 private _fnc_spawnUnit = {
     // We need to pass the old group so we can copy waypoints from it, the rest
     // we already know
-    private _oldGroup = _this select 0;
-    private _newGroup = createGroup (_this select 1);
+    params ["_oldgroup", "_side", "_waypointsArray"];
+    private _newGroup = createGroup _side;
     // Disable ACEX Headless messing with this group until we're done
     [nil,
      "Adding new group %1 to ACEX Headless blacklist",
      _newgroup] call mc_fnc_rptlog;
     _newGroup setVariable ["acex_headless_blacklist", true];
-    private _waypointsArray = _this select 2;
     // If the old group doesnt have any units in it its a spawned group rather
     // than respawned
     if ( count (units _oldGroup) == 0) then {
@@ -497,7 +483,7 @@ private _fnc_spawnUnit = {
         _spawnUnit setUnitRank _unitRank;
         // disable ACE unconsciousness
         [_spawnUnit] spawn {
-            private _spawnUnit = _this select 0;
+            params ["_spawnUnit"];
             _spawnUnit setvariable [
              "ace_medical_enableUnconsciousnessAI", 0, false];
         };

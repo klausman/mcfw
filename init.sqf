@@ -80,7 +80,6 @@ if (!isserver && hasInterface) then {
 
 // Thermals
 // Disable thermal sights for everything
-//player addEventHandler ["WeaponAssembled",{(_this select 1) disableTIEquipment true}];
 //[] execVM "extras\disableThermals.sqf";
 
 // PabstMirror - Mission Intro
@@ -104,11 +103,12 @@ if (hasInterface) then {
         waitUntil {sleep 1; !isNull player};
         player addEventHandler [
             "killed",
-            "(_this select 0) spawn {
+            "params ['_unit'];
+             [_unit] spawn {
                 sleep 5;
-                hideBody _this;
-                sleep 10;
-                deleteVehicle _this;
+                 hideBody _this;
+                 sleep 10;
+                 deleteVehicle _this;
              };"];
     };
     []spawn {
