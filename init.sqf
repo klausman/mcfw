@@ -43,10 +43,6 @@ if(isServer) then {
 // INDEPENDENT > AAF
 // [INDEPENDENT,100,1] execVM "f\casualtiesCap\f_CasualtiesCapCheck.sqf";
 
-// SETTING: AI Skill Selector
-// [] execVM "f\setAISkill\f_setAISkill.sqf";
-// f_var_civAI = independent; // Optional: The civilian AI will use this side's settings
-
 // SETTING: Assign Gear AI
 // [] execVM "f\assignGear\f_assignGear_AI.sqf";
 
