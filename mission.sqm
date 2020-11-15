@@ -19428,7 +19428,7 @@ class CustomAttributes
 																"BOOL"
 															};
 														};
-														value=0;
+														value=1;
 													};
 												};
 												class Item1
@@ -19563,7 +19563,7 @@ class CustomAttributes
 																"BOOL"
 															};
 														};
-														value=0;
+														value=1;
 													};
 												};
 												class Item1
