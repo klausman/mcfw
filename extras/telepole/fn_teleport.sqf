@@ -3,8 +3,8 @@
 
 params ["_leader", "_caller"];
 
-private ["_leader", "_lpos", "_tgt", "_caller", "_lalt", "_lvic", "_debug",
-         "_keep_going", "_vicname", "_leaderfn", "_callerfn"];
+private ["_lpos", "_tgt", "_lalt", "_lvic", "_keep_going", "_vicname",
+         "_leaderfn", "_callerfn"];
 
 private _mindist = 100; // meters
 
