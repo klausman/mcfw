@@ -15,14 +15,10 @@ f_script_setGroupIDs = [] execVM "f\setGroupID\f_setGroupIDs.sqf";
 // SETTING: Buddy Team Colours
 f_script_setTeamColours = [] execVM "f\setTeamColours\f_setTeamColours.sqf";
 
-// SETTING: Fireteam Member Markers
-// Comment out this line to disable Fireteam-level map markers (small
-// triangles)
+// SETTING: Fireteam Member Markers Comment out this line to disable
+// Fireteam-level map markers (small triangles). The BLUFOR tracker (BFT) is
+// configure in Addons settings > ACE Map 
 [] spawn f_fnc_SetLocalFTMemberMarkers;
-
-// SETTING: ARPS Group Markers
-// Comment out this line to disable squad-level markers (BLUFOR tracker)
-f_script_setGroupMarkers = [] execVM "f\groupMarkers\f_setLocalGroupMarkers.sqf";
 
 // Common Local Variables
 // WARNING: DO NOT DISABLE THIS COMPONENT
