@@ -153,7 +153,6 @@ switch (_faction) do {
 
 _group = (group _unit);
 
-
 {
     if(!isnil (_x select 0)) then {
             call compile format ["
@@ -164,6 +163,10 @@ _group = (group _unit);
     };
 } forEach _groupBadges;
 
+if (format ["%1",_group] == "") then {
+    ["f_assignInsignia.sqf", "Unit %1 (type %2) has an empty group.", _unit, _typeOfUnit
+    ] call mc_fnc_rptlog;
+};
 
 //  Let the unit insignia override the group insignia.
 if (_roleBadge != "") then {
