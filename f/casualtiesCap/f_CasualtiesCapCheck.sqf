@@ -18,7 +18,8 @@ sleep 0.1;
 
 // DECLARE PRIVATE VARIABLES
 
-private ["_grps","_pc","_end","_started","_remaining","_grpstemp","_alive","_faction","_temp_grp","_temp_grp2","_type","_onlyPlayers","_grpsno","_counter"];
+private ["_grps", "_pc", "_end", "_started", "_remaining", "_grpstemp",
+         "_alive", "_faction", "_onlyPlayers"];
 
 // ====================================================================================
 
@@ -48,49 +49,39 @@ _faction = if (count _this > 4) then {_this select 4} else {[]};
 
 _grps = [];
 
-if(typeName _grpstemp == "SIDE") then // if the variable is any of the side variables use it to consturct a list of groups in that faction.
-{
+if(typeName _grpstemp == "SIDE") then  {
+    // if the variable is any of the side variables use it to consturct a list
+    // of groups in that faction.
+    {
+        if(_onlyPlayers) then {
+            if((side _x == _grpstemp) && (leader _x in playableUnits)) then
+            {
+                _grps set [count _grps,_x]; // Add group to array
+            };
+        } else {
+            if (side _x == _grpstemp) then {
+                _grps set [count _grps,_x]; // Add group to array
+            };
+        };
+    } forEach allGroups;
 
-	{
-		if(_onlyPlayers) then
-		{
-			if((side _x == _grpstemp) && (leader _x in playableUnits)) then
-			{
-				_grps set [count _grps,_x]; // Add group to array
-			};
-		}
-		else
-		{
-			if (side _x == _grpstemp) then
-			{
-				_grps set [count _grps,_x]; // Add group to array
-			};
-		};
+    // Filter the created group array for the factions
 
-	} forEach allGroups;
-
-	// Filter the created group array for the factions
-
-	if(count _faction > 0) then
-	{
-		{
-			if !(faction (leader _x) in _faction) then
-			{
-				_grps = _grps - [_x];
-			};
-		} forEach _grps;
-	};
-}
-else
-{
-	sleep 1;
-	{
-		_Tgrp = call compile format ["%1",_x];
-		if(!isnil "_Tgrp") then
-		{
-			_grps set [count _grps,_Tgrp];
-		};
-	} foreach _grpstemp;
+    if(count _faction > 0) then {
+        {
+            if !(faction (leader _x) in _faction) then {
+                _grps = _grps - [_x];
+            };
+        } forEach _grps;
+    };
+} else {
+    sleep 1;
+    {
+        private _Tgrp = call compile format ["%1",_x];
+        if(!isnil "_Tgrp") then {
+            _grps set [count _grps,_Tgrp];
+        };
+    } foreach _grpstemp;
 };
 
 // ====================================================================================
@@ -101,7 +92,7 @@ else
 sleep 10;
 
 if (count _grps == 0) exitWith {
-	player GlobalChat format ["DEBUG (f\casualtiesCap\f_CasualtiesCapCheck.sqf): No groups found, _grpstemp = %1, _grps = %2",_grpstemp,_grps];
+    player GlobalChat format ["DEBUG (f\casualtiesCap\f_CasualtiesCapCheck.sqf): No groups found, _grpstemp = %1, _grps = %2",_grpstemp,_grps];
 };
 
 // ====================================================================================
@@ -113,9 +104,8 @@ _started = 0;
 {_started = _started + (count (units _x))} forEach _grps;
 
 // DEBUG
-if (f_var_debugMode == 1) then
-{
-	player sideChat format ["DEBUG (f\casualtiesCap\f_CasualtiesCapCheck.sqf): _started = %1",_started];
+if (f_var_debugMode == 1) then {
+    player sideChat format ["DEBUG (f\casualtiesCap\f_CasualtiesCapCheck.sqf): _started = %1",_started];
 };
 
 // ====================================================================================
@@ -125,26 +115,24 @@ if (f_var_debugMode == 1) then
 // within the group(s) has reached the percentage specificed in the variable _pc. If
 // the cap has been reached, the loop will exit to trigger the ending.
 
-while {true} do
-{
-	_remaining = 0;
+while {true} do {
+    _remaining = 0;
 
-	// Calculate how many units in the groups are still alive
-	{
-	  _grp = _x;
-	  _alive = {alive _x} count (units _grp);
-	  _remaining = _remaining + _alive;
-	} forEach _grps;
+    // Calculate how many units in the groups are still alive
+    {
+      _alive = {alive _x} count (units _x);
+      _remaining = _remaining + _alive;
+    } forEach _grps;
 
-// DEBUG
-	if (f_var_debugMode == 1) then
-	{
-		player sideChat format ["DEBUG (f\casualtiesCap\f_CasualtiesCapCheck.sqf): _remaining = %1",_remaining];
-	};
+    // DEBUG
+    if (f_var_debugMode == 1) then {
+        player sideChat format [
+            "DEBUG (f\casualtiesCap\f_CasualtiesCapCheck.sqf): _remaining = %1",_remaining];
+    };
 
-	if (_remaining == 0 || ((_started - _remaining) / _started) >= (_pc / 100)) exitWith {};
+    if (_remaining == 0 || ((_started - _remaining) / _started) >= (_pc / 100)) exitWith {};
 
-	sleep 6;
+    sleep 6;
 };
 
 // ====================================================================================
@@ -153,11 +141,13 @@ while {true} do
 // Depending on input, either MPEnd or the parsed code itself is called
 
 if (typeName _end == typeName 0) exitWith {
-	[_end] call f_fnc_mpEnd;
+    [_end] call f_fnc_mpEnd;
 };
 
 if (typeName _end == typeName {}) exitWith {
-	[_end,"bis_fnc_spawn",true] call BIS_fnc_MP;
+    [_end,"bis_fnc_spawn",true] call BIS_fnc_MP;
 };
 
-player GlobalChat format ["DEBUG (f\casualtiesCap\f_CasualtiesCapCheck.sqf): Ending didn't fire, should either be code or scalar. _end = %1, typeName _end: %2",_end,typeName _end];
+player GlobalChat format ["DEBUG (f_CasualtiesCapCheck.sqf): Ending didn't fire, should either be code or scalar. _end = %1, typeName _end: %2",_end,typeName _end];
+
+// vim: sts=-1 ts=4 et sw=4

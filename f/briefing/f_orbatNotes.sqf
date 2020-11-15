@@ -4,12 +4,13 @@
 waitUntil {scriptDone f_script_setGroupIDs};
 
 // Define needed variables
-private ["_orbatText", "_groups", "_maxSlots","_freeSlots"];
+private ["_orbatText", "_groups", "_maxSlots","_freeSlots", "_hiddengroups", "_veharray"];
 _orbatText = "<br />NOTE: The ORBAT below is only accurate at mission start.<br />
 <br />
 GROUP LEADERS + MEDICS<br /><br />";
 _groups = [];
 _hiddenGroups = [];
+_veharray = [];
 
 {
     // Add to ORBAT if side matches, group isn't already listed, and group has
@@ -28,7 +29,7 @@ _groups = _groups - _hiddenGroups;
 {
     // Highlight the player's group with a different color (based on the
     // player's side)
-    _color = "#FFFFFF";
+    private _color = "#FFFFFF";
     if (_x == group player) then {
         _color = switch (side player) do {
              case west: {"#0080FF"};
@@ -47,7 +48,6 @@ _groups = _groups - _hiddenGroups;
     } forEach units _x;
 } forEach _groups;
 
-_veharray = [];
 {
 
     if ({vehicle _x != _x} count units _x > 0 ) then {
@@ -89,7 +89,7 @@ _orbatText = _orbatText + "<br />VEHICLE CREWS + PASSENGERS<br />";
             };
         } forEach crew _x;
 
-        _groupList = [];
+        private _groupList = [];
 
         {
             if (!(group _x in _groupList) && {(assignedVehicleRole _x select 0) == "CARGO"} count (units group _x) > 0) then {
