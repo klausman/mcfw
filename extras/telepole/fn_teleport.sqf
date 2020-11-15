@@ -24,17 +24,17 @@ if (_leader == _caller) then {
     ["telepole",
      "%1 (%2) is a leader, looking for a distant squad member",
      _callerfn, _caller] call mc_fnc_rptlog;
-    private _mindst = 10000000; // 10'000 km
+    private _seenmin = 10000000; // 10'000 km
     private _found = false;
 
     {
         private _dst = _x distance2d _caller;
-        if (_dst > _mindist &&_dst < _mindst) then {
+        if (_dst > _mindist && _dst < _seenmin) then {
             ["telepole", "Best candidate so far: %1 (%2) is %3m from caller",
              name _x, _x, _dst] call mc_fnc_rptlog;
             _leader = _x;
             _leaderfn = format ["%1 (%2)", name _leader, _leader];
-            _mindst = _dst;
+            _seenmin = _dst;
             _found = true;
         };
     } foreach units _caller;
@@ -42,7 +42,7 @@ if (_leader == _caller) then {
     if (_found) then {
         ["telepole",
          "%1 is closest to %1, using as TP location",
-         _leaderfn, _callerfn, _mindst] call mc_fnc_rptlog;
+         _leaderfn, _callerfn, _seenmin] call mc_fnc_rptlog;
     } else {
         hintSilent "All members of this squad are close to you, not teleporting.";
         _keep_going = false;
