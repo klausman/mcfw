@@ -21,11 +21,6 @@ f_script_setTeamColours = [] execVM "f\setTeamColours\f_setTeamColours.sqf";
 // Also see https://www.misfit-company.com/arma3/mission_making/new_bft/
 [] spawn f_fnc_SetLocalFTMemberMarkers;
 
-// Common Local Variables
-if(isServer) then {
-    f_script_setLocalVars = [] execVM "f\common\f_setLocalVars.sqf";
-};
-
 // Casualties Cap
 // [[GroupName or SIDE],100,1] execVM "f\casualtiesCap\f_CasualtiesCapCheck.sqf";
 // [[GroupName or SIDE],100,{code}] execVM "f\casualtiesCap\f_CasualtiesCapCheck.sqf";

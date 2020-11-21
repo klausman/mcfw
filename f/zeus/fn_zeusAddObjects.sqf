@@ -7,7 +7,7 @@ params [
 ];
 
 // DECLARE VARIABLES
-private ["_objects","_getGlobalVars","_leaders"];
+private ["_objects","_leaders"];
 
 // SERVER CHECK
 // Ensure this script only executes on the server:
@@ -34,18 +34,12 @@ switch (typeName _mode) do {
     case "ARRAY": {_objects = _mode};
     case "OBJECT": {_objects = [_mode]};
     case "SIDE": {
-        _getGlobalVars = [0] execVM "f\common\f_setLocalVars.sqf";
-        waitUntil {scriptDone _getGlobalVars};
-
-        _objects = switch (_mode) do {
-            case west: {f_var_units_BLU};
-            case blufor: {f_var_units_BLU};
-            case east: {f_var_units_OPF};
-            case opfor: {f_var_units_OPF};
-            case resistance: {f_var_units_RES};
-            case independent: {f_var_units_RES};
-            case civilian: {f_var_units_CIV};
-        };
+        private _everything = allUnits + vehicles;
+        {
+            if side _x == _mode {
+                _objects pushBack _x;
+            }
+        } foreach _everything;
     };
     case "BOOL": {
          if (_mode) then {

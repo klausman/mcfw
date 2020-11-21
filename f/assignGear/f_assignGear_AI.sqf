@@ -49,7 +49,7 @@ _unitClasses = [
 ];
 
 // Interpret parameters
-_units = if (count _this == 0) then [{waitUntil {scriptDone f_script_setLocalVars};f_var_men},{_this}];
+_units = if (count _this == 0) then [{allUnits select{_s isKindOf "CAManBase"}},{_this}];
 
 // LOOP THROUGH AI UNITS AND ASSIGN GEAR
 {
