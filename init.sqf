@@ -1,62 +1,58 @@
 diag_log "MC Framework v0.2.0 starting init.sqf";
 
-// SETTING: Disable Saving and Auto Saving
+// Disable Saving and Auto Saving
 enableSaving [false, false];
 
-// SETTING: Mute Orders and Reports
+// Mute Orders and Reports
 enableSentences false;
 
-// SETTING: Briefing
+// Briefing
 f_script_briefing = [] execVM "briefing.sqf";
 
-// SETTING: Group IDs
+// Group IDs
 f_script_setGroupIDs = [] execVM "f\setGroupID\f_setGroupIDs.sqf";
 
-// SETTING: Buddy Team Colours
+// Buddy Team Colours
 f_script_setTeamColours = [] execVM "f\setTeamColours\f_setTeamColours.sqf";
 
-// SETTING: Fireteam Member Markers Comment out this line to disable
-// Fireteam-level map markers (small triangles). The BLUFOR tracker (BFT) is
-// configure in Addons settings > ACE Map 
+// Fireteam Member Markers Comment out this line to disable Fireteam-level map
+// markers (small triangles). The BLUFOR tracker (BFT) is configure in Addons
+// settings > ACE Map 
+// Also see https://www.misfit-company.com/arma3/mission_making/new_bft/
 [] spawn f_fnc_SetLocalFTMemberMarkers;
 
 // Common Local Variables
-// WARNING: DO NOT DISABLE THIS COMPONENT
 if(isServer) then {
     f_script_setLocalVars = [] execVM "f\common\f_setLocalVars.sqf";
 };
 
-// SETTING: Casualties Cap
+// Casualties Cap
 // [[GroupName or SIDE],100,1] execVM "f\casualtiesCap\f_CasualtiesCapCheck.sqf";
 // [[GroupName or SIDE],100,{code}] execVM "f\casualtiesCap\f_CasualtiesCapCheck.sqf";
 
-// BLUFOR > NATO
+// BLUFOR
 // [BLUFOR,100,1] execVM "f\casualtiesCap\f_CasualtiesCapCheck.sqf";
 
-// OPFOR > CSAT
+// OPFOR
 // [OPFOR,100,1] execVM "f\casualtiesCap\f_CasualtiesCapCheck.sqf";
 
-// INDEPENDENT > AAF
+// INDEPENDENT
 // [INDEPENDENT,100,1] execVM "f\casualtiesCap\f_CasualtiesCapCheck.sqf";
 
-// SETTING: Assign Gear AI
+// Assign Gear AI
+// Uncomment this line if you want to run assignGear for _all_ AI.
 // [] execVM "f\assignGear\f_assignGear_AI.sqf";
 
-// SETTING: ORBAT Notes
+// ORBAT Notes (in Briefing/Map)
 [] execVM "f\briefing\f_orbatNotes.sqf";
 
-// SETTING: Loadout Notes
+// Loadout Notes (in Briefing/Map)
 [] execVM "f\briefing\f_loadoutNotes.sqf";
 
-// SETTING: Join Group Action
-//[false] execVM "f\groupJoin\f_groupJoinAction.sqf";
-
-// SETTING: Mission Timer/Safe Start
-// Comment out this line to hard-disable the safe start timer.
+// Mission Timer/Safe Start
 [] execVM "f\safeStart\f_safeStart.sqf";
 
 // Clientside caching
-// run this instead of SETTING: AI unit caching (server side)
 if (!isserver && hasInterface) then {
     //run on all player clients incl. player host and excl. headless clients
     []spawn {
@@ -71,16 +67,12 @@ if (!isserver && hasInterface) then {
 };
 
 // Thermals
-// Disable thermal sights for everything
+// Disable thermal sights for everything, including A3TI
 //[] execVM "extras\disableThermals.sqf";
 
 // PabstMirror - Mission Intro
 // Credits: PabstMirror
 [] execVM "extras\PM_missionIntro.sqf";
-
-// Force First Person
-// Disable 3PV regardless of server settings
-//[] execVM "extras\forceFirstPerson.sqf";
 
 // WS - AI Flashlights
 // Credits: Wolfenswan

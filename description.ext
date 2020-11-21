@@ -49,7 +49,8 @@ forceRotorLibSimulation = 0;
 // Disable playableunits AI
 disabledAI = true;
 
-// Remove corpse manager
+// Corpse manager
+// https://community.bistudio.com/wiki/Description.ext#Corpse_.26_wreck_management
 corpseManagerMode = 1;
 corpseLimit = 15;
 corpseRemovalMinTime = 60; //seconds
@@ -106,10 +107,8 @@ class cfgNotifications {
 // End of Notification templates
 
 // Start of Params code blocks.
-// WARNING: DO NOT DELETE OR COMMENT OUT THIS CODE BLOCK
 class Params {
     // - Debug Mode
-    // WARNING: DO NOT DISABLE THIS COMPONENT
     class f_param_debugMode {
             title = "Debug Mode";
             values[] = {0,1};
@@ -161,7 +160,6 @@ class Params {
     }
 };
 // End of Params code blocks.
-// WARNING: DO NOT DELETE OR COMMENT OUT THIS CODE BLOCK
 
 // Briefing Templates
 class CfgDebriefing {
@@ -218,8 +216,8 @@ class CfgDebriefing {
 // Functions
 // DO NOT REMOVE OR DISABLE THIS BLOCK OF CODE
 class CfgFunctions {
-    class F { // Defines the "owner"
-        class common { // category
+    class F {
+        class common {
             file = "f\common";
             // Defines the function to preInit (the paramArray dosent seem to
             // be constructed at preInit stage).
@@ -231,8 +229,6 @@ class CfgFunctions {
             class nearPlayer{};
         };
         class assignGear {
-            // Defines the functions to preInit the compling of the assignGear
-            // function used by units.
             file = "f\assignGear_simple";
             // If you want to use the old AssignGear, delete the line above and
             // uncomment (remove the //) the line below.
