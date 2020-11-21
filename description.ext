@@ -111,7 +111,7 @@ class Params {
     // - Debug Mode
     // WARNING: DO NOT DISABLE THIS COMPONENT
     class f_param_debugMode {
-            title = "$STR_f_param_debugMode";
+            title = "Debug Mode";
             values[] = {0,1};
             texts[] = {"Off","On"};
             default = 0;
@@ -120,7 +120,7 @@ class Params {
 
     // Folk Assign Gear Script
     class f_param_backpacks {
-            title = "$STR_f_param_loadouts";
+            title = "Loadouts";
             values[] = {0,1,2};
             texts[] = {"Light","Medium","Heavy"};
             default = 1;
@@ -129,9 +129,9 @@ class Params {
 
     // Mission Timer/Safe Start
     class f_param_mission_timer {
-            title = "$STR_f_param_mission_timer";
+            title = "Safe Start (minutes)";
             values[] = {0,1,2,3,4,5,6,7,8,9,10,15};
-            texts[] = {"$STR_f_param_mission_timer_off","1","2","3","4","5","6","7","8","9","10","15"};
+            texts[] = {"Off","1","2","3","4","5","6","7","8","9","10","15"};
             default = 5;
             code = "f_param_mission_timer = %1";
     };
