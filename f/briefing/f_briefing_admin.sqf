@@ -2,13 +2,12 @@
 
 private ["_title", "_ending", "_endings", "_customText", "_briefing", "_i"];
 
-// ADD MISSION MAKER NOTES SECTIONS
+// Mission maker notes sections
 // All text added below will only be visible to the current admin
 _customText = "";
 
-// ADMIN BRIEFING
-// This is a generic section displayed only to the ADMIN
-
+// Admin Briefing
+// This is a generic section displayed only to the admin
 _briefing ="
 <br/>
 <font size='18'>ADMIN SECTION</font><br/>
@@ -16,22 +15,19 @@ This briefing section can only be seen by the current admin.
 <br/><br/>
 ";
 
-// MISSION-MAKER NOTES
+// Mission maker notes
 // This section displays notes made by the mission-maker for the ADMIN
-
 if (_customText != "") then {
     _briefing ="
     <br/>
     <font size='18'>MISSION-MAKER NOTES</font><br/>
     Notes and messages from the mission-maker:<br/>
     ";
-
     _briefing = _briefing + _customText + "<br/><br/>";
 };
 
-// ENDINGS
+// Endings
 // This block of code collects all valid endings and formats them properly
-
 _title = [];
 _ending = [];
 _endings = [];
@@ -47,7 +43,6 @@ while {true} do {
 };
 
 // Create the briefing section to display the endings
-
 _briefing = _briefing + "
 <font size='18'>ENDINGS</font><br/>
 These endings are available. To trigger an ending click on its link.<br/><br/>
@@ -60,7 +55,7 @@ These endings are available. To trigger an ending click on its link.<br/><br/>
     ,_x select 0,_x select 1,_x select 2];
 } forEach _endings;
 
-// SAFE START SECTION
+// Safe start section
 _briefing = _briefing + "
 <font size='18'>SAFE START CONTROL</font><br/>
 |- <execute expression=""f_var_mission_timer = f_var_mission_timer + 1; publicVariable 'f_var_mission_timer'; hintsilent format ['Mission Timer: %1',f_var_mission_timer];"">
@@ -89,7 +84,7 @@ Force safety off for all players</execute><br/><br/>
 ";
 
 
-// ADD ZEUS SUPPORT SECTION
+// Add Zeus support section
 _briefing = _briefing + "
 <font size='18'>ZEUS SUPPORT</font><br/>
 <execute expression=""
@@ -115,7 +110,6 @@ if (isNull (getAssignedCuratorLogic player)) then {hintsilent 'Assign ZEUS first
 if (isNull (getAssignedCuratorLogic player)) then {hintsilent 'Assign ZEUS first!'} else {[[player,false],'f_fnc_zeusAddObjects',false] spawn BIS_fnc_MP; [[player,false],'f_fnc_zeusAddAddons',false] spawn BIS_fnc_MP; hintsilent 'Removed powers and units.'};"">Remove all powers and objects from ZEUS</execute>.<br/>
 <br/>
 ";
-
 
 // CREATE DIARY ENTRY
 private _clb = [_briefing, ["&"], "&amp;"] call mc_fnc_stringReplace;
