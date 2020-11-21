@@ -36,7 +36,7 @@ switch (typeName _mode) do {
     case "SIDE": {
         private _everything = allUnits + vehicles;
         {
-            if side _x == _mode {
+            if ((side _x) == _mode) then {
                 _objects pushBack _x;
             }
         } foreach _everything;
