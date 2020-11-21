@@ -1,9 +1,9 @@
 // Assign Gear Script
 
 params ["_typeOfUnit", "_unit", ["_faction", ""]];
-
-// DECLARE VARIABLES AND FUNCTIONS
 private ["_ff", "_isMan"];
+
+scriptName "f/assignGear/fn_assignGear.sqf";
 
 _ff = false; // Track whether we have found a faction for this unit
 
@@ -92,9 +92,9 @@ _unit setVariable ["f_var_assignGear_done", true, true];
 // If the faction of the unit cannot be defined, the script exits with an
 // error.
 if (_ff) then {
-    ["f\\assignGear\\fn_assignGear.sqf", "%1/%2 loadout: '%3'", _unit, _faction, _typeofUnit] call mc_fnc_rptlog;
+    ["%1/%2 loadout: '%3'", _unit, _faction, _typeofUnit] call mc_fnc_rptlog;
 } else {
-    ["f\\assignGear\\fn_assignGear.sqf", "%1/%2 has no loadout defined.", _unit, _faction] call mc_fnc_bothlog;
+    ["%1/%2 has no loadout defined.", _unit, _faction] call mc_fnc_bothlog;
 };
 
 // vim: sts=-1 ts=4 et sw=4

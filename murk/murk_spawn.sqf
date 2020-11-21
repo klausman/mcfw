@@ -100,6 +100,8 @@ params [
 
 private ["_countWaypoints", "_debug", "_waitingPeriod", "_waypointsArray"];
 
+scriptName "murk/murk_spawn.sqf";
+
 // Init
 _waitingPeriod = 8;  // Waiting period between script refresh
 _debug = false;
@@ -110,8 +112,7 @@ private _triggerObject = (synchronizedObjects _unit) select 0;
 
 if (isnil "_triggerObject") then {
     // Always log, ...
-    ["murk_spawn.sqf",
-     "The trigger object for %1 is not defined.", _unit] call mc_fnc_bothlog;
+    ["The trigger object for %1 is not defined.", _unit] call mc_fnc_bothlog;
     // ... but only mark things on the map if debugging is on
     if (_debug) exitWith {
         private _mname = format ["mstestmrk_%1",_unit];
@@ -140,7 +141,8 @@ while { count units _unitGroup > 0 } do {
     // The currently worked on unit
     private _unitsInGroup = units _unitGroup;
     private _unit = _unitsInGroup select 0;
-    ["murk_spawn.sqf", "Handling unit %1, units left: %2", _unit, count units _unitGroup] call mc_fnc_rptlog;
+    ["Handling unit %1, units left: %2", _unit, count units _unitGroup
+        ] call mc_fnc_rptlog;
     // Check if it's a vehicle
     if ( (vehicle _unit) isKindOf "LandVehicle" OR (vehicle _unit) isKindOf "Air") then {
         private _vcl = vehicle _unit;
@@ -212,7 +214,8 @@ _countWaypoints = count(waypoints _unitGroup);
 for "_i" from 0 to _countWaypoints do {
     private _wppos =  waypointPosition [_unitGroup, _i];
     if (_wppos isEqualTo [0,0,0]) then {
-        ["murk_spawn.sqf", "Group %1 waypoint %2 is 000, dropping", _unitGroup, _i] call mc_fnc_rptlog;
+        ["Group %1 waypoint %2 is 000, dropping", _unitGroup, _i
+            ] call mc_fnc_rptlog;
     } else {
         private _waypointsEntry = [
             waypointPosition [_unitGroup, _i],
@@ -234,7 +237,7 @@ for "_i" from 0 to _countWaypoints do {
 };
 
 if (_debug) then {
-    ["murk_spawn.sqf", "Waypoints: %1", _waypointsArray] call mc_fnc_rptlog;
+    ["Waypoints: %1", _waypointsArray] call mc_fnc_rptlog;
 };
 
 deleteGroup _unitGroup;
@@ -395,9 +398,8 @@ private _fnc_spawnUnit = {
     params ["_oldgroup", "_side", "_waypointsArray"];
     private _newGroup = createGroup _side;
     // Disable ACEX Headless messing with this group until we're done
-    [nil,
-     "Adding new group %1 to ACEX Headless blacklist",
-     _newgroup] call mc_fnc_rptlog;
+    ["Adding new group %1 to ACEX Headless blacklist", _newgroup
+        ] call mc_fnc_rptlog;
     _newGroup setVariable ["acex_headless_blacklist", true];
     // If the old group doesnt have any units in it its a spawned group rather
     // than respawned
@@ -535,9 +537,8 @@ private _fnc_spawnUnit = {
     };
     // Enable ACEX Headless for this group and trigger a rebalance pass
     if (mc_murk_headless == 1) then {
-        [nil,
-         "Removing %1 from ACEX Headless blacklist and triggering rebalance",
-         _newgroup] call mc_fnc_rptlog;
+        ["Removing %1 from ACEX Headless blacklist and triggering rebalance",
+            _newgroup] call mc_fnc_rptlog;
         _newGroup setVariable ["acex_headless_blacklist", false];
         [false] call acex_headless_fnc_rebalance;
     };
@@ -607,7 +608,7 @@ if (_spawntype == "reset") then {
 // ONCE MODE
 if (_spawntype == "once") then {
     private _unitGroup = [_unitGroup,_side,_waypointsArray] call _fnc_spawnUnit;
-    ["murk_spawn.sqf", "Spawned group %1", _unitGroup] call mc_fnc_rptlog;
+    ["Spawned group %1", _unitGroup] call mc_fnc_rptlog;
 };
 
 // vim: sts=-1 ts=4 et sw=4

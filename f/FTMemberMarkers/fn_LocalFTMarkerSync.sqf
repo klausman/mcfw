@@ -11,13 +11,11 @@
 // ==========================================================================
 params ["_grp", "_unit"];
 private ["_colorTeam"];
+scriptName "f/FTMemberMarkers/fn_LocalFTMarkerSync.sqf";
 
 waitUntil {!isnil "f_var_debugMode"};
 
 // ==========================================================================
-
-// BEGIN SYNCHRONIZATION
-// if he is still alive and groupLeader
 
 while{_unit == (leader _grp) && alive _unit} do {
     {
@@ -29,7 +27,7 @@ while{_unit == (leader _grp) && alive _unit} do {
             if((_x getvariable ["assignedTeam","ColorWhite"]) != _colorTeam) then {
                 // debug messages
                 if (f_var_debugMode == 1) then {
-                    ["f\\FTMemberMarkers\\fn_LocalFTMarkerSync.sqf", "%1 -> %2 by %3",
+                    ["%1 -> %2 by %3",
                      (_x getvariable ["assignedTeam","ColorWhite"]),
                      _colorTeam,_unit] call mc_fnc_bothlog;
                 };

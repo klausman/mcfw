@@ -95,14 +95,15 @@ if (hasInterface) then {
         player addEventHandler [
             "respawn",
              "[] spawn {
+                scriptName 'respawnEH';
                 sleep 5;
                 private _loadout = player getVariable ['f_var_assignGear', 'NO_LOADOUT'];
                 if (_loadout!='NO_LOADOUT') then {
-                    ['respawnEH', 'Unit %1 had a %2 loadout, recreating', player, _loadout] call mc_fnc_rptlog;
+                    ['Unit %1 had a %2 loadout, recreating', player, _loadout] call mc_fnc_rptlog;
                     player setVariable ['f_var_assignGear_done',false,true];
                     [_loadout, player] call f_fnc_assignGear;
                 } else {
-                    ['respawnEH', 'Unit %1 had no loadout, doing nothing'] call mc_fnc_rptlog;
+                    ['Unit %1 had no loadout, doing nothing'] call mc_fnc_rptlog;
                 };
                 sleep 5;
                 call mc_fnc_telepole_reinit;

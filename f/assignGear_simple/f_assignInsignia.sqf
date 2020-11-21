@@ -1,7 +1,7 @@
 // Assign Insignia
-
 params ["_typeOfUnit", "_unit"];
 private ["_group","_badge","_groupBadges","_roleBadge","_faction"];
+scriptName "f/assignGear_simple/f_assignInsignia.sqf";
 
 _badge = "";
 _faction = toLower (faction _unit);
@@ -164,8 +164,8 @@ _group = (group _unit);
 } forEach _groupBadges;
 
 if (format ["%1",_group] == "") then {
-    ["f_assignInsignia.sqf", "Unit %1 (type %2) has an empty group.", _unit, _typeOfUnit
-    ] call mc_fnc_rptlog;
+    ["Unit %1 (type %2) has an empty group.", _unit, _typeOfUnit
+        ] call mc_fnc_rptlog;
 };
 
 //  Let the unit insignia override the group insignia.

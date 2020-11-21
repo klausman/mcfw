@@ -14,7 +14,9 @@
 //
 params["_mode", "_box", "_boxidx", "_boxes"];
 
-["SSS_airdrops", "Called in mode %1", _mode] call mc_fnc_rptlog;
+scriptName "sss_airdrops.sqf";
+
+["Called in mode %1", _mode] call mc_fnc_rptlog;
 
 // BOX DEFINITIONS START
 

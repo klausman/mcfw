@@ -109,9 +109,8 @@ switch (_typeofUnit) do {
   default {
     // the if (true) is necessary due to the way exitWith works
     if (true) exitwith {
-        ["f\\assignGear_simple\\f_assignGear_aaf.sqf",
-         " Unit:%1. Gear template %2 does not exist, used Rifleman instead.",
-         _unit,_typeofunit] call mc_fnc_bothlog;
+         ["Unit:%1. Gear template %2 does not exist, used Rifleman instead.",
+            _unit,_typeofunit] call mc_fnc_bothlog;
     };
   };
 // End of loadouts

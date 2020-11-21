@@ -5,27 +5,23 @@ params [
     ["_mode" ,[], [true, west, objNull, []]],
     ["_groupLeaders", false]
 ];
-
-// DECLARE VARIABLES
 private ["_objects","_leaders"];
 
-// SERVER CHECK
+scriptName "f/zeus/fn_zeusAddObjects.sqf";
+
 // Ensure this script only executes on the server:
 if !(isServer) exitWith {};
 
-// RESOLVE CURATOR VARIABLE
 // If the passed unit is not in the list of all curators, check whether the
 // curator is assigned to it
-
 if !(_curator in allCurators) then {
     _curator = getAssignedCuratorLogic _curator;
 };
 
 // If curator is null or not the correct logic exit with an error message.
 if (isNull _curator || typeOf _curator != "ModuleCurator_F") exitWith {
-    ["f\\zeus\\fn_zeusAddObjects.sqf",
-     "Error: curator==null (%1) or wrong type. Wanted ModuleCurator_F, got %2",
-     isNull _curator,typeOf _curator] call mc_fnc_bothlog;
+    ["Error: curator==null (%1) or wrong type. Wanted ModuleCurator_F, got %2",
+        isNull _curator,typeOf _curator] call mc_fnc_bothlog;
 };
 
 // Decide which objects to add based on passed mode

@@ -12,7 +12,7 @@ if (isNil "_scheduled") then {_scheduled=false;};
 if (isNil "_quiet") then {_quiet=false;};
 
 if (!_quiet && !_scheduled) then {
-    ["telepole", "Initializing object %1 for side %2", _tObj, _tSide] call mc_fnc_rptlog;
+    ["Initializing object %1 for side %2", _tObj, _tSide] call mc_fnc_rptlog;
 };
 
 removeAllActions _tObj;
@@ -22,8 +22,7 @@ if (!_scheduled) then {
     [_tSide, _tObj]spawn {
 	params ["_tSide", "_tObj"];
         while {true} do {
-            //["telepole",
-            // "Scheduled update for %1/%2", _tObj, _tSide] call mc_fnc_rptlog;
+            //["Scheduled update for %1/%2", _tObj, _tSide] call mc_fnc_rptlog;
             [_tObj, _tSide, true, true] call mc_fnc_telepole;
             sleep 60;
         };
@@ -56,8 +55,7 @@ if (mc_assigngear_telepole == 1) then {
   //if (side _l == _tSide && alive _l) then {
   if (/*isPlayer _l &&*/ side _l == _tSide && alive _l) then {
     if (!_quiet) then {
-        ["telepole",
-         "Leader %1 is a player, alive and on side %2, adding TP entry",
+        ["Leader %1 is a player, alive and on side %2, adding TP entry",
          _l, _tSide] call mc_fnc_rptlog;
     };
     _grpLeaders pushBack _l

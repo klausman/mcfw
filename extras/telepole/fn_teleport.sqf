@@ -2,11 +2,11 @@
 // (C) 2020 T. Klausmann
 
 params ["_leader", "_caller"];
-
 private ["_lpos", "_tgt", "_lalt", "_lvic", "_keep_going", "_vicname",
-         "_leaderfn", "_callerfn"];
+         "_leaderfn", "_callerfn", "_mindist"];
+scriptName "fn_teleport.sqf";
 
-private _mindist = 100; // meters
+_mindist = 100; // meters
 
 // These are only used for logging or messages. E.g.:
 // Corey Harris (UnitNATO_A1_AR)
@@ -21,17 +21,16 @@ _keep_going = true;
 // _mindist meters away (in case multiple people of the same unit respawn at
 // the same time).
 if (_leader == _caller) then {
-    ["telepole",
-     "%1 (%2) is a leader, looking for a distant squad member",
-     _callerfn, _caller] call mc_fnc_rptlog;
+    ["%1 (%2) is a leader, looking for a distant squad member",
+        _callerfn, _caller] call mc_fnc_rptlog;
     private _seenmin = 10000000; // 10'000 km
     private _found = false;
 
     {
         private _dst = _x distance2d _caller;
         if (_dst > _mindist && _dst < _seenmin) then {
-            ["telepole", "Best candidate so far: %1 (%2) is %3m from caller",
-             name _x, _x, _dst] call mc_fnc_rptlog;
+            ["Best candidate so far: %1 (%2) is %3m from caller",
+                name _x, _x, _dst] call mc_fnc_rptlog;
             _leader = _x;
             _leaderfn = format ["%1 (%2)", name _leader, _leader];
             _seenmin = _dst;
@@ -40,9 +39,8 @@ if (_leader == _caller) then {
     } foreach units _caller;
 
     if (_found) then {
-        ["telepole",
-         "%1 is closest to %1, using as TP location",
-         _leaderfn, _callerfn, _seenmin] call mc_fnc_rptlog;
+        ["%1 is closest to %1, using as TP location",
+            _leaderfn, _callerfn, _seenmin] call mc_fnc_rptlog;
     } else {
         hintSilent "All members of this squad are close to you, not teleporting.";
         _keep_going = false;
@@ -55,15 +53,14 @@ _lpos = getPos _leader;
 _lalt = _lpos select 2;
 _lvic = vehicle _leader;
 
-["telepole", "Leader is %1, vic is %2, alt is %4",
-    _leader, _lvic, _lalt] call mc_fnc_rptlog;
+["Leader is %1, vic is %2, alt is %4", _leader, _lvic, _lalt
+    ] call mc_fnc_rptlog;
 
 switch(true) do {
     // Leader is not in a vehicle and close to the ground/a walkable surface
     case (_lalt<=2 && (_lvic == _leader)): {
-        ["telepole",
-         "%1 is on/near the ground and not in a vehicle, direct teleport",
-         _leaderfn] call mc_fnc_rptlog;
+        ["%1 is on/near the ground and not in a vehicle, direct teleport",
+            _leaderfn] call mc_fnc_rptlog;
         _tgt = _lpos findEmptyPosition [1, 10];
         _caller setPos _tgt;
     };
@@ -95,8 +92,8 @@ switch(true) do {
         // Can't-happen catchall.
         _vicname = getText(
             configFile >> "CfgVehicles" >> typeOf _lvic >> "displayName");
-        ["telepole", "Dunno what to do! leader: %1 lalt: %2, lvic: %3 vicname: %4",
-             _leader, _lalt, _lvic, _vicname] call mc_fnc_rptlog;
+        ["Dunno what to do! leader: %1 lalt: %2, lvic: %3 vicname: %4",
+            _leader, _lalt, _lvic, _vicname] call mc_fnc_rptlog;
         hintSilent format [
             "Teleport script broke! Take a screenshot and send it to klausman. leader: %1 caller: %2 lpos: %3 lalt: %4 lvic: %5 vicname: %6",
             _leaderfn, _caller, _lpos, _lalt, _lvic, _vicname

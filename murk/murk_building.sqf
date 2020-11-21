@@ -31,12 +31,12 @@
 
 // This script is serverside
 if(!isServer) exitWith{};
-
 params ["_unit", "_f3Gear", "_spawnDistance", ["_remainingtoAttack", 0],
         ["_initstring", ""]];
-
 private ["_waitingPeriod","_centerpos","_posarray","_unitArray",
         "_unitGroup","_unitsInGroup","_unitsInGroupAdd","_side"];
+
+scriptName "murk/murk_building.sqf";
 
 // Init
 _waitingPeriod = 8;  // Waiting period between script refresh
@@ -182,9 +182,8 @@ private _fnc_spawnUnit = {
     params ["_oldGroup", "_side"];
     private _newGroup = createGroup _side;
     // Disable ACEX Headless messing with this group until we're done
-    [nil,
-     "Adding new group %1 to ACEX Headless blacklist", 
-     _newgroup] call mc_fnc_rptlog;
+    ["Adding new group %1 to ACEX Headless blacklist", _newgroup
+        ] call mc_fnc_rptlog;
     _newGroup setVariable ["acex_headless_blacklist", true];
     // If the old group doesn't have any units in it its a spawned group rather
     // than respawned
@@ -270,8 +269,7 @@ private _fnc_spawnUnit = {
     };
     // Enable ACEX Headless for this group and trigger a rebalance pass
     if (mc_murk_headless == 1) then {
-    [nil,
-     "Removing group %1 from ACEX Headless blacklist and triggering rebalance", 
+    ["Removing group %1 from ACEX Headless blacklist and triggering rebalance", 
      _newgroup] call mc_fnc_rptlog;
         _newGroup setVariable ["acex_headless_blacklist", false];
         [false] call acex_headless_fnc_rebalance;

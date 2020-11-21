@@ -5,32 +5,25 @@ params [
     ["_objects", [],[objNull,true,[],west]], 
     ["_announce", false]
 ];
+private ["_curator"];
 
-// SERVER CHECK
+scriptName "f/zeus/fn_zeusInit.sqf";
+
 // Ensure this script only executes on the server:
 if !(isServer) exitWith {};
 
-// DECLARE VARIABLES
-private ["_curator"];
-
-// SET KEY VARIABLES
-// Using variables passed to the script instance, we will create some local
-// variables:
-
-// SETUP CURATOR
 // Exit if no unit was passed
 if (isNull _unit) exitWith {};
 
 // Exit if this already is a Zeus
 if !(isNull (getAssignedCuratorLogic _unit)) exitWith {
-    ["f\zeus\fn_zeusInit.sqf", "ZEUS already assigned to %1.",_unit] call mc_fnc_bothlog;
+    ["Zeus already assigned to %1.",_unit] call mc_fnc_bothlog;
 };
 
 // Exit if the unit is not a player
 if !(isPlayer _unit) exitWith {
-    ["f\\zeus\\fn_zeusInit.sqf",
-     "Did not assign ZEUS to %1 because it is not under control of a player.",
-     _unit] call mc_fnc_bothlog;
+    ["Did not assign Zeus to %1 because it is not under control of a player.",
+        _unit] call mc_fnc_bothlog;
 };
 
 // Make sure a side logic exists, if not create it
