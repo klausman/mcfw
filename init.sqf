@@ -82,12 +82,13 @@ if (hasInterface) then {
         waitUntil {sleep 1; !isNull player};
         player addEventHandler [
             "killed",
-            "params ['_unit'];
+            "params ['_unit', '_killer', '_instigator', '_useEffects'];
              [_unit] spawn {
-                sleep 5;
-                 hideBody _this;
-                 sleep 10;
-                 deleteVehicle _this;
+                private _corpse = _this select 0;
+                sleep 3;
+                hideBody _corpse;
+                sleep 10;
+                deleteVehicle _corpse;
              };"];
     };
     []spawn {
@@ -95,15 +96,13 @@ if (hasInterface) then {
         player addEventHandler [
             "respawn",
              "[] spawn {
-                scriptName 'respawnEH';
-                sleep 5;
+                sleep 3;
                 private _loadout = player getVariable ['f_var_assignGear', 'NO_LOADOUT'];
                 if (_loadout!='NO_LOADOUT') then {
-                    ['Unit %1 had a %2 loadout, recreating', player, _loadout] call mc_fnc_rptlog;
                     player setVariable ['f_var_assignGear_done',false,true];
                     [_loadout, player] call f_fnc_assignGear;
                 } else {
-                    ['Unit %1 had no loadout, doing nothing'] call mc_fnc_rptlog;
+                    ['RESPAWN: Unit %1 had no aG loadout, doing nothing'] call mc_fnc_rptlog;
                 };
                 sleep 5;
                 call mc_fnc_telepole_reinit;

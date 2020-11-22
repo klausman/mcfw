@@ -4,7 +4,7 @@
 params ["_tObj", "_tSide", "_quiet", "_scheduled"];
 
 // Only run serverside
-if (!isServer) exitwith {};
+//if (!isServer) exitwith {};
 
 private _grpLeaders = [];
 
@@ -31,6 +31,9 @@ if (!_scheduled) then {
     // event handler.
     private _poles = missionNameSpace getVariable ["telepole_poles", []];
     _poles pushBack [_tObj, _tSide];
+    // sort -u for arrays, basically
+    // see https://community.bistudio.com/wiki/arrayIntersect
+    _poles = _poles arrayIntersect _poles;
     missionNameSpace setVariable ["telepole_poles", _poles, true];
 };
 

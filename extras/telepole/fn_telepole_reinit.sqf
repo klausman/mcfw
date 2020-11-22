@@ -6,6 +6,10 @@
 scriptName "fn_telepole_reinit.sqf";
 
 private _poles = missionNameSpace getVariable["telepole_poles", []];
+// sort -u for arrays, basically
+// see https://community.bistudio.com/wiki/arrayIntersect
+_poles = _poles arrayIntersect _poles;
+missionNameSpace setVariable["telepole_poles", _poles, true];
 
 ["Found %1 poles in global list: %2", count _poles, _poles] call mc_fnc_rptlog;
 
