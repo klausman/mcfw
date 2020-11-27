@@ -102,11 +102,50 @@ if (hasInterface) then {
                     player setVariable ['f_var_assignGear_done',false,true];
                     [_loadout, player] call f_fnc_assignGear;
                 } else {
-                    ['RESPAWN: Unit %1 had no aG loadout, doing nothing'] call mc_fnc_rptlog;
+                    ['respawnEH', 'Unit %1 had no aG loadout, doing nothing'] call mc_fnc_ehlog;
                 };
                 sleep 5;
                 call mc_fnc_telepole_reinit;
              };"];
     };
+};
+
+// Vehicle Saver
+// Prevents vehicles placed in "Hide Terrain Objects" area from blowing up due
+// to randomness of initialization order.
+//
+// On mission start, disable damage on all vehicles in the mission. This
+// happens on the map screen. The spawned script re-enables both aspects and
+// only starts running when the mission starts, no matter how much time was
+// spent on the map screen.
+private _editedVicsAD = [];
+private _editedVicsES = [];
+private _edCount = 0;
+
+["vicsaver", "Making vehicles inert"] call mc_fnc_ehlog;
+{
+    if (simulationEnabled _x || isDamageAllowed _x) then {
+        _edCount = _edCount+1;
+    };
+    if (isDamageAllowed _x) then {
+        _x allowDamage false;
+        _editedVicsAD pushBack _x;
+        _edCount = _edCount+1;
+    };
+    if (simulationEnabled _x) then {
+        _x enableSimulationGlobal false;
+        _editedVicsES pushBack _x;
+    };
+} foreach vehicles;
+["vicsaver", "Made %1 vehicles inert", _edCount] call mc_fnc_ehlog;
+
+[_editedVicsAD, _editedVicsES] spawn {
+    sleep 2; // This only starts ticking once in-mission
+    ["vicsaver", "Enabling simulation on vehicles"] call mc_fnc_ehlog;
+    private _editedVicsAD = _this select 0;
+    private _editedVicsES = _this select 1;
+    {_x allowDamage true} foreach _editedVicsAD;
+    {_x enableSimulationGlobal true} foreach _editedVicsES;
+    ["vicsaver", "Enabling simulation on vehicles complete"] call mc_fnc_ehlog;
 };
 // vim: sts=-1 ts=4 et sw=4
