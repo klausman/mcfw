@@ -2,7 +2,7 @@
 // (C) 2020 T. Klausmann
 
 params ["_leader", "_caller"];
-private ["_lpos", "_tgt", "_lalt", "_lvic", "_keep_going", "_vicname",
+private ["_lpos", "_tgt", "_lalt", "_lvic", "_keep_going",
          "_leaderfn", "_callerfn", "_mindist"];
 scriptName "fn_teleport.sqf";
 
@@ -70,8 +70,8 @@ switch(true) do {
         private _succ = _caller moveInAny _lvic;
         if (!_succ) then {
             hintSilent format [
-                "No more room in %1 vehicle (%2), try again later",
-                _leaderfn, _vicname];
+                "No more room in %1's vehicle, try again later",
+                _leaderfn];
         };
     };
     // Leader's vic is a steerable parachute
@@ -79,7 +79,7 @@ switch(true) do {
         hintSilent format [
            "%1 is parachuting. Not teleporting for safety reasons.", _leaderfn];
     };
-    // Leader is falling from > 2m 
+    // Leader is falling from > 2m
     case (_lvic == _leader && _lalt>2): {
         if (_lvic emptyPositions "cargo" == 0) then {
             hintSilent format [
@@ -90,13 +90,11 @@ switch(true) do {
 
     default {
         // Can't-happen catchall.
-        _vicname = getText(
-            configFile >> "CfgVehicles" >> typeOf _lvic >> "displayName");
-        ["Dunno what to do! leader: %1 lalt: %2, lvic: %3 vicname: %4",
-            _leader, _lalt, _lvic, _vicname] call mc_fnc_rptlog;
+        ["Dunno what to do! leader: %1 lalt: %2, lvic: %3",
+            _leader, _lalt, _lvic] call mc_fnc_rptlog;
         hintSilent format [
-            "Teleport script broke! Take a screenshot and send it to klausman. leader: %1 caller: %2 lpos: %3 lalt: %4 lvic: %5 vicname: %6",
-            _leaderfn, _caller, _lpos, _lalt, _lvic, _vicname
+            "Teleport script broke! Take a screenshot and send it to klausman. leader: %1 caller: %2 lpos: %3 lalt: %4 lvic: %5",
+            _leaderfn, _caller, _lpos, _lalt, _lvic
         ];
     };
 };
