@@ -1,8 +1,8 @@
 // Zeus Support  - Initialization
 params [
-    ["_unit", [objNull]], 
-    ["_addons", [],["",true,[]]], 
-    ["_objects", [],[objNull,true,[],west]], 
+    ["_unit", [objNull]],
+    ["_addons", [],["",true,[]]],
+    ["_objects", [],[objNull,true,[],west]],
     ["_announce", false]
 ];
 private ["_curator"];

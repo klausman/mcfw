@@ -17,7 +17,7 @@ f_script_setTeamColours = [] execVM "f\setTeamColours\f_setTeamColours.sqf";
 
 // Fireteam Member Markers Comment out this line to disable Fireteam-level map
 // markers (small triangles). The BLUFOR tracker (BFT) is configure in Addons
-// settings > ACE Map 
+// settings > ACE Map
 // Also see https://www.misfit-company.com/arma3/mission_making/new_bft/
 [] spawn f_fnc_SetLocalFTMemberMarkers;
 

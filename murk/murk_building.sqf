@@ -269,7 +269,7 @@ private _fnc_spawnUnit = {
     };
     // Enable ACEX Headless for this group and trigger a rebalance pass
     if (mc_murk_headless == 1) then {
-    ["Removing group %1 from ACEX Headless blacklist and triggering rebalance", 
+    ["Removing group %1 from ACEX Headless blacklist and triggering rebalance",
      _newgroup] call mc_fnc_rptlog;
         _newGroup setVariable ["acex_headless_blacklist", false];
         [false] call acex_headless_fnc_rebalance;
@@ -305,7 +305,7 @@ _unitGroup = [_unitGroup,_side] call _fnc_spawnUnit;
 // delete and re-cache when no players near
 [_unitGroup,_f3gear,_spawndistance,_remainingtoattack,_initString,_centerpos,_waitingPeriod] spawn {
     params ["_unitGroup", "_f3gear", "_spawndistance", "_remainingtoattack",
-            "_initString", "_centerpos", "_waitingPeriod"];   
+            "_initString", "_centerpos", "_waitingPeriod"];
     private _alivedudes = [];
     private _uncachedistance = _spawndistance + 100 + (0.33 * _spawndistance);
 

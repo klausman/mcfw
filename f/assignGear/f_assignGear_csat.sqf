@@ -362,7 +362,7 @@ _backpack = {
 // The following blocks of code define loadouts for each type of unit (the
 // unit type is passed to the script in the first variable)
 
-switch (_typeofUnit) do { 
+switch (_typeofUnit) do {
     // COMMANDER
     case "co": {
         _unit addmagazines [_glriflemag,7];

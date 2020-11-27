@@ -88,13 +88,13 @@
 if(!isServer) exitwith{};
 
 params [
-    "_unit", 
-    "_f3Gear", 
-    "_spawntype", 
-    ["_spawnlives", 1], 
-    ["_spawndelay", 1], 
-    ["_initstring", ""], 
-    ["_bodyremove", 360], 
+    "_unit",
+    "_f3Gear",
+    "_spawntype",
+    ["_spawnlives", 1],
+    ["_spawndelay", 1],
+    ["_initstring", ""],
+    ["_bodyremove", 360],
     ["_autoDeleteDist", 0]
 ];
 
@@ -328,9 +328,9 @@ private _fnc_cleanGroup = {
         private _origPos = getPos _x;
         private _z = _origPos select 2;
         private _desiredPosZ = if ( (vehicle _x) iskindOf "Man") then {
-             (_origPos select 2) - 0.5 
-        } else { 
-            (_origPos select 2) - 3 
+             (_origPos select 2) - 0.5
+        } else {
+            (_origPos select 2) - 3
         };
         if ( vehicle _x == _x ) then {
             _x enableSimulation false;

@@ -333,13 +333,13 @@ if (_isMan) then {
     // ADD UNIVERSAL ITEMS
     // Add items universal to all units of this faction
     _unit linkItem _nvg;            // Night vision goggles
-    _unit linkItem "ItemMap";       
-    _unit linkItem "ItemCompass";   
+    _unit linkItem "ItemMap";
+    _unit linkItem "ItemCompass";
     _unit linkItem "ItemWatch";
     // If you don't want everyone to have a SR radio, comment this line and
     // add lines like this to the individual units below.
-    _unit linkItem _srradio;        
-    //_unit linkItem "ItemGPS";     
+    _unit linkItem _srradio;
+    //_unit linkItem "ItemGPS";
 };
 
 

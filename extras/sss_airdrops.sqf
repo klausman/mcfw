@@ -4,8 +4,8 @@
 //
 // Full documentation at:
 // https://www.misfit-company.com/arma3/mission_making/sss_custom_airdrop/
-// 
-// Quick Usage: 
+//
+// Quick Usage:
 // - Add this script and the two companion scripts (sss_airdrops_bi.sqf and
 //   sss_airdrops_gl.sqf) to your mission in a subfolder called `extras`
 // - edit box contents as indicated below, then add a SSS Logistics
@@ -27,7 +27,7 @@ scriptName "sss_airdrops.sqf";
 // [
 //  "In-game Label",
 //  "Box Classname",
-//  "Icon", 
+//  "Icon",
 //  ["Smoke", "Chemlight"],
 //  [
 //   ["some object class", N],
@@ -66,13 +66,13 @@ _boxes = [
 // BOX DEFINITIONS END -- no need to edit below this line
 
 if (_mode == "bi") exitWith {
-    [_box, _boxidx, _boxes] call 
+    [_box, _boxidx, _boxes] call
     compile preprocessFileLineNumbers "extras\sss_airdrops_bi.sqf";
 };
-  
+
 if (_mode == "gl") exitWith {
-    [_boxes] 
-    call compile preprocessFileLineNumbers "extras\sss_airdrops_gl.sqf";
+    [_boxes] call
+    compile preprocessFileLineNumbers "extras\sss_airdrops_gl.sqf";
 };
 
 // vim: sts=-1 ts=4 et sw=4

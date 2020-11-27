@@ -42,7 +42,7 @@ if (mc_assigngear_telepole == 1) then {
     _tobj addAction [
         "Reset my gear",
         {
-            params ["", "_caller", "", "_arguments"];
+            params ["", "_caller", "", ""];
             if (typeName (_caller getVariable "f_var_assignGear") == typeName "") then {
                 private _loadout = (_caller getVariable "f_var_assignGear");
                 _caller setVariable ["f_var_assignGear_done",false,true];
@@ -86,3 +86,5 @@ _tobj addAction [
     },
     _tSide
 ];
+
+// vim: sts=-1 ts=4 et sw=4
