@@ -73,6 +73,24 @@ if (!isserver && hasInterface) then {
 // Credits: Wolfenswan
 // [] execVM "extras\forceFlashlightAI.sqf";
 
+// ASL - Advanced Sling Loading
+// https://www.armaholic.com/page.php?id=30334
+//
+// NOTE: You should only enable this if it's needed, as it causes server load
+// even when unused.
+//
+// [] execVM "extras\fn_advancedSlingLoadingInit.sqf";
+// (optional) disable heavy lifting:
+// missionNamespace setVariable ["ASL_HEAVY_LIFTING_ENABLED", false, true];
+
+// AT - Advanced Towing
+// https://github.com/sethduda/AdvancedTowing/
+//
+// NOTE: You should only enable this if it's needed, as it causes server load
+// even when unused.
+// [] execVM "extras\fn_advancedTowingInit.sqf";
+
+// Respawn, teleport and sundry handling
 // Add two event handlers:
 // - The first quickly removes a player's body upon death or respawn
 // - The second runs on respawn, checks if the unit has an associated
