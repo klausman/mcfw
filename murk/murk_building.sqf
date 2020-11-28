@@ -228,6 +228,7 @@ private _fnc_spawnUnit = {
             commandstop _spawnUnit;
         };
         // Set all the things common to the spawned unit
+        _spawnUnit setVariable ["lambs_danger_disableAI", true];
         _spawnUnit triggerDynamicSimulation false;
         _spawnUnit setFormDir _unitDir;
         _spawnUnit setDir _unitDir;
@@ -238,8 +239,6 @@ private _fnc_spawnUnit = {
         _spawnUnit allowfleeing 0;
         _spawnUnit forceSpeed 0;
         dostop _spawnUnit;
-        //_spawnUnit disableAI "TARGET"; // why was this even here?
-        _spawnUnit enableAI "PATH"; // why was this even here?
         commandstop _spawnUnit;
         //disable ACE unconcious
         _spawnUnit setvariable ["ace_medical_enableUnconsciousnessAI",0,false];
