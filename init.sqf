@@ -76,19 +76,16 @@ if (!isserver && hasInterface) then {
 // ASL - Advanced Sling Loading
 // https://www.armaholic.com/page.php?id=30334
 //
-// NOTE: You should only enable this if it's needed, as it causes server load
-// even when unused.
-//
-// [] execVM "extras\fn_advancedSlingLoadingInit.sqf";
-// (optional) disable heavy lifting:
-// missionNamespace setVariable ["ASL_HEAVY_LIFTING_ENABLED", false, true];
+// NOTE: To enable: either use the mission parameters at mission time, or
+// change the default in description.ext
+[] execVM "extras\fn_advancedSlingLoadingInit.sqf";
 
 // AT - Advanced Towing
 // https://github.com/sethduda/AdvancedTowing/
 //
-// NOTE: You should only enable this if it's needed, as it causes server load
-// even when unused.
-// [] execVM "extras\fn_advancedTowingInit.sqf";
+// NOTE: To enable: either use the mission parameters at mission time, or
+// change the default in description.ext
+[] execVM "extras\fn_advancedTowingInit.sqf";
 
 // Respawn, teleport and sundry handling
 // Add two event handlers:

@@ -6,6 +6,8 @@ The above copyright notice and this permission notice shall be included in all c
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
+if (mc_enable_asl==0) exitWith{};
+
 ASL_Advanced_Sling_Loading_Install = {
 
 // Prevent advanced sling loading from installing twice
@@ -24,13 +26,13 @@ ASL_Rope_Get_Lift_Capability = {
 	_slingLoadMaxCargoMass;	
 };
 
-ASL_SLING_LOAD_POINT_CLASS_HEIGHT_OFFSET = [  
-	["All", [-0.05, -0.05, -0.05]],  
-	["CUP_CH47F_base", [-0.05, -2, -0.05]],  
+ASL_SLING_LOAD_POINT_CLASS_HEIGHT_OFFSET = [
+	["All", [-0.05, -0.05, -0.05]],
+	["CUP_CH47F_base", [-0.05, -2, -0.05]],
 	["CUP_AW159_Unarmed_Base", [-0.05, -0.06, -0.05]],
-	["RHS_CH_47F", [-0.75, -2.6, -0.75]], 
-	["rhsusf_CH53E_USMC", [-0.8, -1, -1.1]], 
-	["rhsusf_CH53E_USMC_D", [-0.8, -1, -1.1]] 
+	["RHS_CH_47F", [-0.75, -2.6, -0.75]],
+	["rhsusf_CH53E_USMC", [-0.8, -1, -1.1]],
+	["rhsusf_CH53E_USMC_D", [-0.8, -1, -1.1]]
 ];
 
 ASL_Get_Sling_Load_Points = {
@@ -399,7 +401,7 @@ ASL_Release_Cargo = {
 		private ["_existingRopesAndCargo","_existingRopes","_existingCargo","_allCargo"];
 		_existingRopesAndCargo = [_vehicle,_ropeIndex] call ASL_Get_Ropes_And_Cargo;
 		_existingRopes = _existingRopesAndCargo select 0;
-		_existingCargo = _existingRopesAndCargo select 1; 
+		_existingCargo = _existingRopesAndCargo select 1;
 		{
 			_existingCargo ropeDetach _x;
 		} forEach _existingRopes;
@@ -461,7 +463,7 @@ ASL_Retract_Ropes = {
 		private ["_existingRopesAndCargo","_existingRopes","_existingCargo","_allRopes","_activeRopes"];
 		_existingRopesAndCargo = [_vehicle,_ropeIndex] call ASL_Get_Ropes_And_Cargo;
 		_existingRopes = _existingRopesAndCargo select 0;
-		_existingCargo = _existingRopesAndCargo select 1; 
+		_existingCargo = _existingRopesAndCargo select 1;
 		if(isNull _existingCargo) then {
 			_this call ASL_Drop_Ropes;
 			{
@@ -583,10 +585,10 @@ ASL_Deploy_Ropes_Index = {
 		if(count _existingRopes == 0) then {
 			_slingLoadPoints = [_vehicle] call ASL_Get_Sling_Load_Points;
 			_cargoRopes = [];
-			_cargoRopes pushBack ropeCreate [_vehicle, (_slingLoadPoints select (_existingRopesCount - 1)) select _ropesIndex, 0]; 
-			_cargoRopes pushBack ropeCreate [_vehicle, (_slingLoadPoints select (_existingRopesCount - 1)) select _ropesIndex, 0]; 
-			_cargoRopes pushBack ropeCreate [_vehicle, (_slingLoadPoints select (_existingRopesCount - 1)) select _ropesIndex, 0]; 
-			_cargoRopes pushBack ropeCreate [_vehicle, (_slingLoadPoints select (_existingRopesCount - 1)) select _ropesIndex, 0]; 
+			_cargoRopes pushBack ropeCreate [_vehicle, (_slingLoadPoints select (_existingRopesCount - 1)) select _ropesIndex, 0];
+			_cargoRopes pushBack ropeCreate [_vehicle, (_slingLoadPoints select (_existingRopesCount - 1)) select _ropesIndex, 0];
+			_cargoRopes pushBack ropeCreate [_vehicle, (_slingLoadPoints select (_existingRopesCount - 1)) select _ropesIndex, 0];
+			_cargoRopes pushBack ropeCreate [_vehicle, (_slingLoadPoints select (_existingRopesCount - 1)) select _ropesIndex, 0];
 			{
 				ropeUnwind [_x, 5, _ropeLength];
 			} forEach _cargoRopes;
@@ -987,9 +989,9 @@ ASL_Hint = {
     params ["_msg",["_isSuccess",true]];
     if(!isNil "ExileClient_gui_notification_event_addNotification") then {
 		if(_isSuccess) then {
-			["Success", [_msg]] call ExileClient_gui_notification_event_addNotification; 
+			["Success", [_msg]] call ExileClient_gui_notification_event_addNotification;
 		} else {
-			["Whoops", [_msg]] call ExileClient_gui_notification_event_addNotification; 
+			["Whoops", [_msg]] call ExileClient_gui_notification_event_addNotification;
 		};
     } else {
         hint _msg;
@@ -1034,35 +1036,35 @@ ASL_Find_Nearby_Vehicles = {
 
 ASL_Add_Player_Actions = {
 
-	player addAction ["Extend Cargo Ropes", { 
+	player addAction ["Extend Cargo Ropes", {
 		[] call ASL_Extend_Ropes_Action;
 	}, nil, 0, false, true, "", "call ASL_Extend_Ropes_Action_Check"];
 	
-	player addAction ["Shorten Cargo Ropes", { 
+	player addAction ["Shorten Cargo Ropes", {
 		[] call ASL_Shorten_Ropes_Action;
 	}, nil, 0, false, true, "", "call ASL_Shorten_Ropes_Action_Check"];
 		
-	player addAction ["Release Cargo", { 
+	player addAction ["Release Cargo", {
 		[] call ASL_Release_Cargo_Action;
 	}, nil, 0, false, true, "", "call ASL_Release_Cargo_Action_Check"];
 		
-	player addAction ["Retract Cargo Ropes", { 
+	player addAction ["Retract Cargo Ropes", {
 		[] call ASL_Retract_Ropes_Action;
 	}, nil, 0, false, true, "", "call ASL_Retract_Ropes_Action_Check"];
 	
-	player addAction ["Deploy Cargo Ropes", { 
+	player addAction ["Deploy Cargo Ropes", {
 		[] call ASL_Deploy_Ropes_Action;
 	}, nil, 0, false, true, "", "call ASL_Deploy_Ropes_Action_Check"];
 
-	player addAction ["Attach To Cargo Ropes", { 
+	player addAction ["Attach To Cargo Ropes", {
 		[] call ASL_Attach_Ropes_Action;
 	}, nil, 0, false, true, "", "call ASL_Attach_Ropes_Action_Check"];
 
-	player addAction ["Drop Cargo Ropes", { 
+	player addAction ["Drop Cargo Ropes", {
 		[] call ASL_Drop_Ropes_Action;
 	}, nil, 0, false, true, "", "call ASL_Drop_Ropes_Action_Check"];
 
-	player addAction ["Pickup Cargo Ropes", { 
+	player addAction ["Pickup Cargo Ropes", {
 		[] call ASL_Pickup_Ropes_Action;
 	}, nil, 0, false, true, "", "call ASL_Pickup_Ropes_Action_Check"];
 

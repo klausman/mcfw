@@ -173,7 +173,21 @@ class Params {
         texts[] = {"Off", "On"};
         default = 1;
         code = "mc_assigngear_telepole = %1";
-    }
+    };
+    class mc_enable_asl {
+        title = "Enable Advanced Slingloading";
+        values[] = {0, 1};
+        texts[] = {"Off", "On"};
+        default = 0;
+        code = "mc_enable_asl= %1";
+    };
+    class mc_enable_atw {
+        title = "Enable Advanced Towing";
+        values[] = {0, 1};
+        texts[] = {"Off", "On"};
+        default = 0;
+        code = "mc_enable_atw = %1";
+    };
 };
 // End of Params code blocks.
 

@@ -10,6 +10,8 @@ The above copyright notice and this permission notice shall be included in all c
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
+if (mc_enable_atw==0) exitWith{};
+
 #define SA_Find_Surface_ASL_Under_Position(_object,_positionAGL,_returnSurfaceASL,_canFloat) \
 _objectASL = AGLToASL (_object modelToWorldVisual (getCenterOfMass _object)); \
 _surfaceIntersectStartASL = [_positionAGL select 0, _positionAGL select 1, (_objectASL select 2) + 1]; \
@@ -711,9 +713,9 @@ SA_Hint = {
     params ["_msg",["_isSuccess",true]];
     if(!isNil "ExileClient_gui_notification_event_addNotification") then {
 		if(_isSuccess) then {
-			["Success", [_msg]] call ExileClient_gui_notification_event_addNotification; 
+			["Success", [_msg]] call ExileClient_gui_notification_event_addNotification;
 		} else {
-			["Whoops", [_msg]] call ExileClient_gui_notification_event_addNotification; 
+			["Whoops", [_msg]] call ExileClient_gui_notification_event_addNotification;
 		};
     } else {
         hint _msg;
@@ -734,23 +736,23 @@ SA_Set_Owner = {
 
 SA_Add_Player_Tow_Actions = {
 	
-	player addAction ["Deploy Tow Ropes", { 
+	player addAction ["Deploy Tow Ropes", {
 		[] call SA_Take_Tow_Ropes_Action;
 	}, nil, 0, false, true, "", "call SA_Take_Tow_Ropes_Action_Check"];
 
-	player addAction ["Put Away Tow Ropes", { 
+	player addAction ["Put Away Tow Ropes", {
 		[] call SA_Put_Away_Tow_Ropes_Action;
 	}, nil, 0, false, true, "", "call SA_Put_Away_Tow_Ropes_Action_Check"];
 
-	player addAction ["Attach To Tow Ropes", { 
+	player addAction ["Attach To Tow Ropes", {
 		[] call SA_Attach_Tow_Ropes_Action;
 	}, nil, 0, false, true, "", "call SA_Attach_Tow_Ropes_Action_Check"];
 
-	player addAction ["Drop Tow Ropes", { 
+	player addAction ["Drop Tow Ropes", {
 		[] call SA_Drop_Tow_Ropes_Action;
 	}, nil, 0, false, true, "", "call SA_Drop_Tow_Ropes_Action_Check"];
 
-	player addAction ["Pickup Tow Ropes", { 
+	player addAction ["Pickup Tow Ropes", {
 		[] call SA_Pickup_Tow_Ropes_Action;
 	}, nil, 0, false, true, "", "call SA_Pickup_Tow_Ropes_Action_Check"];
 
