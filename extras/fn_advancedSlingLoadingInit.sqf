@@ -1167,3 +1167,5 @@ diag_log "Advanced Sling Loading Loaded";
 if(isServer) then {
 	[] call ASL_Advanced_Sling_Loading_Install;
 };
+
+// vim: sts=-1 ts=4 et sw=4

@@ -872,3 +872,5 @@ diag_log "Advanced Towing Loaded";
 if(isServer) then {
 	[] call SA_Advanced_Towing_Install;
 };
+
+// vim: sts=-1 ts=4 et sw=4
