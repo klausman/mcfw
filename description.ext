@@ -156,7 +156,7 @@ class Params {
         values[] = {0, 1};
         texts[] = {"Off", "On"};
         default = 1;
-        code = "mc_assigngear_telepole = %1";
+        code = "mc_teleport_telepole = %1";
     };
     // NOTE: if you set this to true, you *must* set the _pilots variable in
     // extras\telepole\fn_telepole.sqf
@@ -165,7 +165,7 @@ class Params {
         values[] = {0, 1};
         texts[] = {"Off", "On"};
         default = 0;
-        code = "mc_assigngear_telepole = %1";
+        code = "mc_pilot_ping_telepole = %1";
     };
     class mc_assigngear_telepole {
         title = "Allow players to re-run assignGear on teleport pole";
