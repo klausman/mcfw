@@ -2,11 +2,12 @@
 // (C) 2020 T. Klausmann
 
 params ["_tObj", "_tSide", "_quiet", "_scheduled"];
+
 private _pilots = [];
 // NOTE: if you set mc_pilot_ping_telepole to true, you *must* uncomment the
 // line below and set it to the list of pilots (not vehicles or groups!) to
 // notify on player ping.
-// _pilots = [UnitNATO_AH1_P,UnitNATO_AH2_P]
+//_pilots = [UnitNATO_TH1_P,UnitNATO_TH1_CP];
 
 // Only run serverside
 //if (!isServer) exitwith {};
@@ -86,13 +87,16 @@ if (mc_teleport_telepole == 1) then {
 
 // Add call-for-helicopter action
 if (mc_pilot_ping_telepole == 1 && count _pilots > 0) then {
+    if (!_quiet) then {
+        ["Adding transport request (%1) action", _pilots] call mc_fnc_rptlog;
+    };
     _tObj addAction ["Call for helicopter", {
-        params ["", "", "", "_arguments"];
-        private _pilots = _arguments select 0;
+        params ["", "_caller", "", "_arguments"];
+        private _pilots = _arguments;
         hintsilent "Request sent to Pilots. Expect transport shortly!";
         {
-          "Reinforcements at base request transport!" remoteExec ["hint", _x];
-          ["Sent reinforcement transport request to %1", _x] call mc_fnc_rptlog;
+          format ["%1 (%2) requests transport!", _caller, name _caller] remoteExec ["hint", _x];
+          ["fn_telepole.sqf", "Transport request %1 (%2) -> %3 (%4)", _caller, name _caller, _x, name _x] call mc_fnc_ehlog;
         } foreach _pilots;
     },
     _pilots];
