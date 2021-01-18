@@ -361,7 +361,7 @@ private _fnc_autoDeleteGroup = {
             _nearWP = true;
         };
         if (_nearWP) then {
-            _pNear = [leader _group,_dist] call f_fnc_nearplayer;
+            _pNear = [leader _group, _dist] call f_fnc_nearPlayer;
         };
         if (!_pNear) exitWith {_sleep = 0;};// no players near? delete group!
     };
