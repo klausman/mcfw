@@ -292,7 +292,7 @@ _ypos = (_ypos / (count _posarray));
 _centerpos = [_xpos, _ypos, 0];
 
 // Waiting period
-while {!([_centerpos, _spawndistance] call murk_fnc_nearPlayerGround)} do {
+while {!([_centerpos, _spawndistance, true] call f_fnc_nearPlayer)} do {
     sleep _waitingPeriod;
 };
 
@@ -308,7 +308,7 @@ _unitGroup = [_unitGroup,_side] call _fnc_spawnUnit;
     private _alivedudes = [];
     private _uncachedistance = _spawndistance + 100 + (0.33 * _spawndistance);
 
-    while {([_centerpos, _uncachedistance] call murk_fnc_nearPlayerGround)} do {
+    while {([_centerpos, _uncachedistance, true] call f_fnc_nearPlayer)} do {
         sleep _waitingPeriod;
     };
 

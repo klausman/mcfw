@@ -313,13 +313,6 @@ class CfgFunctions {
             class stringReplace{};
         };
     };
-
-    class MURK {
-        class nearPlayerGround {
-            file = "murk";
-            class nearPlayerGround{};
-        };
-    };
 };
 
 // Custom Insignia
