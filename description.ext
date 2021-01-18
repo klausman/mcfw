@@ -255,6 +255,7 @@ class CfgFunctions {
                 preInit = 1;
                 postInit = 1;
             };
+            class nearPlayer{};
         };
         class assignGear {
             file = "f\assignGear_simple";
