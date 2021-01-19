@@ -76,7 +76,7 @@ File: [PM_missionIntro.sqf](./extras/PM_missionIntro.sqf)
 
 ### Force AIs flashlight
 
-Replaces any lasers with flashlights on all AIs, and forces flashlights to be toggle on.
+Replaces any lasers with flashlights on all AIs, and forces flashlights to be toggled.
 
 File: [forceFlashlightAI.sqf](./extras/forceFlashlightAI.sqf)
 
