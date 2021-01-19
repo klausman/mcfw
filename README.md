@@ -49,7 +49,7 @@ File: [f_setTeamColours.sqf](./f/setTeamColours/f_setTeamColours.sqf)
 
 ACE3's BLUFOR tracker system is enabled and customizable in the framework.  
 
-See [deditacted documentation](https://www.misfit-company.com/arma3/mission_making/new_bft/).
+See [dedicated documentation](https://www.misfit-company.com/arma3/mission_making/new_bft/).
 
 ### Automated briefing notes
 
@@ -64,13 +64,13 @@ Main file: [briefing.sqf](./briefing.sqf)
 
 A utility script (and functions) to improve overall performance by taking care of editor-placed units.
 
-See [deditacted documentation and examples](https://www.misfit-company.com/arma3/mission_making/murk/).
+See [dedicated documentation and examples](https://www.misfit-company.com/arma3/mission_making/murk/).
 
 ## Extra features
 
 ### Mission intro
 
-Displays players actual location, date and time at mission start in the botto right corner of the screen.
+Displays players actual location, date and time at mission start in the bottom right corner of the screen.
 
 File: [PM_missionIntro.sqf](./extras/PM_missionIntro.sqf)
 
