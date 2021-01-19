@@ -6,8 +6,8 @@ things with it:
 
 https://www.misfit-company.com/arma3/
 
-For questions about the framework, or mission making for MC in general, find
-us in `#mission-making` on our Discord.
+For questions about the framework, or mission making for MC in general, check out [our documentation](https://www.misfit-company.com/arma3/mission_making/guide/) or find
+us in `#mission-making` on [our Discord](https://discord.gg/MJ5MaNk).
 
 ## Main features
 
