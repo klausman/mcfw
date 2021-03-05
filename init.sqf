@@ -69,6 +69,10 @@ if (!isserver && hasInterface) then {
 // Credits: PabstMirror
 [] execVM "extras\PM_missionIntro.sqf";
 
+// MPD - Simple Sling Load
+// Credits: Dagger
+[] execVM "extras\mpd_slingload\init.sqf";
+
 // WS - AI Flashlights
 // Credits: Wolfenswan
 // [] execVM "extras\forceFlashlightAI.sqf";
