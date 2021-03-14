@@ -29,7 +29,7 @@ _acargo append _ccargo;
   "SlingLoad", // Action Name
   "Sling Load", // Name Of action Shown In menu
   "", // Icon
-  {[_target] execVM "extras\mpd_slingload\init.sqf";}, // Statment
+  {[_target] execVM "extras\mpd_slingload\sling.sqf";}, // Statment
   {(nearestObject [_target, "Helicopter"]) distance _target < 10}, // Condition
   {}, //
   [],
@@ -47,7 +47,7 @@ if (isClass(configFile >> "CfgWeapons" >> "ACE_Fortify")) then
     "SlingLoad", // Action Name
     "Sling Load", // Name Of action Shown In menu
     "", // Icon
-    {[_target] execVM "extras\mpd_slingload\init.sqf";}, // Statment
+    {[_target] execVM "extras\mpd_slingload\sling.sqf";}, // Statment
     {(nearestObject [_target, "Helicopter"]) distance _target < 10}, // Condition
     {}, //
     [],
@@ -68,7 +68,7 @@ if (isClass(configFile >> "CfgWeapons" >> "ACE_Fortify")) then
       "SlingLoad", // Action Name
       "Sling Load", // Name Of action Shown In menu
       "", // Icon
-      {[_target] execVM "extras\mpd_slingload\init.sqf";}, // Statment
+      {[_target] execVM "extras\mpd_slingload\sling.sqf";}, // Statment
       {(nearestObject [_target, "Helicopter"]) distance _target < 10}, // Condition
       {}, //
       [],

@@ -63,6 +63,6 @@
                 _pos = [_heli, 5, 10, 0, 0, 20, 0] call BIS_fnc_findSafePos;
                 _x setPos _pos;
             } forEach attachedObjects _heli;
-        removeAllActions _heli;
+        [_heli] remoteExec ["removeallactions"];
     },nil,1.5,true,true,"","true",8,false,"",""]] remoteExec ["addAction"];
 }, {}, "Sling Loading..."] call ace_common_fnc_progressBar; //I was lazy...
