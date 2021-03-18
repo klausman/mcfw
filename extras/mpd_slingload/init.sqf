@@ -1,7 +1,7 @@
 /*
   Simple Sling Load Script by MrPvTDagger#4176 :D
 */
-
+if (mpd_enable_slingload == 0) exitWith {diag_log "MPD_SlingLoad is Disabled in Mission Parameters";};
 diag_log "MPD_SlingLoad is Loading...";
 
 /* 
