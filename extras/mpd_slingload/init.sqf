@@ -1,9 +1,9 @@
 /*
   Simple Sling Load Script by MrPvTDagger#4176 :D
 */
-if (mpd_enable_slingload == 0) exitWith {diag_log "MPD_SlingLoad is Disabled in Mission Parameters";};
-diag_log "MPD_SlingLoad is Loading...";
-
+if (mpd_enable_slingload == 0) exitWith {["MPD_SlingLoad is Disabled in Mission Parameters"] call mc_fnc_rptlog;};
+["MPD_SlingLoad is Loading..."] call mc_fnc_rptlog;
+private ["_ccargo","_acargo","_action","_target","_action","_curator","_entity","_object","_side"];
 /* 
 This is for Modded Objects that Might not be slingable by default. I have done this automtically but Just incase it doesn't work with all mods. 
 
@@ -20,38 +20,37 @@ _ccargo = [
 ];
 
 /* Here you can change blacklisted entities which will be added at the start of a mission. */
-_acargo = entities [[], ["Air","Man","Tank","Logic","House"], true];;
+_acargo = entities [[], ["Air","Man","Tank","Logic","House"], true];
 
 // ====================== Don't Touch Anything Below this line ======================
 _acargo append _ccargo;
 {
   _action = [
-  "SlingLoad", // Action Name
-  "Sling Load", // Name Of action Shown In menu
-  "", // Icon
-  {[_target] execVM "extras\mpd_slingload\sling.sqf";}, // Statment
-  {(nearestObject [_target, "Helicopter"]) distance _target < 10}, // Condition
-  {}, //
+  "SlingLoad",
+  "Sling Load",
+  "",
+  {[_target] execVM "extras\mpd_slingload\sling.sqf";},
+  {(nearestObject [_target, "Helicopter"]) distance _target < 10},
+  {},
   [],
-  [0,0,0], 100] call ace_interact_menu_fnc_createAction;
+  [0,0,0], 10] call ace_interact_menu_fnc_createAction;
 
   [_x, 0, ["ACE_MainActions"], _action] call ace_interact_menu_fnc_addActionToObject;
 } forEach _acargo;
 
 /* Support for Fortification Tool ACEX */
-if (isClass(configFile >> "CfgWeapons" >> "ACE_Fortify")) then
-{
+if (isClass(configFile >> "CfgWeapons" >> "ACE_Fortify")) then {
   ["acex_fortify_objectPlaced", {
     params ["_unit", "_side", "_object"];
     _action = [
-    "SlingLoad", // Action Name
-    "Sling Load", // Name Of action Shown In menu
-    "", // Icon
-    {[_target] execVM "extras\mpd_slingload\sling.sqf";}, // Statment
-    {(nearestObject [_target, "Helicopter"]) distance _target < 10}, // Condition
-    {}, //
+    "SlingLoad",
+    "Sling Load",
+    "",
+    {[_target] execVM "extras\mpd_slingload\sling.sqf";},
+    {(nearestObject [_target, "Helicopter"]) distance _target < 10},
+    {},
     [],
-    [0,0,0], 100] call ace_interact_menu_fnc_createAction;
+    [0,0,0], 10] call ace_interact_menu_fnc_createAction;
 
     [_object, 0, ["ACE_MainActions"], _action] call ace_interact_menu_fnc_addActionToObject;
   }] call CBA_fnc_addEventHandler;
@@ -63,16 +62,17 @@ if (isClass(configFile >> "CfgWeapons" >> "ACE_Fortify")) then
     params ["_curator", "_entity"];
     if ((_entity isKindOf "Tank")||(_entity isKindOf "Air")||(_entity isKindOf "Logic")||(_entity isKindOf "Man")||(_entity isKindOf "House")) then { 
       //hint "Object is blacklisted";
+      //hint format["Object spawned: %1", _entity];
     } else {
       _action = [
-      "SlingLoad", // Action Name
-      "Sling Load", // Name Of action Shown In menu
-      "", // Icon
-      {[_target] execVM "extras\mpd_slingload\sling.sqf";}, // Statment
-      {(nearestObject [_target, "Helicopter"]) distance _target < 10}, // Condition
-      {}, //
+      "SlingLoad",
+      "Sling Load",
+      "",
+      {[_target] execVM "extras\mpd_slingload\sling.sqf";},
+      {(nearestObject [_target, "Helicopter"]) distance _target < 10},
+      {},
       [],
-      [0,0,0], 100] call ace_interact_menu_fnc_createAction;
+      [0,0,0], 10] call ace_interact_menu_fnc_createAction;
 
       [_entity, 0, ["ACE_MainActions"], _action] call ace_interact_menu_fnc_addActionToObject;
       //hint format["Object spawned: %1", _entity];
