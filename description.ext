@@ -188,6 +188,13 @@ class Params {
         default = 0;
         code = "mc_enable_atw = %1";
     };
+    class mpd_enable_slingload {
+        title = "Enable Simple Slingloading";
+        values[] = {0, 1};
+        texts[] = {"Off", "On"};
+        default = 1;
+        code = "mpd_enable_slingload = %1";
+    };
 };
 // End of Params code blocks.
 
