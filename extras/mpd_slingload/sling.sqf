@@ -15,48 +15,48 @@
             https://github.com/sethduda/AdvancedSlingLoading
         */
         _widthFactor = 0.5;
-	    _lengthFactor = 0.5;
-	    if(_cargo isKindOf "Air") then {
-		    _widthFactor = 0.3;
-	    };
-	    if(_cargo isKindOf "Helicopter") then {
-		    _widthFactor = 0.2;
-		    _lengthFactor = 0.45;
-	    };
-	
+        _lengthFactor = 0.5;
+        if(_cargo isKindOf "Air") then {
+             _widthFactor = 0.3;
+        };
+        if(_cargo isKindOf "Helicopter") then {
+            _widthFactor = 0.2;
+            _lengthFactor = 0.45;
+        };
+
         _centerOfMass = getCenterOfMass _cargo;
-	    _bbr = boundingBoxReal _cargo;
-	    _p1 = _bbr select 0;
-	    _p2 = _bbr select 1;
-	    _maxWidth = abs ((_p2 select 0) - (_p1 select 0));
-	    _widthOffset = ((_maxWidth / 2) - abs ( _centerOfMass select 0 )) * _widthFactor;
-	    _maxLength = abs ((_p2 select 1) - (_p1 select 1));
-	    _lengthOffset = ((_maxLength / 2) - abs (_centerOfMass select 1 )) * _lengthFactor;
-	    _maxHeight = abs ((_p2 select 2) - (_p1 select 2));
-	    _heightOffset = _maxHeight/6;
-	
-	    _rearCorner1 = [(_centerOfMass select 0) + _widthOffset, (_centerOfMass select 1) - _lengthOffset, (_centerOfMass select 2)+_heightOffset];
-	    _rearCorner2 = [(_centerOfMass select 0) - _widthOffset, (_centerOfMass select 1) - _lengthOffset, (_centerOfMass select 2)+_heightOffset];
-	    _frontCorner1 = [(_centerOfMass select 0) + _widthOffset, (_centerOfMass select 1) + _lengthOffset, (_centerOfMass select 2)+_heightOffset];
-	    _frontCorner2 = [(_centerOfMass select 0) - _widthOffset, (_centerOfMass select 1) + _lengthOffset, (_centerOfMass select 2)+_heightOffset];
-        
+        _bbr = boundingBoxReal _cargo;
+        _p1 = _bbr select 0;
+        _p2 = _bbr select 1;
+        _maxWidth = abs ((_p2 select 0) - (_p1 select 0));
+        _widthOffset = ((_maxWidth / 2) - abs ( _centerOfMass select 0 )) * _widthFactor;
+        _maxLength = abs ((_p2 select 1) - (_p1 select 1));
+        _lengthOffset = ((_maxLength / 2) - abs (_centerOfMass select 1 )) * _lengthFactor;
+        _maxHeight = abs ((_p2 select 2) - (_p1 select 2));
+        _heightOffset = _maxHeight/6;
+
+        _rearCorner1 = [(_centerOfMass select 0) + _widthOffset, (_centerOfMass select 1) - _lengthOffset, (_centerOfMass select 2)+_heightOffset];
+        _rearCorner2 = [(_centerOfMass select 0) - _widthOffset, (_centerOfMass select 1) - _lengthOffset, (_centerOfMass select 2)+_heightOffset];
+        _frontCorner1 = [(_centerOfMass select 0) + _widthOffset, (_centerOfMass select 1) + _lengthOffset, (_centerOfMass select 2)+_heightOffset];
+        _frontCorner2 = [(_centerOfMass select 0) - _widthOffset, (_centerOfMass select 1) + _lengthOffset, (_centerOfMass select 2)+_heightOffset];
+
         _cargodistance = _nObject distance _cargo;
         _Rope1length = _lengthOffset + 4.8;
         _Rope2length = _lengthOffset + 4.8;
         _Rope3length = _lengthOffset + 4.8;
         _Rope4length = _lengthOffset + 4.8;
-        
+
         _Rope1 = ropeCreate [_nObject, [0,1.1,-2], _Rope1length];
         _Rope2 = ropeCreate [_nObject, [0,1.1,-2], _Rope2length];
         _Rope3 = ropeCreate [_nObject, [0,1.1,-2], _Rope3length];
         _Rope4 = ropeCreate [_nObject, [0,1.1,-2], _Rope4length];
-    
-        [_cargo , _rearCorner1, [0,0,-1]] ropeAttachTo (_Rope1);
-	    [_cargo , _rearCorner2, [0,0,-1]] ropeAttachTo (_Rope2);
-	    [_cargo , _frontCorner1, [0,0,-1]] ropeAttachTo (_Rope3);
-	    [_cargo , _frontCorner2, [0,0,-1]] ropeAttachTo (_Rope4);
 
-	    [_nObject, ["Release Cargo", {  
+        [_cargo , _rearCorner1, [0,0,-1]] ropeAttachTo (_Rope1);
+        [_cargo , _rearCorner2, [0,0,-1]] ropeAttachTo (_Rope2);
+        [_cargo , _frontCorner1, [0,0,-1]] ropeAttachTo (_Rope3);
+        [_cargo , _frontCorner2, [0,0,-1]] ropeAttachTo (_Rope4);
+
+        [_nObject, ["Release Cargo", {  
             private ["_heli","_cargoRopes","_pos"];     
                 _heli = _this select 0;
                 _cargoRopes = ropes _heli;
