@@ -57,12 +57,13 @@
         [_cargo , _frontCorner2, [0,0,-1]] ropeAttachTo (_Rope4);
 
         [_nObject, ["Release Cargo", {  
-            private ["_heli","_cargoRopes","_pos"];     
+                private ["_heli","_cargoRopes","_pos"];     
                 _heli = _this select 0;
                 _cargoRopes = ropes _heli;
             {
                 ropeDestroy _x;
-            } forEach _cargoRopes; {
+            } forEach _cargoRopes; 
+            {
                 detach _x;
                 _pos = [_heli, 5, 10, 0, 0, 20, 0] call BIS_fnc_findSafePos;
                 _x setPos _pos;
