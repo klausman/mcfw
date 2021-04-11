@@ -136,6 +136,8 @@ private _unitArray = [];
 private _unitGroup = group _unit;
 private _unitsInGroupAdd = [];
 private _side = side _unitGroup;
+private _grpHCBL = _unitGroup getVariable ["acex_headless_blacklist", false];
+["Murk'd group %1 has HCBL status %2", _unitGroup, _grpHCBL] call mc_fnc_rptlog;
 
 while { count units _unitGroup > 0 } do {
     // The currently worked on unit
@@ -172,7 +174,8 @@ while { count units _unitGroup > 0 } do {
                 backpackItems _vcl,
                 headgear _vcl,
                 goggles _vcl,
-                face _vcl
+                face _vcl,
+                _vcl getVariable["acex_headless_blacklist", false],
             ];
             _unitArray set [count _unitArray, _unitInfoArray];
             deleteVehicle _vcl;
@@ -198,8 +201,10 @@ while { count units _unitGroup > 0 } do {
             backpackItems _unit,
             headgear _unit,
             goggles _unit,
-            face _unit
+            face _unit,
+            _unit getVariable["acex_headless_blacklist", false],
         ];
+
         _unitArray set [count _unitArray, _unitInfoArray];
         deleteVehicle _unit;
     };
@@ -395,10 +400,10 @@ private _fnc_autoDeleteGroup = {
 private _fnc_spawnUnit = {
     // We need to pass the old group so we can copy waypoints from it, the rest
     // we already know
-    params ["_oldgroup", "_side", "_waypointsArray"];
+    params ["_oldgroup", "_side", "_waypointsArray","_grpHCBL"];
     private _newGroup = createGroup _side;
     // Disable ACEX Headless messing with this group until we're done
-    ["Adding new group %1 to ACEX Headless blacklist", _newgroup
+    ["Adding new group %1 to ACEX Headless blacklist during setup", _newgroup
         ] call mc_fnc_rptlog;
     _newGroup setVariable ["acex_headless_blacklist", true];
     // If the old group doesnt have any units in it its a spawned group rather
@@ -429,6 +434,7 @@ private _fnc_spawnUnit = {
         private _unitHeadgear = _x select 15;
         private _unitGoggles = _x select 16;
         private _unitFace = _x select 17;
+        private _unitHCBL = _x select 18; // Headless Client blacklist
         // Check if the unit has a crew, if so we know its a vehicle
         if (count _unitCrew > 0) then {
             if (_unitPos select 2 >= 10) then {
@@ -437,6 +443,8 @@ private _fnc_spawnUnit = {
             } else {
                 _spawnUnit = _unitType createVehicle _unitPos;
             };
+            _spawnUnit setVariable ["acex_headless_blacklist", _unitHCBL];
+            ["New vehicle %1 HCBL status: %2", _spawnUnit, _unitHCBL] call mc_fnc_rptlog;
             // Create the entire crew
             private _crew = [];
             {
@@ -451,6 +459,8 @@ private _fnc_spawnUnit = {
         } else {
             // Otherwise its infantry
             _spawnUnit = _newGroup createUnit [_unitType,_unitPos, [], 0, "NONE"];
+            _spawnUnit setVariable ["acex_headless_blacklist", _unitHCBL];
+            ["New unit %1 HCBL status: %2", _spawnUnit, _unitHCBL] call mc_fnc_rptlog;
             removeAllWeapons _spawnUnit;
             removeAllItems _spawnUnit;
             removeAllAssignedItems _spawnUnit;
@@ -536,11 +546,16 @@ private _fnc_spawnUnit = {
         [_newGroup, _bodyRemove] spawn _fnc_cleanGroup;
     };
     // Enable ACEX Headless for this group and trigger a rebalance pass
-    if (mc_murk_headless == 1) then {
-        ["Removing %1 from ACEX Headless blacklist and triggering rebalance",
+    // But *only* if the MM has not put the group on the HC blacklist.
+    if (mc_murk_headless == 1 && ! _grpHCBL) then {
+        ["Removing group %1 from ACEX HC blacklist and triggering rebalance",
             _newgroup] call mc_fnc_rptlog;
         _newGroup setVariable ["acex_headless_blacklist", false];
         [false] call acex_headless_fnc_rebalance;
+    };
+    if (_grpHCBL) then {
+        ["Group %1 was put on ACEX HC blacklist by MM, leaving it there",
+            _newgroup] call mc_fnc_rptlog;
     };
 
     // Have to return the new group
@@ -556,7 +571,7 @@ while { !(_triggerObject getVariable "murk_spawn") } do { sleep _waitingPeriod; 
 // REPEAT MODE, i.e. basic respawn based on lives
 if (_spawntype == "repeated") then {
     while { _spawnlives > 0 } do {
-        private _unitGroup = [_unitGroup,_side,_waypointsArray] call _fnc_spawnUnit;
+        private _unitGroup = [_unitGroup,_side,_waypointsArray,_grpHCBL] call _fnc_spawnUnit;
         _spawnlives = _spawnlives - 1;
         private _unitsGroup = units _unitGroup;
         while { ({alive _x} count _unitsGroup) > 0 } do { sleep 2; };
@@ -576,7 +591,7 @@ if (_spawntype == "repeated") then {
 // Spawnlives in this case is number of waves
 if (_spawntype == "wave") then {
     while { _spawnlives > 0 } do {
-        private _unitGroup = [_unitGroup,_side,_waypointsArray] call _fnc_spawnUnit;
+        private _unitGroup = [_unitGroup,_side,_waypointsArray,_grpHCBL] call _fnc_spawnUnit;
         _spawnlives = _spawnlives - 1;
         sleep _spawndelay;
         if (!(_triggerObject getVariable "murk_spawn")) then {
@@ -595,7 +610,7 @@ if (_spawntype == "wave") then {
 // to reset.
 if (_spawntype == "reset") then {
     while { _spawnlives > 0 } do {
-        private _unitGroup = [_unitGroup,_side,_waypointsArray] call _fnc_spawnUnit;
+        private _unitGroup = [_unitGroup,_side,_waypointsArray,_grpHCBL] call _fnc_spawnUnit;
         _spawnlives = _spawnlives - 1;
         sleep 15;
         _triggerObject setVariable ["murk_spawn",false,false];
@@ -607,7 +622,7 @@ if (_spawntype == "reset") then {
 
 // ONCE MODE
 if (_spawntype == "once") then {
-    private _unitGroup = [_unitGroup,_side,_waypointsArray] call _fnc_spawnUnit;
+    private _unitGroup = [_unitGroup,_side,_waypointsArray,_grpHCBL] call _fnc_spawnUnit;
     ["Spawned group %1", _unitGroup] call mc_fnc_rptlog;
 };
 

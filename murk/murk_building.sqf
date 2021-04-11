@@ -34,7 +34,7 @@ if(!isServer) exitWith{};
 params ["_unit", "_f3Gear", "_spawnDistance", ["_remainingtoAttack", 0],
         ["_initstring", ""]];
 private ["_waitingPeriod","_centerpos","_posarray","_unitArray",
-        "_unitGroup","_unitsInGroup","_unitsInGroupAdd","_side"];
+        "_unitGroup","_unitsInGroup","_unitsInGroupAdd","_side", "_grpHCBL"];
 
 scriptName "murk/murk_building.sqf";
 
@@ -54,6 +54,8 @@ _unitGroup = group _unit;
 _unitsInGroup = units _unitGroup;
 _unitsInGroupAdd = [];
 _side = side _unitGroup;
+_grpHCBL = _unitGroup getVariable ["acex_headless_blacklist", false];
+["Murk-Building group %1 has HCBL status %2", _unitGroup, _grpHCBL] call mc_fnc_rptlog;
 
 while { count units _unitGroup > 0 } do {
     // The currently worked on unit
@@ -78,7 +80,8 @@ while { count units _unitGroup > 0 } do {
                 vehicleVarName _vcl,
                 skill _vcl,
                 rank _vcl,
-                _unitCrewArray
+                _unitCrewArray,
+                _vcl getVariable ["acex_headless_blacklist", false],
             ];
             _unitArray set [count _unitArray, _unitInfoArray];
             deleteVehicle _vcl;
@@ -95,7 +98,8 @@ while { count units _unitGroup > 0 } do {
             vehicleVarName _unit,
             skill _unit,
             rank _unit,
-            []
+            [],
+            _unit getVariable ["acex_headless_blacklist", false],
         ];
         _unitArray set [count _unitArray, _unitInfoArray];
         deleteVehicle _unit;
@@ -179,7 +183,7 @@ private _fnc_moveInTurrets = {
 private _fnc_spawnUnit = {
     // We need to pass the old group so we can copy waypoints from it, the rest
     // we already know
-    params ["_oldGroup", "_side"];
+    params ["_oldGroup", "_side", "_grpHCBL"];
     private _newGroup = createGroup _side;
     // Disable ACEX Headless messing with this group until we're done
     ["Adding new group %1 to ACEX Headless blacklist", _newgroup
@@ -199,6 +203,7 @@ private _fnc_spawnUnit = {
         private _unitSkill = _x select 4;
         private _unitRank = _x select 5;
         private _unitCrew = _x select 6;
+        private _unitHCBL = _x select 7;
         // Check if the unit has a crew, if so we know its a vehicle
         if (count _unitCrew > 0) then {
             if (_unitPos select 2 >= 10) then {
@@ -210,6 +215,7 @@ private _fnc_spawnUnit = {
                 _spawnUnit = _unitType createVehicle _unitPos;
                 _spawnUnit setfuel 0;
             };
+            _spawnUnit setVariable ["acex_headless_blacklist", _unitHCBL];
             // Create the entire crew
             private _crew = [];
             {
@@ -221,11 +227,13 @@ private _fnc_spawnUnit = {
             // Count the turrets and move the men inside
             private _turrets = [configFile >> "CfgVehicles" >> _unitType >> "turrets"] call _fnc_returnVehicleTurrets;
             [_turrets, [], 1, _crew, _spawnUnit] call _fnc_moveInTurrets;
+            ["New vic %1 HCBL status: %2", _spawnUnit, _unitHCBL] call mc_fnc_rptlog;
         }
         // Otherwise its infantry
         else {
             _spawnUnit = _newGroup createUnit [_unitType,_unitPos, [], 0, "NONE"];
             commandstop _spawnUnit;
+            ["New unit %1 HCBL status: %2", _spawnUnit, _unitHCBL] call mc_fnc_rptlog;
         };
         // Set all the things common to the spawned unit
         _spawnUnit setVariable ["lambs_danger_disableAI", true];
@@ -267,11 +275,15 @@ private _fnc_spawnUnit = {
         } foreach units _newGroup;
     };
     // Enable ACEX Headless for this group and trigger a rebalance pass
-    if (mc_murk_headless == 1) then {
+    if (mc_murk_headless == 1 && !_grpHCBL) then {
     ["Removing group %1 from ACEX Headless blacklist and triggering rebalance",
      _newgroup] call mc_fnc_rptlog;
         _newGroup setVariable ["acex_headless_blacklist", false];
         [false] call acex_headless_fnc_rebalance;
+    };
+    if (_grpHCBL) then {
+        ["New group %1 was put on HCBL by MM, keeping it there", _newgroup
+            ] call mc_fnc_rptlog;
     };
 
     // Have to return the new group
@@ -299,7 +311,7 @@ while {!([_centerpos, _spawndistance, true] call f_fnc_nearPlayer)} do {
 // Spawn Modes
 
 // ONCE MODE
-_unitGroup = [_unitGroup,_side] call _fnc_spawnUnit;
+_unitGroup = [_unitGroup,_side, _grpHCBL] call _fnc_spawnUnit;
 
 // delete and re-cache when no players near
 [_unitGroup,_f3gear,_spawndistance,_remainingtoattack,_initString,_centerpos,_waitingPeriod] spawn {
