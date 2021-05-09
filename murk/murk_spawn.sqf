@@ -175,7 +175,7 @@ while { count units _unitGroup > 0 } do {
                 headgear _vcl,
                 goggles _vcl,
                 face _vcl,
-                _vcl getVariable["acex_headless_blacklist", false],
+                _vcl getVariable["acex_headless_blacklist", false]
             ];
             _unitArray set [count _unitArray, _unitInfoArray];
             deleteVehicle _vcl;
