@@ -81,7 +81,7 @@ while { count units _unitGroup > 0 } do {
                 skill _vcl,
                 rank _vcl,
                 _unitCrewArray,
-                _vcl getVariable ["acex_headless_blacklist", false],
+                _vcl getVariable ["acex_headless_blacklist", false]
             ];
             _unitArray set [count _unitArray, _unitInfoArray];
             deleteVehicle _vcl;
