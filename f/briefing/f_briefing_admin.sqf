@@ -50,7 +50,7 @@ These endings are available. To trigger an ending click on its link.<br/><br/>
 
 {
     _briefing = _briefing + format [
-    "<execute expression=""[[%1],'f_fnc_mpEnd',false] spawn BIS_fnc_MP;"">'end%1'</execute> - %2:<br/>
+    "<execute expression=""['end%1', true, true, false] remoteExecCall ['BIS_fnc_endMission', 0];"">'end%1'</execute> - %2:<br/>
     %3<br/><br/>"
     ,_x select 0,_x select 1,_x select 2];
 } forEach _endings;
