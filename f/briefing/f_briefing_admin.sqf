@@ -1,4 +1,5 @@
 // Briefing
+scriptName "f_briefing_admin.sqf";
 
 private ["_title", "_ending", "_endings", "_customText", "_briefing", "_i"];
 
