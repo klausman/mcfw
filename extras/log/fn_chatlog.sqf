@@ -13,7 +13,7 @@
 //
 // Examples:
 //
-// private -foo = 1;
+// private _foo = 1;
 // ["Current value of _foo: %1", _foo] call mc_fnc_bothlog;
 //     This will log:
 //     "14:42:54 (0:00:00) F_fnc_LocalFTMarkerSync.sqf - Current value of _foo: 1"
