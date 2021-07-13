@@ -1,4 +1,4 @@
-diag_log "MC Framework v0.2.4 starting init.sqf";
+diag_log "MC Framework v0.3.3 starting init.sqf";
 
 // Disable Saving and Auto Saving
 enableSaving [false, false];
