@@ -235,7 +235,8 @@ for "_i" from 0 to _countWaypoints do {
             waypointSpeed [_unitGroup, _i],
             waypointStatements [_unitGroup, _i],
             waypointTimeout [_unitGroup, _i],
-            waypointType [_unitGroup, _i]
+            waypointType [_unitGroup, _i],
+            waypointName [_unitGroup, _i]
         ];
         _waypointsArray pushBack _waypointsEntry;
     };
@@ -532,6 +533,7 @@ private _fnc_spawnUnit = {
         [_newGroup, _i] setWaypointStatements (_x select 10);
         [_newGroup, _i] setWaypointTimeout (_x select 11);
         [_newGroup, _i] setWaypointType (_x select 12);
+        [_newGroup, _i] setWaypointName (_x select 13);
 
         _i = _i + 1;
 
@@ -592,6 +594,7 @@ if (_spawntype == "repeated") then {
 if (_spawntype == "wave") then {
     while { _spawnlives > 0 } do {
         private _unitGroup = [_unitGroup,_side,_waypointsArray,_grpHCBL] call _fnc_spawnUnit;
+        ["mc_murk_spawned", [_unitGroup]] call CBA_fnc_serverEvent;
         _spawnlives = _spawnlives - 1;
         sleep _spawndelay;
         if (!(_triggerObject getVariable "murk_spawn")) then {
@@ -611,6 +614,7 @@ if (_spawntype == "wave") then {
 if (_spawntype == "reset") then {
     while { _spawnlives > 0 } do {
         private _unitGroup = [_unitGroup,_side,_waypointsArray,_grpHCBL] call _fnc_spawnUnit;
+        ["mc_murk_spawned", [_unitGroup]] call CBA_fnc_serverEvent;
         _spawnlives = _spawnlives - 1;
         sleep 15;
         _triggerObject setVariable ["murk_spawn",false,false];
@@ -624,6 +628,7 @@ if (_spawntype == "reset") then {
 if (_spawntype == "once") then {
     private _unitGroup = [_unitGroup,_side,_waypointsArray,_grpHCBL] call _fnc_spawnUnit;
     ["Spawned group %1", _unitGroup] call mc_fnc_rptlog;
+    ["mc_murk_spawned", [_unitGroup]] call CBA_fnc_serverEvent;
 };
 
 // vim: sts=-1 ts=4 et sw=4
