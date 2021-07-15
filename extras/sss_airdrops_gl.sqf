@@ -7,17 +7,15 @@
 
 params ["_boxes"];
 
-private ["_l", "_idx", "_bt", "_bl", "_bi", "_code"];
-
-_idx = 0;
-_l = [];
+private _idx = 0;
+private _l = [];
 {
-  _bl = _x select 0;  // Type (class)
-  _bt = _x select 1;  // Label (as shown to players)
-  _bi = _x select 2;  // Icon
+  private _bl = _x select 0;  // Type (class)
+  private _bt = _x select 1;  // Label (as shown to players)
+  private _bi = _x select 2;  // Icon
 
   // BI SQF nested strings are f'ing Czech Voodoo
-  _code = format ["[""bi"", _this, %1] call compile preprocessFileLineNumbers ""extras\sss_airdrops.sqf""; ", _idx];
+  private _code = format ["[""bi"", _this, %1] call compile preprocessFileLineNumbers ""extras\sss_airdrops.sqf""; ", _idx];
 
   _l pushBack [_bt, _bl, _bi, compile _code];
   _idx = _idx + 1;

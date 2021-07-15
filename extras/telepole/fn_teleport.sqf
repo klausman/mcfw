@@ -2,18 +2,16 @@
 // (C) 2020 T. Klausmann
 
 params ["_leader", "_caller"];
-private ["_lpos", "_tgt", "_lalt", "_lvic", "_keep_going",
-         "_leaderfn", "_callerfn", "_mindist"];
 scriptName "fn_teleport.sqf";
 
-_mindist = 100; // meters
+private _mindist = 100; // meters
 
 // These are only used for logging or messages. E.g.:
 // Corey Harris (UnitNATO_A1_AR)
-_leaderfn = format ["%1 (%2)", name _leader, _leader];
-_callerfn = format ["%1 (%2)", name _caller, _caller];
+private _leaderfn = format ["%1 (%2)", name _leader, _leader];
+private _callerfn = format ["%1 (%2)", name _caller, _caller];
 
-_keep_going = true;
+private _keep_going = true;
 
 // If the *leader* respawns, we have to teleport them to someone in their
 // squad. We prefer the closest (to the player) unit as a TP location, since
@@ -49,9 +47,9 @@ if (_leader == _caller) then {
 
 if (!_keep_going) exitWith{};
 
-_lpos = getPos _leader;
-_lalt = _lpos select 2;
-_lvic = vehicle _leader;
+private _lpos = getPos _leader;
+private _lalt = _lpos select 2;
+private _lvic = vehicle _leader;
 
 ["Leader is %1, vic is %2, alt is %4", _leader, _lvic, _lalt
     ] call mc_fnc_rptlog;
@@ -61,7 +59,7 @@ switch(true) do {
     case (_lalt<=2 && (_lvic == _leader)): {
         ["%1 is on/near the ground and not in a vehicle, direct teleport",
             _leaderfn] call mc_fnc_rptlog;
-        _tgt = _lpos findEmptyPosition [1, 10];
+        private _tgt = _lpos findEmptyPosition [1, 10];
         _caller setPos _tgt;
     };
 

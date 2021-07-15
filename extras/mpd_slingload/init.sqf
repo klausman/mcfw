@@ -2,8 +2,10 @@
   Simple Sling Load Script by MrPvTDagger#4176 :D
 */
 if (mpd_enable_slingload == 0) exitWith {["MPD_SlingLoad is Disabled in Mission Parameters"] call mc_fnc_rptlog;};
+
 ["MPD_SlingLoad is Loading..."] call mc_fnc_rptlog;
-private ["_ccargo","_acargo","_action","_target","_action","_curator","_entity","_object","_side"];
+
+private "_target"; // XXX: The (intended) scope of this var is entirely unclear
 /* 
 This is for Modded Objects that Might not be slingable by default. I have done this automtically but Just incase it doesn't work with all mods. 
 
@@ -14,18 +16,15 @@ _ccargo = [
   RHS_Storage_Create_3 // Make sure the last one doesn't have a comment at the end
 ];
 */
-
-_ccargo = [
-  
-];
+private _ccargo = [];
 
 /* Here you can change blacklisted entities which will be added at the start of a mission. */
-_acargo = entities [[], ["Air","Man","Tank","Logic","House"], true];
+private _acargo = entities [[], ["Air","Man","Tank","Logic","House"], true];
 
 // ====================== Don't Touch Anything Below this line ======================
 _acargo append _ccargo;
 {
-  _action = [
+  private _action = [
   "SlingLoad",
   "Sling Load",
   "",
@@ -41,8 +40,8 @@ _acargo append _ccargo;
 /* Support for Fortification Tool ACEX */
 if (isClass(configFile >> "CfgWeapons" >> "ACE_Fortify")) then {
   ["acex_fortify_objectPlaced", {
-    params ["_unit", "_side", "_object"];
-    _action = [
+    params ["", "", "_object"];
+    private _action = [
     "SlingLoad",
     "Sling Load",
     "",
@@ -59,12 +58,12 @@ if (isClass(configFile >> "CfgWeapons" >> "ACE_Fortify")) then {
 /* Support for Objects placed by Zues */
 { 
   _x addEventHandler ["CuratorObjectPlaced", {
-    params ["_curator", "_entity"];
+    params ["", "_entity"];
     if ((_entity isKindOf "Tank")||(_entity isKindOf "Air")||(_entity isKindOf "Logic")||(_entity isKindOf "Man")||(_entity isKindOf "House")) then { 
       //hint "Object is blacklisted";
       //hint format["Object spawned: %1", _entity];
     } else {
-      _action = [
+      private _action = [
       "SlingLoad",
       "Sling Load",
       "",
