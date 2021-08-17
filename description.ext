@@ -315,6 +315,12 @@ class CfgFunctions {
             class telepole_reinit{};
             class teleport{};
         };
+        class stats {
+            file = "extras\stats";
+            class stats_increaseRespawnCount{};
+            class stats_registerPlayerRole{};
+            class stats_rptlog{};
+        };
         class strReplace {
             file = "extras";
             class stringReplace{};

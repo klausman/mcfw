@@ -99,6 +99,7 @@ if (!isserver && hasInterface) then {
 if (hasInterface) then {
     []spawn {
         waitUntil {sleep 1; !isNull player};
+
         player addEventHandler [
             "killed",
             "params ['_unit', '_killer', '_instigator', '_useEffects'];
@@ -109,13 +110,13 @@ if (hasInterface) then {
                 sleep 10;
                 deleteVehicle _corpse;
              };"];
-    };
-    []spawn {
-        waitUntil {sleep 1; !isNull player};
+
         player addEventHandler [
             "respawn",
              "[] spawn {
                 sleep 3;
+                [player] remoteExecCall ['mc_fnc_stats_increaseRespawnCount', 2];
+                [name player, roleDescription player] remoteExecCall ['mc_fnc_stats_registerPlayerRole', 2];
                 private _loadout = player getVariable ['f_var_assignGear', 'NO_LOADOUT'];
                 if (_loadout!='NO_LOADOUT') then {
                     player setVariable ['f_var_assignGear_done',false,true];
@@ -127,6 +128,8 @@ if (hasInterface) then {
                 call mc_fnc_telepole_reinit;
              };"];
     };
+
+    [name player, roleDescription player] remoteExecCall ["mc_fnc_stats_registerPlayerRole", 2];
 };
 
 // Vehicle Saver
@@ -166,5 +169,36 @@ private _edCount = 0;
     {_x allowDamage true} foreach _editedVicsAD;
     {_x enableSimulationGlobal true} foreach _editedVicsES;
     ["vicsaver", "Enabling simulation on vehicles complete"] call mc_fnc_ehlog;
+};
+
+if (isServer) then {
+    // Watch for newly connected players and add them to the stats
+    addMissionEventHandler ["PlayerConnected", {
+        params ["_id", "_uid", "_name", "_jip", "_owner", "_idstr"];
+
+        private _playerStatsHash = missionNamespace getVariable ["mc_stats_players", createHashMap];
+
+        // Init player's stats if it does not already exist
+        if (!(_name in _playerStatsHash)) then {
+            _playerStatsHash set [
+                _name,
+                [0, []]
+            ];
+        };
+
+        missionNamespace setVariable ["mc_stats_players", _playerStatsHash];
+
+        if (f_var_debugMode == 1) then {
+            ["PlayerConnected", "%1 (JIP=%2)", _name, str _jip] call mc_fnc_ehlog;
+        };
+    }];
+
+    // Dumps player stats into server's RPT file
+    addMissionEventHandler ["MPEnded", {
+        [] remoteExecCall ["mc_fnc_stats_rptlog", 2];
+    }];
+    addMissionEventHandler ["Ended", {
+        [] remoteExecCall ["mc_fnc_stats_rptlog", 2];
+    }];
 };
 // vim: sts=-1 ts=4 et sw=4
