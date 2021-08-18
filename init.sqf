@@ -113,13 +113,16 @@ if (hasInterface) then {
 
         player addEventHandler [
             "respawn",
-             "[] spawn {
+             "_this spawn {
                 sleep 3;
                 ['mc_playerRespawned', [
                     getPlayerUID player,
                     name player,
                     roleDescription player
                 ]] call CBA_fnc_serverEvent;
+                if (missionNamespace getVariable ['mc_respawnTickets', false] >= 0) then {
+                    _this remoteExecCall ['mc_fnc_handlePlayerRespawn', 2];
+                };
                 private _loadout = player getVariable ['f_var_assignGear', 'NO_LOADOUT'];
                 if (_loadout!='NO_LOADOUT') then {
                     player setVariable ['f_var_assignGear_done',false,true];
@@ -179,6 +182,12 @@ private _edCount = 0;
 };
 
 if (isServer) then {
+    private _ticketCount = -1;
+    if (!isNil "mc_respawnTicket_initialValue") then {
+        _ticketCount = mc_respawnTicket_initialValue;
+    };
+    missionNamespace setVariable ["mc_respawnTickets", _ticketCount, true];
+
     // Globally declared variable containing player UIDs
     mc_stats_players = [];
 
