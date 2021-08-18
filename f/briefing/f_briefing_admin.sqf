@@ -112,6 +112,19 @@ if (isNull (getAssignedCuratorLogic player)) then {hintsilent 'Assign ZEUS first
 <br/>
 ";
 
+// Add respawn ticket actions if ticket system is enabled
+if (missionNamespace getVariable ["mc_respawnTickets", false] >= 0) then {
+    _briefing = _briefing + "
+<font size='18'>RESPAWN TICKET SYSTEM</font><br/>
+|- <execute expression=""[] remoteExecCall ['mc_fnc_broadcastTicketCount', 2];"">Broadcast current count</execute>.<br/>
+|- <execute expression=""[1] remoteExecCall ['mc_fnc_editTicketCount', 2];"">Increase by 1</execute>.<br/>
+|- <execute expression=""[5] remoteExecCall ['mc_fnc_editTicketCount', 2];"">Increase by 5</execute>.<br/>
+|- <execute expression=""[-1] remoteExecCall ['mc_fnc_editTicketCount', 2];"">Decrease by 1</execute>.<br/>
+|- <execute expression=""[-5] remoteExecCall ['mc_fnc_editTicketCount', 2];"">Decrease by 5</execute>.<br/>
+<br/>
+";
+};
+
 // CREATE DIARY ENTRY
 private _clb = [_briefing, ["&"], "&amp;"] call mc_fnc_stringReplace;
 player createDiaryRecord ["diary", ["Admin",_clb]];

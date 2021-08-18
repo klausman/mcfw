@@ -195,6 +195,14 @@ class Params {
         default = 1;
         code = "mpd_enable_slingload = %1";
     };
+    // Respawn system
+    class mc_respawnTicket_initialValue {
+        title = "Respawn tickets";
+        values[] = {-1, 0, 1, 5, 10, 15, 20, 25, 30};
+        texts[] = {"Disabled", "0", "1", "5", "10", "15", "20", "25", "30"};
+        default = -1;
+        code = "mc_respawnTicket_initialValue = %1";
+    };
 };
 // End of Params code blocks.
 
@@ -314,6 +322,12 @@ class CfgFunctions {
             class telepole{};
             class telepole_reinit{};
             class teleport{};
+        };
+        class respawn {
+            file = "extras\respawn";
+            class broadcastTicketCount{};
+            class editTicketCount{};
+            class handlePlayerRespawn{};
         };
         class stats {
             file = "extras\stats";
