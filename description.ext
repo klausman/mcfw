@@ -317,8 +317,7 @@ class CfgFunctions {
         };
         class stats {
             file = "extras\stats";
-            class stats_increaseRespawnCount{};
-            class stats_registerPlayerRole{};
+            class stats_handleRespawn{};
             class stats_rptlog{};
         };
         class strReplace {
