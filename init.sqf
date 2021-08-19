@@ -115,8 +115,11 @@ if (hasInterface) then {
             "respawn",
              "[] spawn {
                 sleep 3;
-                [player] remoteExecCall ['mc_fnc_stats_increaseRespawnCount', 2];
-                [name player, roleDescription player] remoteExecCall ['mc_fnc_stats_registerPlayerRole', 2];
+                ['mc_playerRespawned', [
+                    getPlayerUID player,
+                    name player,
+                    roleDescription player
+                ]] call CBA_fnc_serverEvent;
                 private _loadout = player getVariable ['f_var_assignGear', 'NO_LOADOUT'];
                 if (_loadout!='NO_LOADOUT') then {
                     player setVariable ['f_var_assignGear_done',false,true];
@@ -129,7 +132,11 @@ if (hasInterface) then {
              };"];
     };
 
-    [name player, roleDescription player] remoteExecCall ["mc_fnc_stats_registerPlayerRole", 2];
+    ["mc_playerSpawned", [
+        getPlayerUID player,
+        name player,
+        roleDescription player
+    ]] call CBA_fnc_serverEvent;
 };
 
 // Vehicle Saver
@@ -172,26 +179,22 @@ private _edCount = 0;
 };
 
 if (isServer) then {
-    // Watch for newly connected players and add them to the stats
-    addMissionEventHandler ["PlayerConnected", {
-        params ["_id", "_uid", "_name", "_jip", "_owner", "_idstr"];
+    // Globally declared variable containing player UIDs
+    mc_stats_players = [];
 
-        private _playerStatsHash = missionNamespace getVariable ["mc_stats_players", createHashMap];
+    ["mc_playerSpawned", {
+        params ["_uid", "_name", "_role"];
+        ["mc_playerSpawned", "%1", _name] call mc_fnc_ehlog;
 
-        // Init player's stats if it does not already exist
-        if (!(_name in _playerStatsHash)) then {
-            _playerStatsHash set [
-                _name,
-                [0, []]
-            ];
-        };
+        [_uid, _name, _role, true] remoteExecCall ["mc_fnc_stats_handleRespawn", 2];
+    }] call CBA_fnc_addEventHandler;
 
-        missionNamespace setVariable ["mc_stats_players", _playerStatsHash];
+    ["mc_playerRespawned", {
+        params ["_uid", "_name", "_role"];
+        ["mc_playerRespawned", "%1", _name] call mc_fnc_ehlog;
 
-        if (f_var_debugMode == 1) then {
-            ["PlayerConnected", "%1 (JIP=%2)", _name, str _jip] call mc_fnc_ehlog;
-        };
-    }];
+        _this remoteExecCall ["mc_fnc_stats_handleRespawn", 2];
+    }] call CBA_fnc_addEventHandler;
 
     // Dumps player stats into server's RPT file
     addMissionEventHandler ["MPEnded", {

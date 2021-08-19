@@ -8,22 +8,28 @@ if (!isServer) exitWith {};
     [false, true, false]
 ] call CBA_fnc_debug;
 
-private _index = 0;
 {
-    // _x = player name
-    // _y = stats<respawn, []>
+    if (isNil "_x") exitWith {};
+
+    private _playerStats = missionNamespace getVariable ["mc_stats_player_" + _x, nil];
+    if (isNil "_playerStats") exitwith {
+        if (f_var_debugMode == 1) then {
+            ["%1 does not exist in missionNamespace", "mc_stats_player_" + _x] call mc_fnc_bothlog;
+        };
+    };
+    _playerStats params ["_playerName", "_respawnCount", "_roles"];
 
     [
         format [
             "%1 - Respawns: %2 - Roles: %3",
-            _x,
-            _y select 0,
-            str (_y select 1)
+            _playerName,
+            _respawnCount,
+            str _roles
         ],
         "MC_STATS",
         [false, true, false]
     ] call CBA_fnc_debug;
-} forEach (missionNamespace getVariable ["mc_stats_players", createHashMap]);
+} forEach (mc_stats_players);
 
 [
     "============================================",
