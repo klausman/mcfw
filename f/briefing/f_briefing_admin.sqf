@@ -113,7 +113,7 @@ if (isNull (getAssignedCuratorLogic player)) then {hintsilent 'Assign ZEUS first
 ";
 
 // Add respawn ticket actions if ticket system is enabled
-if (missionNamespace getVariable ["mc_respawnTickets", false] >= 0) then {
+if (missionNamespace getVariable ["mc_respawnTickets", -1] >= 0) then {
     _briefing = _briefing + "
 <font size='18'>RESPAWN TICKET SYSTEM</font><br/>
 |- <execute expression=""[] remoteExecCall ['mc_fnc_broadcastTicketCount', 2];"">Broadcast current count</execute>.<br/>
