@@ -120,7 +120,7 @@ if (hasInterface) then {
                     name player,
                     roleDescription player
                 ]] call CBA_fnc_serverEvent;
-                if (missionNamespace getVariable ['mc_respawnTickets', false] >= 0) then {
+                if (missionNamespace getVariable ['mc_respawnTickets', -1] >= 0) then {
                     _this remoteExecCall ['mc_fnc_handlePlayerRespawn', 2];
                 };
                 private _loadout = player getVariable ['f_var_assignGear', 'NO_LOADOUT'];
