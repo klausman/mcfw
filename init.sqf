@@ -114,7 +114,7 @@ if (hasInterface) then {
         player addEventHandler [
             "respawn",
              "_this spawn {
-                sleep 3;
+                waitUntil {sleep 1; !isNull player};
                 ['mc_playerRespawned', [
                     getPlayerUID player,
                     name player,
