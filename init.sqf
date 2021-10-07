@@ -69,10 +69,6 @@ if (!isserver && hasInterface) then {
 // Credits: PabstMirror
 [] execVM "extras\PM_missionIntro.sqf";
 
-// MPD - Simple Sling Load
-// Credits: Dagger
-[] execVM "extras\mpd_slingload\init.sqf";
-
 // WS - AI Flashlights
 // Credits: Wolfenswan
 // [] execVM "extras\forceFlashlightAI.sqf";
@@ -83,6 +79,13 @@ if (!isserver && hasInterface) then {
 // NOTE: To enable: either use the mission parameters at mission time, or
 // change the default in description.ext
 [] execVM "extras\fn_advancedSlingLoadingInit.sqf";
+
+// DSL - Simple Sling Load
+// Credits: Dagger
+//
+// NOTE: To enable: either use the mission parameters at mission time, or
+// change the default in description.ext
+[] execVM "extras\fn_simpleSlingLoadingInit.sqf";
 
 // AT - Advanced Towing
 // https://github.com/sethduda/AdvancedTowing/

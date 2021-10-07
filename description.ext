@@ -188,12 +188,12 @@ class Params {
         default = 0;
         code = "mc_enable_atw = %1";
     };
-    class mpd_enable_slingload {
-        title = "Enable Simple Slingloading";
+    class mc_enable_dsl {
+        title = "Enable Simple Slingloading (DSL)";
         values[] = {0, 1};
         texts[] = {"Off", "On"};
         default = 1;
-        code = "mpd_enable_slingload = %1";
+        code = "mc_enable_dsl = %1";
     };
     // Respawn system
     class mc_respawnTicket_initialValue {
