@@ -54,7 +54,7 @@ if (isClass(configFile >> "CfgWeapons" >> "ACE_Fortify")) then {
 	];
 } forEach allCurators;
 
-// Adds Modules to Zues Enanched
+// Adds Modules to Zeus Enhanced
 if (!isNil "zen_custom_modules_fnc_register") then {
 	["Objects", "Make Slingable", {
 			if (isNull ( _this select 1)) exitWith {};
@@ -70,51 +70,52 @@ if (!isNil "zen_custom_modules_fnc_register") then {
 };
 
 DSL_fn_sling = {
-	params ["_cargo"];	
+	params ["_cargo"];
 	private ["_nObject","_pilot","_Rope1","_Rope2","_Rope3","_Rope4"];
-			_nObject = nearestObject [_cargo, "Helicopter"]; // Thats not intself?????
-			_pilot = currentPilot _nObject;
+	_nObject = nearestObject [_cargo, "Helicopter"];
+	_pilot = currentPilot _nObject;
 
-			if (count attachedObjects _nObject != 0) exitWith {
-				hint "Helicopter already has cargo sling loaded";
-			};
+	if (count attachedObjects _nObject != 0) exitWith {
+		hint "Helicopter already has cargo sling loaded";
+	};
 
-			//Slinging cargo to itself will crash arma
-			if (_nObject == _cargo) exitWith {
-				hint "You can't sling Load cargo to itself";
-			};
+	//Slinging cargo to itself will crash arma
+	if (_nObject == _cargo) exitWith {
+		hint "You can't sling Load cargo to itself";
+	};
 
-			_cargo attachTo [_nObject, [0, 1.1, -7]];
+	_cargo attachTo [_nObject, [0, 1.1, -7]];
 
-			_ropelength = (_cargo distance _nObject);
-			_Rope1 = ropeCreate [_nObject, [0,1.1,-2], _ropelength];
-			_Rope2 = ropeCreate [_nObject, [0,1.1,-2], _ropelength];
-			_Rope3 = ropeCreate [_nObject, [0,1.1,-2], _ropelength];
-			_Rope4 = ropeCreate [_nObject, [0,1.1,-2], _ropelength];
+	_ropelength = (_cargo distance _nObject);
+	_Rope1 = ropeCreate [_nObject, [0,1.1,-2], _ropelength];
+	_Rope2 = ropeCreate [_nObject, [0,1.1,-2], _ropelength];
+	_Rope3 = ropeCreate [_nObject, [0,1.1,-2], _ropelength];
+	_Rope4 = ropeCreate [_nObject, [0,1.1,-2], _ropelength];
 
-			_attachmentPoints = [_cargo] call ASL_Get_Corner_Points;
-			[_cargo, _attachmentPoints select 0, [0,0,-1]] ropeAttachTo _Rope1;
-			[_cargo, _attachmentPoints select 1, [0,0,-1]] ropeAttachTo _Rope2;
-			[_cargo, _attachmentPoints select 2, [0,0,-1]] ropeAttachTo _Rope3;
-			[_cargo, _attachmentPoints select 3, [0,0,-1]] ropeAttachTo _Rope4;
+	_attachmentPoints = [_cargo] call ASL_Get_Corner_Points;
+	[_cargo, _attachmentPoints select 0, [0,0,-1]] ropeAttachTo _Rope1;
+	[_cargo, _attachmentPoints select 1, [0,0,-1]] ropeAttachTo _Rope2;
+	[_cargo, _attachmentPoints select 2, [0,0,-1]] ropeAttachTo _Rope3;
+	[_cargo, _attachmentPoints select 3, [0,0,-1]] ropeAttachTo _Rope4;
 
-			[_nObject, ["<t color='#FF0000'>Release Cargo</t>", {  
-				private ["_heli","_cargoRopes","_pos"];     
-				_heli = _this select 0;
-				if ((getPosATL _heli) select 2 > 20 ) exitWith { 
-					hint "You are to High to release cargo" 
-				};
-				_cargoRopes = ropes _heli;
-					{
-						ropeDestroy _x;
-					} forEach _cargoRopes; 
-					{
-						detach _x;
-						_pos = [_heli, 5, 10, 0, 0, 20, 0] call BIS_fnc_findSafePos;
-						_x setPos _pos;
-					} forEach attachedObjects _heli;
-				[_heli] remoteExec ["removeallactions"];
-			},nil,1.5,true,true,"","true",8,false,"",""]] remoteExec ["addAction"];
+	[_nObject, ["<t color='#FF0000'>Release Cargo</t>", {  
+		private ["_heli","_cargoRopes","_pos"];     
+		_heli = _this select 0;
+		if ((getPosATL _heli) select 2 > 20 ) exitWith { 
+			hint "You are too High to release cargo" 
+		};
+		_cargoRopes = ropes _heli;
+		{
+			ropeDestroy _x;
+		} forEach _cargoRopes; 
+
+		{
+			detach _x;
+			_pos = [_heli, 5, 10, 0, 0, 20, 0] call BIS_fnc_findSafePos;
+			_x setPos _pos;
+		} forEach attachedObjects _heli;
+		[_heli] remoteExec ["removeallactions"];
+	},nil,1.5,true,true,"","true",8,false,"",""]] remoteExec ["addAction"];
 };
 
 /* 
