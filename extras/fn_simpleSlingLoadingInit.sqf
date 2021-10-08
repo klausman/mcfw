@@ -38,6 +38,7 @@ DSL_fn_add_sling_action = {
 if (isClass(configFile >> "CfgWeapons" >> "ACE_Fortify")) then {
 	["acex_fortify_objectPlaced", {
 			params ["_unit", "_side", "_object"];
+			if (_object isKindOf "House") exitWith {};
 			[_object] call DSL_fn_add_sling_action;
 		}
 	] call CBA_fnc_addEventHandler;
