@@ -16,6 +16,17 @@ _this spawn {
         alive _unit
     };
 
+    // Skip the ticket loss if Safe Start is active
+    if (f_var_mission_timer > 0) exitWith {
+        if (f_var_debugMode == 1) then {
+            [
+                format ["Skipping ticket loss because of Safe Start"],
+                "handlePlayerRespawn",
+                [true, false, true]
+            ] call CBA_fnc_debug;
+        };
+    };
+
     // Skip the ticket loss if it's disabled on this unit
     if (_unit getVariable ["mc_respawnTickets_disabled", false]) exitWith {
         if (f_var_debugMode == 1) then {
