@@ -196,12 +196,26 @@ class Params {
         code = "mc_enable_dsl = %1";
     };
     // Respawn system
-    class mc_respawnTicket_initialValue {
-        title = "Respawn tickets";
+    class mc_respawnTicket_blufor_initialValue {
+        title = "Respawn tickets (BLUFOR)";
         values[] = {-1, 0, 1, 5, 10, 15, 20, 25, 30};
         texts[] = {"Disabled", "0", "1", "5", "10", "15", "20", "25", "30"};
         default = -1;
-        code = "mc_respawnTicket_initialValue = %1";
+        code = "mc_respawnTicket_blufor_initialValue = %1";
+    };
+    class mc_respawnTicket_opfor_initialValue {
+        title = "Respawn tickets (OPFOR)";
+        values[] = {-1, 0, 1, 5, 10, 15, 20, 25, 30};
+        texts[] = {"Disabled", "0", "1", "5", "10", "15", "20", "25", "30"};
+        default = -1;
+        code = "mc_respawnTicket_opfor_initialValue = %1";
+    };
+    class mc_respawnTicket_indep_initialValue {
+        title = "Respawn tickets (INDEP)";
+        values[] = {-1, 0, 1, 5, 10, 15, 20, 25, 30};
+        texts[] = {"Disabled", "0", "1", "5", "10", "15", "20", "25", "30"};
+        default = -1;
+        code = "mc_respawnTicket_indep_initialValue = %1";
     };
 };
 // End of Params code blocks.

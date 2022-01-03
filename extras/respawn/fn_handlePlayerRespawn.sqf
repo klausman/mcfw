@@ -1,6 +1,9 @@
 // Handle event only if our respawn ticket system is enabled
 if (!isServer
-    || missionNamespace getVariable ["mc_respawnTickets", -1] < 0
+    || (missionNamespace getVariable ["mc_respawnTickets_blufor", -1] < 0
+        && missionNamespace getVariable ["mc_respawnTickets_opfor", -1] < 0
+        && missionNamespace getVariable ["mc_respawnTickets_indep", -1] < 0
+    )
 ) exitWith {};
 
 _this spawn {
@@ -11,6 +14,29 @@ _this spawn {
     waitUntil {
         sleep 1;
         alive _unit
+    };
+
+    private _side = side _unit;
+    private _ticketCount = 0;
+    private _varName = "";
+    private _excludedSpectatorSides = [];
+
+    switch (_side) do {
+        case (blufor): {
+            _ticketCount = missionNamespace getVariable ["mc_respawnTickets_blufor", 0];
+            _varName = "mc_respawnTickets_blufor";
+            _excludedSpectatorSides = [civilian, independent, opfor];
+        };
+        case (opfor): {
+            _ticketCount = missionNamespace getVariable ["mc_respawnTickets_opfor", 0];
+            _varName = "mc_respawnTickets_opfor";
+            _excludedSpectatorSides = [civilian, independent, blufor];
+        };
+        case (independent): {
+            _ticketCount = missionNamespace getVariable ["mc_respawnTickets_indep", 0];
+            _varName = "mc_respawnTickets_indep";
+            _excludedSpectatorSides = [civilian, blufor, opfor];
+        };
     };
 
     // Skip the ticket loss if it's a curator
@@ -24,11 +50,20 @@ _this spawn {
         };
     };
 
-    private _ticketCount = missionNamespace getVariable ["mc_respawnTickets", 0];
+    // Skip the ticket loss if the system isn't activated (for this side)
+    if (_ticketCount < 0) exitWith {
+        if (f_var_debugMode == 1) then {
+            [
+                format ["Skipping ticket loss for this side (%1)", str _side],
+                "handlePlayerRespawn",
+                [true, false, true]
+            ] call CBA_fnc_debug;
+        };
+    };
 
     if (f_var_debugMode == 1) then {
         [
-            format ["Current ticket count = %1", str _ticketCount],
+            format ["Current %2 ticket count = %1", str _ticketCount, str _side],
             "handlePlayerRespawn",
             [true, false, true]
         ] call CBA_fnc_debug;
@@ -36,13 +71,13 @@ _this spawn {
 
     if (_ticketCount > 0) then {
         _ticketCount = _ticketCount - 1;
-        missionNamespace setVariable ["mc_respawnTickets", _ticketCount, true];
+        missionNamespace setVariable [_varName, _ticketCount, true];
 
         // Disable unit and hide it
         [_unit, true] remoteExecCall ["hideObjectGlobal", 2, true];
         [_unit, false] remoteExecCall ["enableSimulationGlobal", 2, true];
 
-        [format ["Reinforcements left: %1", _ticketCount]] remoteExec ["systemchat", west];
+        [format ["Reinforcements left: %1", _ticketCount]] remoteExec ["systemchat", _side];
 
         // Disable ACE spectator mode
         [false] remoteExecCall ["ace_spectator_fnc_setSpectator", _unit];
@@ -63,8 +98,8 @@ _this spawn {
         // Activate ACE spectator mode (first person with west/players only)
         // @see https://ace3mod.com/wiki/framework/spectator-framework.html
         [
-            [west],
-            [independent, east, civilian]
+            [_side],
+            _excludedSpectatorSides
         ] remoteExecCall ["ace_spectator_fnc_updateSides", _unit];
         [
             allPlayers,

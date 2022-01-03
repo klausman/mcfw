@@ -113,14 +113,25 @@ if (isNull (getAssignedCuratorLogic player)) then {hintsilent 'Assign ZEUS first
 ";
 
 // Add respawn ticket actions if ticket system is enabled
-if (missionNamespace getVariable ["mc_respawnTickets", -1] >= 0) then {
+if (missionNamespace getVariable ["mc_respawnTickets_blufor", -1] >= 0
+    || missionNamespace getVariable ["mc_respawnTickets_opfor", -1] >= 0
+    || missionNamespace getVariable ["mc_respawnTickets_indep", -1] >= 0
+) then {
     _briefing = _briefing + "
 <font size='18'>RESPAWN TICKET SYSTEM</font><br/>
 |- <execute expression=""[] remoteExecCall ['mc_fnc_broadcastTicketCount', 2];"">Broadcast current count</execute>.<br/>
-|- <execute expression=""[1] remoteExecCall ['mc_fnc_editTicketCount', 2];"">Increase by 1</execute>.<br/>
-|- <execute expression=""[5] remoteExecCall ['mc_fnc_editTicketCount', 2];"">Increase by 5</execute>.<br/>
-|- <execute expression=""[-1] remoteExecCall ['mc_fnc_editTicketCount', 2];"">Decrease by 1</execute>.<br/>
-|- <execute expression=""[-5] remoteExecCall ['mc_fnc_editTicketCount', 2];"">Decrease by 5</execute>.<br/>
+|- BLUFOR: <execute expression=""[1, blufor] remoteExecCall ['mc_fnc_editTicketCount', 2];"">+1</execute>,
+<execute expression=""[5, blufor] remoteExecCall ['mc_fnc_editTicketCount', 2];"">+5</execute>,
+<execute expression=""[-1, blufor] remoteExecCall ['mc_fnc_editTicketCount', 2];"">-1</execute>,
+<execute expression=""[-5, blufor] remoteExecCall ['mc_fnc_editTicketCount', 2];"">-5</execute>.<br/>
+|- OPFOR: <execute expression=""[1, opfor] remoteExecCall ['mc_fnc_editTicketCount', 2];"">+1</execute>,
+<execute expression=""[5, opfor] remoteExecCall ['mc_fnc_editTicketCount', 2];"">+5</execute>,
+<execute expression=""[-1, opfor] remoteExecCall ['mc_fnc_editTicketCount', 2];"">-1</execute>,
+<execute expression=""[-5, opfor] remoteExecCall ['mc_fnc_editTicketCount', 2];"">-5</execute>.<br/>
+|- INDEP: <execute expression=""[1, independent] remoteExecCall ['mc_fnc_editTicketCount', 2];"">+1</execute>,
+<execute expression=""[5, independent] remoteExecCall ['mc_fnc_editTicketCount', 2];"">+5</execute>,
+<execute expression=""[-1, independent] remoteExecCall ['mc_fnc_editTicketCount', 2];"">-1</execute>,
+<execute expression=""[-5, independent] remoteExecCall ['mc_fnc_editTicketCount', 2];"">-5</execute>.<br/>
 <br/>
 ";
 };
