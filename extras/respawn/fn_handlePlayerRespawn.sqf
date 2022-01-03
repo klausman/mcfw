@@ -16,6 +16,17 @@ _this spawn {
         alive _unit
     };
 
+    // Skip the ticket loss if it's disabled on this unit
+    if (_unit getVariable ["mc_respawnTickets_disabled", false]) exitWith {
+        if (f_var_debugMode == 1) then {
+            [
+                format ["Skipping ticket loss for unit %1 (disabled)", name _unit],
+                "handlePlayerRespawn",
+                [true, false, true]
+            ] call CBA_fnc_debug;
+        };
+    };
+
     private _side = side _unit;
     private _ticketCount = 0;
     private _varName = "";
