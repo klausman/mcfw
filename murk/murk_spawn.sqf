@@ -439,8 +439,8 @@ private _fnc_spawnUnit = {
         // Check if the unit has a crew, if so we know its a vehicle
         if (count _unitCrew > 0) then {
             if (_unitPos select 2 >= 10) then {
-                _spawnUnit = createVehicle [_unitType,_unitPos, [], 0, "NONE"];
-                _spawnUnit setVelocity [50 * (sin _unitDir), 50 * (cos _unitDir), 0];
+                _spawnUnit = createVehicle [_unitType,_unitPos, [], 0, "FLY"];
+                _spawnUnit setVelocityModelSpace [0, 150, 0];
             } else {
                 _spawnUnit = _unitType createVehicle _unitPos;
             };
