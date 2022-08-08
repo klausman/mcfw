@@ -219,7 +219,7 @@ if (isServer) then {
 
 // Fix for unconscious state bug
 // https://github.com/acemod/ACE3/issues/7453#issuecomment-615167752
-_id = ["ace_unconscious",{ 
+["ace_unconscious",{ 
     params ["_unit","_state"]; 
 	if ( !(local _unit) || !(isPlayer _unit) ) exitWith {};
 	if (_state) then { [_unit,true] remoteExecCall ["setUnconscious",0]; };
