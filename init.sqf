@@ -216,4 +216,14 @@ if (isServer) then {
         [] remoteExecCall ["mc_fnc_stats_rptlog", 2];
     }];
 };
+
+// Fix for unconscious state bug
+// https://github.com/acemod/ACE3/issues/7453#issuecomment-615167752
+_id = ["ace_unconscious",{ 
+    params ["_unit","_state"]; 
+	if ( !(local _unit) || !(isPlayer _unit) ) exitWith {};
+	if (_state) then { [_unit,true] remoteExecCall ["setUnconscious",0]; };
+	if !(_state) then { [_unit,false] remoteExecCall ["setUnconscious",0]; };
+}] call CBA_fnc_addEventHandler;
+
 // vim: sts=-1 ts=4 et sw=4
