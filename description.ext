@@ -299,6 +299,7 @@ class CfgFunctions {
             file = "f\safeStart";
             class safety{};
         };
+        #include "f\acre\functions.hpp"
     };
 
     class mc {
