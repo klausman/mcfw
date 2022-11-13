@@ -50,12 +50,9 @@ f_radios_settings_acre2_language_indfor = ["opf"];
 // Examples: A1 net composed of FTL, Riflemen, Medic etc.  Partisan/guerrilla comms for localised coordination.
 f_radios_settings_acre2_sr_groups_blufor =
 [
-    ["1PLT ALPHA",    ["1PLT ALPHA"]],
-    ["1PLT BRAVO",    ["1PLT BRAVO"]],
-    ["1PLT CHARLIE",  ["1PLT CHARLIE"]],
-    ["2PLT ALPHA",    ["2PLT ALPHA"]],
-    ["2PLT BRAVO",    ["2PLT BRAVO"]],
-    ["2PLT CHARLIE",  ["2PLT CHARLIE"]]
+    ["Alpha",    ["Alpha"]],
+    ["Bravo",    ["Bravo"]],
+    ["Command",  ["PLT Command"]]
 ];
 
 f_radios_settings_acre2_sr_groups_opfor = f_radios_settings_acre2_sr_groups_blufor;
@@ -69,10 +66,8 @@ f_radios_settings_acre2_sr_groups_indfor = f_radios_settings_acre2_sr_groups_blu
 // Examples: Alpha net composed of ASL, A1, A2.  Section net composed of ASL, A2IC, AMED.  Mechanised team composed of ASL, A-Vic.
 f_radios_settings_acre2_lr_groups_blufor =
 [
-    ["1PLT NET",     ["1PLT ALPHA", "1PLT BRAVO", "1PLT CHARLIE", "1PLT HQ"]],
-    ["2PLT NET",     ["2PLT ALPHA", "2PLT BRAVO", "2PLT CHARLIE", "2PLT HQ"]],
-    ["COY NET",      ["COY HQ"]],
-    ["AIR NET",      ["CONDOR", "HAWK", "RAVEN", "VULTURE"]],
+    ["COY NET",      ["PLT Command", "Alpha", "Bravo"]],
+    ["AIR NET",      ["AH 1", "TH1", "TH2"]],
     ["HOTLINE ZEUS", ["ZEUS"]]
 ];
 
@@ -87,9 +82,7 @@ f_radios_settings_acre2_lr_groups_indfor = f_radios_settings_acre2_lr_groups_blu
 // Examples: Ground command net composed of CO, ASL, BSL, CSL.  Vehicle net composed of XO/VC, A-Vic, B-Vic, CAS.  Liason net composed of CO, INDFOR CO.
 f_radios_settings_acre2_xlr_groups_blufor =
 [
-    ["1PLT NET",     []],
-    ["2PLT NET",     []],
-    ["COY NET",      ["1PLT HQ", "2PLT HQ", "ZEUS"]],
+    ["COY NET",      ["ZEUS"]],
     ["AIR NET",      []],
     ["HOTLINE ZEUS", []]
 ];
@@ -100,15 +93,7 @@ f_radios_settings_acre2_xlr_groups_indfor = f_radios_settings_acre2_xlr_groups_b
 
 // Role overrides per group.  Overrides are ["SR Label", "LR Label", "XLR Label"].
 // Empty overrides have no effect - assignments from above will remain in place for these.
-["jtac", "1PLT HQ", ["", "", "AIR NET"]] call f_fnc_forceRadioChannelsForRoleInGroup;
-["jtac", "2PLT HQ", ["", "", "AIR NET"]] call f_fnc_forceRadioChannelsForRoleInGroup;
-["jtac", "COY HQ", ["", "", "AIR NET"]] call f_fnc_forceRadioChannelsForRoleInGroup;
-
-
-// Notes for radio ownership in upcoming op:
-// CO, PltCO, SL, Pilot, Zeus - ACRE_PRC152
-// PltCO, JTAC, Zeus - ACRE_PRC148 or ACRE_PRC117F (either of).
-// SL, All other inf team members - ACRE_PRC343
+["dc", "PLT Command", ["", "", "AIR NET"]] call f_fnc_forceRadioChannelsForRoleInGroup;
 
 
 // ====================================================================================

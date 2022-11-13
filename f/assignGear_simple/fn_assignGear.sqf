@@ -28,12 +28,12 @@ if(_faction == "") then {
 // Only run once, where the unit is local
 if !(local _unit) exitWith {};
 
-// This public (global) variable is used in the respawn component.
-_unit setVariable ["f_var_assignGear",_typeofUnit,true];
-
 // This variable simply tracks the progress of the gear assignation process,
 // for other scripts to reference.
 _unit setVariable ["f_var_assignGear_done", false, true];
+
+// This public (global) variable is used in the respawn component.
+_unit setVariable ["f_var_assignGear",_typeofUnit,true];
 
 if (f_var_debugMode == 1) then {
     ["Unit faction: %1",_faction] call mc_fnc_bothlog;
@@ -71,6 +71,10 @@ if (!_ff) then {
     ["Faction '%1' is not known, unit '%2' left untouched.", _faction, _unit
         ] call mc_fnc_bothlog;
 };
+
+// This variable simply tracks the progress of the gear assignation process,
+// for other scripts to reference.
+_unit setVariable ["f_var_assignGear_done", true, true];
 
 ["MCFW_AssignedGear_Local", [_typeOfUnit, _unit, _faction]] call CBA_fnc_localEvent;
 
