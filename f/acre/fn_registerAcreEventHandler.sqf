@@ -8,6 +8,9 @@
 ] call CBA_fnc_addEventHandler;
 
 
+// Rest of file is for clients only.
+if !(hasInterface) exitWith {};
+
 // Wait until first time the player has had gear assigned, then force execution of local event.
 // This is a workaround for the initial gearscripting at mission start:
 // Gearscript does not necessarily wait for the player to become local, so we wait for that here - it's necessary for successful radio config.
