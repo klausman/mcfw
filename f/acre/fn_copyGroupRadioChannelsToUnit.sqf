@@ -2,17 +2,6 @@
 
 params ["_unit"];
 
-if !([_unit] call acre_api_fnc_isInitialized) exitWith
-{
-	[
-		{
-			[_this#0] call acre_api_fnc_isInitialized
-		},
-		f_fnc_copyGroupRadioChannelsToUnit,
-		_this
-	] call CBA_fnc_waitUntilAndExecute;
-};
-
 private _group = group _unit;
 private _groupId = groupId _group;
 

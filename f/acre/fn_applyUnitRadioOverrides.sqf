@@ -4,17 +4,6 @@ params ["_role", "_unit", "_faction"];
 
 if (isNil "f_map_acre_forcedRoles") exitWith {};
 
-if !([_unit] call acre_api_fnc_isInitialized) exitWith
-{
-	[
-		{
-			[_this#1] call acre_api_fnc_isInitialized
-		},
-		f_fnc_applyUnitRadioOverrides,
-		_this
-	] call CBA_fnc_waitUntilAndExecute;
-};
-
 private _group = group _unit;
 private _groupId = groupId _group;
 private _sideName = switch (side _group) do 

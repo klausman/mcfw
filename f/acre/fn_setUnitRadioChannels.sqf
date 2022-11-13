@@ -2,17 +2,6 @@
 
 params ["_unit", "_srChannelIndex", "_lrChannelIndex", "_xlrChannelIndex"];
 
-if !([_unit] call acre_api_fnc_isInitialized) exitWith
-{
-	[
-		{
-			[_this#0] call acre_api_fnc_isInitialized
-		},
-		f_fnc_setUnitRadioChannels,
-		_this
-	] call CBA_fnc_waitUntilAndExecute;
-};
-
 private _hasAnyConfig = (_srChannelIndex >= 0) or {_lrChannelIndex >= 0} or {_xlrChannelIndex >= 0};
 if !(_hasAnyConfig) exitWith {};
 

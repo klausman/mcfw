@@ -16,7 +16,7 @@
 	{
 		(local player) &&
 		{!isNil {player getVariable "f_var_assignGear"}} &&
-		{(player getVariable "f_var_assignGear_done") isEqualTo true}
+		{player getVariable ["f_var_assignGear_done", false]}
 	},
 
 	// Script
