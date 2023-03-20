@@ -97,4 +97,6 @@ if (_ff) then {
     ["%1/%2 has no loadout defined.", _unit, _faction] call mc_fnc_bothlog;
 };
 
+["MCFW_AssignedGear_Local", [_typeOfUnit, _unit, _faction]] call CBA_fnc_localEvent;
+
 // vim: sts=-1 ts=4 et sw=4
