@@ -274,9 +274,6 @@ class CfgFunctions {
         };
         class assignGear {
             file = "f\assignGear_simple";
-            // If you want to use the old AssignGear, delete the line above and
-            // uncomment (remove the //) the line below.
-            //file = "f\assignGear";
             class assignGear{};
         };
         class setGroupID {

@@ -1,6 +1,7 @@
 // Assign Insignia
 params ["_typeOfUnit", "_unit"];
-private ["_badge","_groupBadges","_roleBadge","_faction"];
+private ["_group","_badge","_groupBadges","_roleBadge","_faction"];
+scriptName "f/assignGear_simple/f_assignInsignia.sqf";
 
 _badge = "";
 _faction = toLower (faction _unit);
@@ -8,11 +9,10 @@ _faction = toLower (faction _unit);
 // Note all badges must be defined in description.ext or be included your
 // modpack. See: https://community.bistudio.com/wiki/Arma_3_Unit_Insignia
 
-// This variable stores the final badge to use which will applied at the end
-// of this script. A default badge can be set by changing this.
+// This variable stores the final badge to use which will applied at the end of
+// this script. A default badge can be set by changing this.
 
 // Assign Insignia based on type of the unit.
-
 _roleBadge = switch (_typeofUnit) do {
     // INSIGNIA: MEDIC
     case "m": {
@@ -26,12 +26,10 @@ _roleBadge = switch (_typeofUnit) do {
     default {""};
 };
 
-// ==========================================================================
 
 // This array stores a list of groups and the corresponding badge they will
 // receive. Bin by faction (lowers numbers of groups for each unit to be
 // grouped by too!).
-
 _groupBadges = [];
 
 switch (_faction) do {
@@ -147,12 +145,14 @@ switch (_faction) do {
 };
 
 // ==========================================================================
-// END OF CONFIGURABLE SETTINGS - BELOW ASSIGNS THE INSIGNIA
+// END OF CONFIGURABLE SETTINGS - BELOW ASSIGNS THE INSIGNIAS
 
 // Loop through the groups and match badges to the group _unit belongs to. Due
 // to the groups being variables this requires calling formatted at runtime
 // code.
+
 _group = (group _unit);
+
 {
     if(!isnil (_x select 0)) then {
             call compile format ["
@@ -162,6 +162,11 @@ _group = (group _unit);
             ",_x select 0];
     };
 } forEach _groupBadges;
+
+if (format ["%1",_group] == "") then {
+    ["Unit %1 (type %2) has an empty group.", _unit, _typeOfUnit
+        ] call mc_fnc_rptlog;
+};
 
 //  Let the unit insignia override the group insignia.
 if (_roleBadge != "") then {
