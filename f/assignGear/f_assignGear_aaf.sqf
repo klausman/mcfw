@@ -1,461 +1,147 @@
-// Assign Gear Script - AAF
+// klausman's simplified assignGear - AAF (IND_F) Faction
+
+// List of commonly-used types of units:
+//  co  - commander
+//  dc  - deputy commander / squad leader
+//  m   - medic
+//  ftl - fire team leader
+//  ar  - automatic rifleman
+//  aar - assistant automatic rifleman
+//  rat - rifleman (AT)
+//  dm  - designated marksman
+//  mmgg    - medium mg gunner
+//  mmgag   - medium mg assistant
+//  matg    - medium AT gunner
+//  matag   - medium AT assistant
+//  hmgg    - heavy mg gunner (deployable)
+//  hmgag   - heavy mg assistant (deployable)
+//  hatg    - heavy AT gunner (deployable)
+//  hatag   - heavy AT assistant (deployable)
+//  mtrg    - mortar gunner (deployable)
+//  mtrag   - mortar assistant (deployable)
+//  msamg   - medium SAM gunner
+//  msamag  - medium SAM assistant gunner
+//  hsamg   - heavy SAM gunner (deployable)
+//  hsamag  - heavy SAM assistant gunner (deployable)
+//  sn  - sniper
+//  sp  - spotter (for sniper)
+//  vc  - vehicle commander
+//  vg  - vehicle gunner
+//  vd  - vehicle driver (repair)
+//  pp  - air vehicle pilot / co-pilot
+//  pcc - air vehicle co-pilot (repair) / crew chief (repair)
+//  pc  - air vehicle crewman
+//  eng - engineer (demo)
+//  engm    - engineer (mines)
+//  uav - UAV operator
+//  div - diver
+//  r   - rifleman
+//  car - carabineer
+//  smg - submachinegunner
+//  gren    - grenadier
+
+// NOTE: Those strings are abritrary. That is, if you want to have any
+// random name for unit types, you can make them up. E.g., if you have
+// a placed unit with this in its init function:
+//
+// ["herpderp",this] call f_fnc_assignGear;
+//
+// and in the switch statement below, a section like this:
+//
+// case "herpderp": {
+//    _newLoadout = [[...stuff...]];
+// };
+//
+// Then the unit will get the "stuff" loadout. This way, you can have
+// multiple different types of Automatic Rifleman, for example.
 params ["_typeOfUnit", "_unit"];
 
-private ["_attach1","_attach2","_silencer1","_silencer2","_scope1","_scope2","_scope3","_bipod1","_bipod2","_attachments","_silencer","_hg_silencer1","_hg_scope1","_hg_attachments","_rifle","_riflemag","_riflemag_tr","_carbine","_carbinemag","_carbinemag_tr","_smg","_smgmag","_smgmag_tr","_diverWep","_diverMag1","_diverMag2","_glrifle","_glriflemag","_glriflemag_tr","_glmag","_glsmokewhite","_glsmokegreen","_glsmokered","_glflarewhite","_glflarered","_glflareyellow","_glflaregreen","_pistol","_pistolmag","_grenade","_Mgrenade","_smokegrenade","_smokegrenadegreen","_nvg","_uavterminal","_chemgreen","_chemred","_chemyellow","_chemblue","_bagsmall","_bagmedium","_baglarge","_bagmediumdiver","_baguav","_baghmgg","_baghmgag","_baghatg","_baghatag","_bagmtrg","_bagmtrag","_baghsamg","_baghsamag","_AR","_ARmag","_ARmag_tr","_MMG","_MMGmag","_MMGmag_tr","_Tracer","_DMrifle","_DMriflemag","_RAT","_RATmag","_MAT","_MATmag1","_MATmag2","_HAT","_HATmag1","_HATmag2","_SAM","_SAMmag","_SNrifle","_SNrifleMag","_ATmine","_satchel","_APmine1","_APmine2","_light","_heavy","_diver","_pilot","_crew","_ghillie","_specOp","_baseUniform","_baseHelmet","_baseGlasses","_lightRig","_mediumRig","_heavyRig","_diverUniform","_diverHelmet","_diverRig","_diverGlasses","_pilotUniform","_pilotHelmet","_pilotRig","_pilotGlasses","_crewUniform","_crewHelmet","_crewRig","_crewGlasses","_ghillieUniform","_ghillieHelmet","_ghillieRig","_ghillieGlasses","_sfuniform","_sfhelmet","_sfRig","_sfGlasses","_isMan","_backpack","_typeofBackPack","_COrifle","_mgrenade","_DCrifle","_FTLrifle","_armag","_ratmag","_typeofunit", "_lrradio", "_srradio", "_debug"];
-
-_debug=false;
-// DEFINE EQUIPMENT TABLES
-// The blocks of code below identifies equipment for this faction
+//       NOTE
+//     ========
 //
-// Defined loadouts:
-//      co          - commander
-//      dc          - deputy commander / squad leader
-//      m           - medic
-//      ftl         - fire team leader
-//      ar          - automatic rifleman
-//      aar         - assistant automatic rifleman
-//      rat         - rifleman (AT)
-//      dm          - designated marksman
-//      mmgg        - medium mg gunner
-//      mmgag       - medium mg assistant
-//      matg        - medium AT gunner
-//      matag       - medium AT assistant
-//      hmgg        - heavy mg gunner (deployable)
-//      hmgag       - heavy mg assistant (deployable)
-//      hatg        - heavy AT gunner (deployable)
-//      hatag       - heavy AT assistant (deployable)
-//      mtrg        - mortar gunner (deployable)
-//      mtrag       - mortar assistant (deployable)
-//      msamg       - medium SAM gunner
-//      msamag      - medium SAM assistant gunner
-//      hsamg       - heavy SAM gunner (deployable)
-//      hsamag      - heavy SAM assistant gunner (deployable)
-//      sn          - sniper
-//      sp          - spotter (for sniper)
-//      vc          - vehicle commander
-//      vg          - vehicle gunner
-//      vd          - vehicle driver (repair)
-//      pp          - air vehicle pilot / co-pilot
-//      pcc         - air vehicle co-pilot (repair) / crew chief (repair)
-//      pc          - air vehicle crew
-//      eng         - engineer (demo)
-//      engm        - engineer (mines)
-//      uav         - UAV operator
-//      div         - divers
+// CBA/ACE changed what is exported from the Arsenal in v3.15.2. Before that version, the
+// export function in the ACE Arsenal would give you a unit loadout that could be directly
+// used with Arma's setUnitLoadout function. After that, the exported string is meant to
+// be used with CBA's CBA_fnc_setLoadout. The difference is that the latter function expects
+// a wrapped version of the base game loadout. Specifically, a "classic" loadout looks like
+// this:
 //
-//      r           - rifleman
-//      car         - carabineer
-//      smg         - submachinegunner
-//      gren        - grenadier
+//   [["arifle_MXC_ACO_F","","","",["30Rnd_65x39_caseless_mag",30] ... ,"ItemWatch",""]]
 //
-//      v_car       - car/4x4
-//      v_tr        - truck
-//      v_ifv       - ifv
+// whereas the CBA wrapped version of that loadout is
 //
-//      crate_small - small ammocrate
-//      crate_med   - medium ammocrate
-//      crate_large - large ammocrate
+//  [[["arifle_MXC_ACO_F","","","",["30Rnd_65x39_caseless_mag",30] ... ,"ItemWatch",""]], []]
 //
-
-// GENERAL EQUIPMENT USED BY MULTIPLE CLASSES
-
-// ATTACHMENTS - PRIMARY
-_attach1 = "acc_pointer_IR";    // IR Laser
-_attach2 = "acc_flashlight";    // Flashlight
-
-_silencer1 = "muzzle_snds_M";   // 5.56 suppressor
-_silencer2 = "muzzle_snds_H";   // 6.5 suppressor
-
-_scope1 = "optic_ACO_grn";      // ACO
-_scope2 = "optic_MRCO";         // MRCO Scope - 1x - 6x
-_scope3 = "optic_SOS";          // SOS Scope - 18x - 75x
-
-_bipod1 = "bipod_03_F_oli";     // Default bipod
-_bipod2 = "bipod_03_F_blk";     // Black bipod
-
-// Default setup
-// The default attachment set for most units, overwritten in the individual
-// unitType
-_attachments = [_attach1,_scope1];
-
-// [] = remove all
-// [_attach1,_scope1,_silencer] = remove all, add items assigned in _attach1,
-// _scope1 and _silencer1
-// [_scope2] = add _scope2, remove rest
-// false = keep attachments as they are
-
-// ==========================================================================
-
-// ATTACHMENTS - HANDGUN
-_hg_silencer1 = "muzzle_snds_acp";  // .45 suppressor
-
-_hg_scope1 = "optic_MRD";           // MRD
-
-// Default setup
-// The default attachment set for handguns, overwritten in the individual
-// unitType
-_hg_attachments= [];
-
-// ==========================================================================
-
-// WEAPON SELECTION
-
-// Standard Riflemen ( MMG Assistant Gunner, Assistant Automatic Rifleman, MAT
-// Assistant Gunner, MTR Assistant Gunner, Rifleman)
-_rifle = "arifle_Mk20_F";
-_riflemag = "30Rnd_556x45_Stanag";
-_riflemag_tr = "30Rnd_556x45_Stanag_Tracer_Yellow";
-
-// Standard Carabineer (Medic, Rifleman (AT), MAT Gunner, MTR Gunner,
-// Carabineer)
-_carbine = "arifle_Mk20C_F";
-_carbinemag = "30Rnd_556x45_Stanag";
-_carbinemag_tr = "30Rnd_556x45_Stanag_Tracer_Yellow";
-
-// Standard Submachine Gun/Personal Defence Weapon (Aircraft Pilot,
-// Submachinegunner)
-_smg = "SMG_02_F";
-_smgmag = "30Rnd_9x21_Mag";
-_smgmag_tr = "30Rnd_9x21_Mag";
-
-// Diver
-_diverWep = "arifle_SDAR_F";
-_diverMag1 = "30Rnd_556x45_Stanag";
-_diverMag2 = "20Rnd_556x45_UW_mag";
-
-// Rifle with GL and HE grenades (CO, DC, FTLs)
-_glrifle = "arifle_Mk20_GL_MRCO_pointer_F";
-_glriflemag = "30Rnd_556x45_Stanag";
-_glriflemag_tr = "30Rnd_556x45_Stanag_Tracer_Yellow";
-_glmag = "1Rnd_HE_Grenade_shell";
-
-// Smoke for FTLs, Squad Leaders, etc
-_glsmokewhite = "1Rnd_Smoke_Grenade_shell";
-_glsmokegreen = "1Rnd_SmokeGreen_Grenade_shell";
-_glsmokered = "1Rnd_SmokeRed_Grenade_shell";
-
-// Flares for FTLs, Squad Leaders, etc
-_glflarewhite = "UGL_FlareWhite_F";
-_glflarered = "UGL_FlareRed_F";
-_glflareyellow = "UGL_FlareYellow_F";
-_glflaregreen = "UGL_FlareGreen_F";
-
-// Pistols (CO, DC, Automatic Rifleman, Medium MG Gunner)
-_pistol = "hgun_ACPC2_F";
-_pistolmag = "9Rnd_45ACP_Mag";
-
-// Grenades
-_grenade = "HandGrenade";
-_Mgrenade = "MiniGrenade";
-_smokegrenade = "SmokeShell";
-_smokegrenadegreen = "SmokeShellGreen";
-
-// Night Vision Goggles (NVGoggles)
-_nvg = "NVGoggles_INDEP";
-
-// UAV Terminal
-_uavterminal = "I_UavTerminal";
-
-// Chemlights
-_chemgreen =  "Chemlight_green";
-_chemred = "Chemlight_red";
-_chemyellow =  "Chemlight_yellow";
-_chemblue = "Chemlight_blue";
-
-// Backpacks
-_bagsmall = "B_AssaultPack_khk";        // carries 120, weighs 20
-_bagmedium = "B_FieldPack_oli";         // carries 200, weighs 30
-_baglarge =  "B_Carryall_oli";          // carries 320, weighs 40
-_bagmediumdiver =  "B_AssaultPack_blk"; // used by divers
-_baguav = "I_UAV_01_backpack_F";        // used by UAV operator
-_baghmgg = "I_HMG_01_weapon_F";         // used by Heavy MG gunner
-_baghmgag = "I_HMG_01_support_F";       // used by Heavy MG assistant gunner
-_baghatg = "I_AT_01_weapon_F";          // used by Heavy AT gunner
-_baghatag = "I_HMG_01_support_F";       // used by Heavy AT assistant gunner
-_bagmtrg = "I_Mortar_01_weapon_F";      // used by Mortar gunner
-_bagmtrag = "I_Mortar_01_support_F";    // used by Mortar assistant gunner
-_baghsamg = "I_AA_01_weapon_F";         // used by Heavy SAM gunner
-_baghsamag = "I_HMG_01_support_F";      // used by Heavy SAM assistant gunner
-
-// ==========================================================================
-
-// UNIQUE, ROLE-SPECIFIC EQUIPMENT
-
-// Automatic Rifleman
-_AR = "LMG_Mk200_F";
-_ARmag = "200Rnd_65x39_cased_Box";
-_ARmag_tr = "200Rnd_65x39_cased_Box_Tracer";
-
-// Medium MG
-_MMG = "MMG_01_tan_F";
-_MMGmag = "150Rnd_93x64_Mag";
-_MMGmag_tr = "150Rnd_93x64_Mag";
-
-// NON-DLC ALTERNATIVE:
-//_MMG = "LMG_Zafir_F";
-//_MMGmag = ""150Rnd_762x54_Box"";
-//_MMGmag_tr = ""150Rnd_762x54_Box"_Tracer";
-
-// Marksman rifle
-_DMrifle = "srifle_EBR_F";
-_DMriflemag = "20Rnd_762x51_Mag";
-
-// Rifleman AT
-_RAT = "launch_RPG32_F";
-_RATmag = "RPG32_F";
-
-// Medium AT
-_MAT = "launch_NLAW_F";
-_MATmag1 = "NLAW_F";
-_MATmag2 = "NLAW_F";
-
-// Surface Air
-_SAM = "launch_I_Titan_F";
-_SAMmag = "Titan_AA";
-
-// Heavy AT
-_HAT = "launch_I_Titan_short_F";
-_HATmag1 = "Titan_AT";
-_HATmag2 = "Titan_AP";
-
-// Sniper
-_SNrifle = "srifle_GM6_F";
-_SNrifleMag = "5Rnd_127x108_Mag";
-
-// Engineer items
-_ATmine = "ATMine_Range_Mag";
-_satchel = "DemoCharge_Remote_Mag";
-_APmine1 = "APERSBoundingMine_Range_Mag";
-_APmine2 = "APERSMine_Range_Mag";
-
-// ==========================================================================
-
-// CLOTHES AND UNIFORMS
-
-// Define classes. This defines which gear class gets which uniform
-// "medium" vests are used for all classes if they are not assigned a specific
-// uniform
-
-_light = [];
-_heavy =  ["eng","engm"];
-_diver = ["div"];
-_pilot = ["pp","pcc","pc"];
-_crew = ["vc","vg","vd"];
-_ghillie = ["sn","sp"];
-_specOp = [];
-
-// Basic clothing
-// The outfit-piece is randomly selected from the array for each unit
-
-_baseUniform = ["U_I_CombatUniform","U_I_CombatUniform_shortsleeve","U_I_CombatUniform_tshirt"];
-_baseHelmet = ["H_HelmetIA_net","H_HelmetIA_camo","H_HelmetIA"];
-_baseGlasses = [];
-
-// Vests
-_lightRig = ["V_Chestrig_oli","V_BandollierB_oli"];
-// "medium" is the default for all infantry classes
-_mediumRig = ["V_PlateCarrierIA2_dgtl","V_PlateCarrierIA1_dgtl"];
-_heavyRig = ["V_PlateCarrierIAGL_dgtl"];
-
-// Diver
-_diverUniform =  ["U_I_Wetsuit"];
-_diverHelmet = [];
-_diverRig = ["V_RebreatherIA"];
-_diverGlasses = ["G_Diving"];
-
-// Pilot
-_pilotUniform = ["U_I_HeliPilotCoveralls"];
-_pilotHelmet = ["H_PilotHelmetHeli_I"];
-_pilotRig = ["V_TacVest_oli"];
-_pilotGlasses = [];
-
-// Crewman
-_crewUniform = ["U_I_CombatUniform"];
-_crewHelmet = ["H_HelmetCrew_I"];
-_crewRig = ["V_TacVest_oli"];
-_crewGlasses = [];
-
-// Ghillie
-// DLC alternatives:
-//["U_I_FullGhillie_lsh","U_I_FullGhillie_ard","U_I_FullGhillie_sard"];
-_ghillieUniform = ["U_I_GhillieSuit"];
-_ghillieHelmet = [];
-_ghillieRig = ["V_Chestrig_oli"];
-_ghillieGlasses = [];
-
-// Spec Op - no nice stuff for AAF
-_sfuniform = _baseUniform;
-_sfhelmet = _baseHelmet;
-_sfRig = _mediumRig;
-_sfGlasses = [];
+// So the easiest way of distinguishing the two is whether or not it starts with two square
+// brackets ([[ - base game format) or three ([[[ - CBA extended format).
+//
+// IMPORTANT: This script, as is, will support _both_ formats.
 
 
-// ==========================================================================
-// RADIOS
-_srradio = "TFAR_anprc148jem";
-_lrradio = "TFAR_anprc155";
+// First, save the original extended loadout in case none of the switch branches below
+// actually matches, in essence not changing the loadout.
+private _newLoadout = [_unit] call CBA_fnc_getLoadout;
 
-
-// INTERPRET PASSED VARIABLES
-// The following interprets what has been passed to this script element
-_isMan = _unit isKindOf "CAManBase";
-
-if (_debug) then {
-    ["Unit '%1' is a '%2' (man: %3)",
-        _unit, _typeofUnit, _isman] call mc_fnc_rptlog;
-};
-
-// This block needs only to be run on an infantry unit
-if (_isMan) then {
-    // PREPARE UNIT FOR GEAR ADDITION
-    // The following code removes all existing weapons, items, magazines and
-    // backpacks
-    removeBackpack _unit;
-    removeAllWeapons _unit;
-    removeAllItemsWithMagazines _unit;
-    removeAllAssignedItems _unit;
-
-    // HANDLE CLOTHES
-    // Handle clothes and helmets and such using the include file called next.
-    #include "f_assignGear_clothes.sqf";
-
-    // ADD UNIVERSAL ITEMS
-    // Add items universal to all units of this faction
-    _unit linkItem _nvg;            // Add and equip the faction's nvg
-    _unit linkItem "ItemMap";       // Add and equip the map
-    _unit linkItem "ItemCompass";   // Add and equip a compass
-    _unit linkItem "ItemWatch";     // Add and equip a watch
-    _unit linkItem _srradio;
-    //_unit linkItem "ItemGPS";     // Add and equip a GPS
-};
-
-// SETUP BACKPACKS
-// Include the correct backpack file for the faction
-_backpack = {
-    private _typeofBackPack = _typeOfUnit;
-    private _loadout = f_param_backpacks;
-    switch (_typeofBackPack) do {
-        #include "f_assignGear_aaf_b.sqf";
-    };
-};
-
-// ==========================================================================
-
-// DEFINE UNIT TYPE LOADOUTS
-// The following blocks of code define loadouts for each type of unit (the
-// unit type is passed to the script in the first variable)
+// Depending on _typeofUnit, give them a loadout exported from the ACE Arsenal
 switch (_typeofUnit) do {
+  // Commanding Officer
+  case "co": {
+    _newLoadout = [["arifle_Mk20C_ACO_F","","","optic_ACO_grn",["30rnd_556x45_stanag",30],[],""],[],["hgun_ACPC2_F","","","",["9Rnd_45ACP_Mag",8],[],""],["U_I_OfficerUniform",[["FirstAidKit",1],["30rnd_556x45_stanag",3,30],["SmokeShellGreen",1,1]]],["V_BandollierB_oli",[["9Rnd_45ACP_Mag",2,8],["SmokeShellOrange",1,1],["SmokeShellPurple",1,1],["Chemlight_green",2,1]]],[],"H_MilCap_dgtl","",[],["ItemMap","ItemGPS","ItemRadio","ItemCompass","ItemWatch",""]];
+  };
 
-    // COMMANDER
-    case "co": {
-        _unit addmagazines [_glriflemag,7];
-        _unit addmagazines [_glriflemag_tr,2];
-        _unit addmagazines [_glmag,3];
-        _unit addmagazines [_glsmokewhite,4];
-        _unit addweapon _glrifle;                   //_COrifle
-        _unit addmagazines [_pistolmag,2];
-        _unit addweapon _pistol;
-        _unit addmagazines [_grenade,1];
-        _unit addmagazines [_mgrenade,1];
-        _unit addmagazines [_smokegrenade,2];
-        _unit addmagazines [_smokegrenadegreen,2];
-        _unit addWeapon "Rangefinder";
-        _unit linkItem "ItemGPS";
-        ["co"] call _backpack;
-    };
+  // 2IC and Squad leaders
+  case "dc": {
+    _newLoadout = [["arifle_Mk20_MRCO_pointer_F","","acc_pointer_IR","optic_MRCO",["30rnd_556x45_stanag",30],[],""],[],["hgun_ACPC2_F","","","",["9Rnd_45ACP_Mag",8],[],""],["U_I_CombatUniform_shortsleeve",[["FirstAidKit",1],["30rnd_556x45_stanag",3,30],["I_IR_Grenade",2,1],["Chemlight_green",1,1]]],["V_PlateCarrierIA2_dgtl",[["30Rnd_556x45_Stanag_Tracer_Yellow",2,30],["9Rnd_45ACP_Mag",2,8],["HandGrenade",2,1],["SmokeShell",1,1],["SmokeShellGreen",1,1],["SmokeShellOrange",1,1],["SmokeShellPurple",1,1],["Chemlight_green",1,1]]],[],"H_HelmetIA","",["Binocular","","","",[],[],""],["ItemMap","ItemGPS","ItemRadio","ItemCompass","ItemWatch","NVGoggles_INDEP"]];
+  };
 
-    // DEPUTY COMMANDER AND SQUAD LEADER
-    case "dc": {
-        _unit addmagazines [_glriflemag,7];
-        _unit addmagazines [_glriflemag_tr,2];
-        _unit addmagazines [_glmag,3];
-        _unit addmagazines [_glsmokewhite,4];
-        _unit addweapon _glrifle;                   //_DCrifle
-        _unit addmagazines [_pistolmag,2];
-        _unit addweapon _pistol;
-        _unit addmagazines [_grenade,1];
-        _unit addmagazines [_mgrenade,1];
-        _unit addmagazines [_smokegrenade,2];
-        _unit addmagazines [_smokegrenadegreen,2];
-        _unit addWeapon "Rangefinder";
-        _unit linkItem "ItemGPS";
-        ["dc"] call _backpack;
-    };
+  // Medic
+  case "m": {
+    _newLoadout = [["arifle_Mk20_pointer_F","","acc_pointer_IR","",["30rnd_556x45_stanag",30],[],""],[],["hgun_ACPC2_F","","","",["9Rnd_45ACP_Mag",8],[],""],["U_I_CombatUniform_shortsleeve",[["FirstAidKit",1],["30rnd_556x45_stanag",3,30],["SmokeShell",1,1]]],["V_PlateCarrierIA2_dgtl",[["30rnd_556x45_stanag",2,30],["9Rnd_45ACP_Mag",2,8],["SmokeShellGreen",1,1],["SmokeShellOrange",1,1],["SmokeShellPurple",1,1],["Chemlight_green",2,1]]],["I_Fieldpack_oli_Medic",[["Medikit",1],["FirstAidKit",10]]],"H_HelmetIA","UK3CB_BAF_G_Tactical_Clear",[],["ItemMap","","ItemRadio","ItemCompass","ItemWatch","NVGoggles_INDEP"]];
+  };
 
-    // MEDIC
-    case "m": {
-        _unit addmagazines [_carbinemag,7];
-        _unit addweapon _carbine;
-        _unit addmagazines [_smokegrenade,4];
-    };
+  // Fire Team Leader
+  case "ftl": {
+    _newLoadout = [["arifle_Mk20_GL_MRCO_pointer_F","","acc_pointer_IR","optic_MRCO",["30rnd_556x45_stanag",30],["1Rnd_HE_Grenade_shell",1],""],[],["hgun_ACPC2_F","","","",["9Rnd_45ACP_Mag",8],[],""],["U_I_CombatUniform",[["FirstAidKit",1],["30rnd_556x45_stanag",3,30]]],["V_PlateCarrierIAGL_dgtl",[["30Rnd_556x45_Stanag_Tracer_Yellow",2,30],["9Rnd_45ACP_Mag",2,8],["MiniGrenade",2,1],["1Rnd_HE_Grenade_shell",5,1],["SmokeShell",1,1],["SmokeShellGreen",1,1],["SmokeShellOrange",1,1],["SmokeShellPurple",1,1],["Chemlight_green",2,1],["1Rnd_Smoke_Grenade_shell",2,1],["1Rnd_SmokeGreen_Grenade_shell",1,1],["1Rnd_SmokeOrange_Grenade_shell",1,1],["1Rnd_SmokePurple_Grenade_shell",1,1]]],[],"H_HelmetIA","",["Binocular","","","",[],[],""],["ItemMap","ItemGPS","ItemRadio","ItemCompass","ItemWatch","NVGoggles_INDEP"]];
+  };
 
-    // CRATE: Medium, ammo for 1 squad
-    case "crate_med": {
-        clearWeaponCargoGlobal _unit;
-        clearMagazineCargoGlobal _unit;
-        clearItemCargoGlobal _unit;
-        clearBackpackCargoGlobal _unit;
-        _unit addMagazineCargoGlobal [_riflemag, 15];
-        _unit addMagazineCargoGlobal [_glriflemag, 20];
-        _unit addMagazineCargoGlobal [_armag, 15];
-        _unit addMagazineCargoGlobal [_carbinemag, 20];
-        _unit addMagazineCargoGlobal [_glmag, 20];
-        _unit addMagazineCargoGlobal [_glsmokewhite,16];
-        _unit addMagazineCargoGlobal [_ratmag, 6];
-        _unit addMagazineCargoGlobal [_grenade, 25];
-        _unit addMagazineCargoGlobal [_mgrenade, 25];
-        _unit addMagazineCargoGlobal [_smokegrenade, 25];
-        _unit addMagazineCargoGlobal [_smokegrenadegreen, 6];
-    };
+  // Automatic Rifleman
+  case "ar": {
+    _newLoadout = [["LMG_Mk200_LP_BI_F","","acc_pointer_IR","",["200Rnd_65x39_cased_Box",200],[],"bipod_03_F_blk"],[],["hgun_ACPC2_F","","","",["9Rnd_45ACP_Mag",8],[],""],["U_I_CombatUniform_shortsleeve",[["FirstAidKit",1],["9Rnd_45ACP_Mag",2,8],["HandGrenade",1,1],["SmokeShell",1,1],["SmokeShellGreen",1,1]]],["V_PlateCarrierIA2_dgtl",[["200Rnd_65x39_cased_Box",2,200],["Chemlight_green",2,1]]],[],"H_HelmetIA_camo","G_Lowprofile",[],["ItemMap","","ItemRadio","ItemCompass","ItemWatch","NVGoggles_INDEP"]];
+  };
 
-    // CRATE: Large, ammo for 1 platoon
-    case "crate_large": {
-        clearWeaponCargoGlobal _unit;
-        clearMagazineCargoGlobal _unit;
-        clearItemCargoGlobal _unit;
-        clearBackpackCargoGlobal _unit;
-        _unit addMagazineCargoGlobal [_riflemag, 45];
-        _unit addMagazineCargoGlobal [_glriflemag, 60];
-        _unit addMagazineCargoGlobal [_armag, 45];
-        _unit addMagazineCargoGlobal [_carbinemag, 60];
-        _unit addMagazineCargoGlobal [_glmag, 60];
-        _unit addMagazineCargoGlobal [_glsmokewhite,50];
-        _unit addMagazineCargoGlobal [_ratmag, 20];
-        _unit addMagazineCargoGlobal [_grenade, 75];
-        _unit addMagazineCargoGlobal [_mgrenade, 75];
-        _unit addMagazineCargoGlobal [_smokegrenade, 75];
-        _unit addMagazineCargoGlobal [_smokegrenadegreen, 20];
-    };
+  // Assistant Automatic Rifleman
+  case "aar": {
+    _newLoadout = [["arifle_Mk20_ACO_pointer_F","","acc_pointer_IR","optic_ACO_grn",["30rnd_556x45_stanag",30],[],""],[],["hgun_ACPC2_F","","","",["9Rnd_45ACP_Mag",8],[],""],["U_I_CombatUniform_tshirt",[["FirstAidKit",1],["30rnd_556x45_stanag",3,30],["I_IR_Grenade",2,1],["Chemlight_green",1,1]]],["V_Chestrig_oli",[["30rnd_556x45_stanag",4,30],["9Rnd_45ACP_Mag",2,8],["HandGrenade",2,1],["SmokeShell",1,1],["SmokeShellGreen",1,1],["Chemlight_green",1,1]]],["B_TacticalPack_oli_AAR",[["optic_tws_mg",1],["bipod_03_F_blk",1],["muzzle_snds_H",1],["200Rnd_65x39_cased_Box",3,200],["200Rnd_65x39_cased_Box_Tracer",1,200]]],"H_HelmetIA","",["Rangefinder","","","",[],[],""],["ItemMap","","ItemRadio","ItemCompass","ItemWatch","NVGoggles_INDEP"]];
+  };
 
-    // DEFAULT/UNDEFINED (use RIFLEMAN)
-   default {
-        _unit addmagazines [_riflemag,7];
-        _unit addweapon _rifle;
+  // Rifleman (AT)
+  case "rat": {
+    _newLoadout = [["rhs_weap_m4a1_blockII","","","RKSL_optic_EOT552",["rhs_mag_30Rnd_556x45_M855_PMAG_Tan_Tracer_Red",30],[],""],["launch_MRAWS_olive_F","","","",["MRAWS_HEAT_F",1],[],""],["hlc_pistol_P229R_357Combat","","","",["hlc_10Rnd_357SIG_B_P229",10],[],""],["MNP_CombatUniform_Germany",[["ACE_fieldDressing",15],["ACE_morphine",10],["SmokeShell",1,1],["Chemlight_green",1,1],["hlc_12Rnd_357SIG_B_P226",2,12]]],["MNP_Vest_Germany_2",[["SmokeShellGreen",1,1],["Chemlight_green",1,1],["rhs_mag_30Rnd_556x45_M855_PMAG_Tan_Tracer_Red",8,30],["hlc_12Rnd_357SIG_B_P226",2,12]]],["TRYK_B_Carryall_wood",[["ACE_EntrenchingTool",1],["rhs_mag_an_m8hc",4,1],["HandGrenade",6,1],["Laserbatteries",1,1],["MRAWS_HEAT_F",3,1]]],"MNP_Helmet_Germany","",[],["ItemMap","ItemGPS","TFAR_anprc152","ItemCompass","ItemWatch",""]];
+  };
 
-        _unit selectweapon primaryweapon _unit;
+  // Designated Marksman
+  case "dm": {
+    _newLoadout = [["srifle_EBR_MRCO_LP_BI_F","","acc_pointer_IR","optic_MRCO",["20Rnd_762x51_Mag",20],[],"bipod_03_F_blk"],[],["hgun_ACPC2_F","","","",["9Rnd_45ACP_Mag",8],[],""],["U_I_CombatUniform",[["FirstAidKit",1],["20Rnd_762x51_Mag",2,20]]],["V_PlateCarrierIA1_dgtl",[["20Rnd_762x51_Mag",5,20],["9Rnd_45ACP_Mag",2,8],["HandGrenade",2,1],["SmokeShell",1,1],["SmokeShellGreen",1,1],["Chemlight_green",2,1]]],[],"H_HelmetIA","G_Combat",[],["ItemMap","","ItemRadio","ItemCompass","ItemWatch","NVGoggles_INDEP"]];
+  };
 
-        if (true) exitwith {
-            ["Unit:%1. Gear template %2 does not exist.",
-                _unit,_typeofunit] call mc_fnc_bothlog;
-        }
-   };
-// END SWITCH FOR DEFINE UNIT TYPE LOADOUTS
+  // This block is executed if the unit assignGear was called on does
+  // not have a known type. So do nothing except warn the MM about this
+  default {
+    // the if (true) is necessary due to the way exitWith works
+    ["Unit:%1. Gear template %2 does not exist, loadout not changed.", _unit, _typeofunit
+        ] call mc_fnc_bothlog;
+  };
+// End of loadouts
 };
 
-// ==========================================================================
-
-// If this isn't run on an infantry unit we can exit
-if !(_isMan) exitWith {};
-
-// ==========================================================================
-
-// Handle weapon attachments
-#include "f_assignGear_attachments.sqf";
-
-// ==========================================================================
-
-// ENSURE UNIT HAS CORRECT WEAPON SELECTED ON SPAWNING
-
-_unit selectweapon primaryweapon _unit;
+if (count _newLoadout == 10) then {
+    // Base game loadout
+    _unit setUnitLoadout _newLoadout;
+} else {
+    // CBA extended loadout
+    // We use "false" for the "refill mags" bool since the mission maker may have
+    // given players partial magazines intentionally.
+    [_unit, _newLoadout, false] call CBA_fnc_setLoadout;
+};
 
 // vim: sts=-1 ts=4 et sw=4
