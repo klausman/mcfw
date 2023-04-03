@@ -22,7 +22,7 @@
 // The timestamp is Hours:Minutes:Seconds since mission start.
 //
 // This function uses CBA functions to do the actual logging.
-private ["_cat"];
+private ["_cat", "_fmts"];
 
 _cat = _this select 0;
 _fmts = _this select [1, 999];

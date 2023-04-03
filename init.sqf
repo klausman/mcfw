@@ -175,10 +175,9 @@ private _edCount = 0;
 ["vicsaver", "Made %1 vehicles inert", _edCount] call mc_fnc_ehlog;
 
 [_editedVicsAD, _editedVicsES] spawn {
+    params ["_editedVicsAD", "_editedVicsES"];
     sleep 2; // This only starts ticking once in-mission
     ["vicsaver", "Enabling simulation on vehicles"] call mc_fnc_ehlog;
-    private _editedVicsAD = _this select 0;
-    private _editedVicsES = _this select 1;
     {_x allowDamage true} foreach _editedVicsAD;
     {_x enableSimulationGlobal true} foreach _editedVicsES;
     ["vicsaver", "Enabling simulation on vehicles complete"] call mc_fnc_ehlog;
@@ -202,7 +201,7 @@ if (isServer) then {
     }] call CBA_fnc_addEventHandler;
 
     ["mc_playerRespawned", {
-        params ["_uid", "_name", "_role"];
+        params ["", "_name", ""];
         ["mc_playerRespawned", "%1", _name] call mc_fnc_ehlog;
 
         _this remoteExecCall ["mc_fnc_stats_handleRespawn", 2];

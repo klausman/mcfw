@@ -5,7 +5,7 @@
 
 	You can make any object slingable by simply calling DSL_fn_add_sling_action function with a parameter of the object
 	example:
-		private _object = "C_Offroad_01_F" createVehicle position player; 
+		private _object = "C_Offroad_01_F" createVehicle position player;
 		[_object] call DSL_fn_add_sling_action
 		
 */
@@ -13,15 +13,17 @@
 if (mc_enable_dsl == 0) exitWith {["fn_simpleSlingloading (DSL) has been disabled in mission parameters"] call mc_fnc_rptlog;};
 ["fn_simpleSlingloading: initializing"] call mc_fnc_rptlog;
 
-private ["_ccargo","_acargo","_action","_target","_action","_curator","_entity","_object","_side"];
+private ["_acargo","_action","_target","_action"];
 
 // List objects classes that will be ignored at mission init.
-_acargo = entities [[], ["Air","Man","Tank","Logic","House"], true]; 
+_acargo = entities [[], ["Air","Man","Tank","Logic","House"], true];
 
 DSL_fn_add_sling_action = {
 	params ["_object"];
-	_action = [ 
+	_action = [
 		"SlingLoad", "Sling Load", "", {
+			// _args is populated by ace_common_fnc_progressBar
+			// _target is from ace_interact_menu_fnc_addActionToObject
 			[10, [_target], {[_args select 0] call DSL_fn_sling}, {}, "Sling Loading..."] call ace_common_fnc_progressBar;
 		},
 	{((nearestObject [_target, "Helicopter"]) distance _target < 15) && count attachedObjects nearestObject [_target, "Helicopter"] == 0},{},[],
@@ -37,7 +39,7 @@ DSL_fn_add_sling_action = {
 // Adds objects spawned by ACE_Fortify Tool
 if (isClass(configFile >> "CfgWeapons" >> "ACE_Fortify")) then {
 	["acex_fortify_objectPlaced", {
-			params ["_unit", "_side", "_object"];
+			params ["", "", "_object"];
 			if (_object isKindOf "House") exitWith {};
 			[_object] call DSL_fn_add_sling_action;
 		}
@@ -45,9 +47,9 @@ if (isClass(configFile >> "CfgWeapons" >> "ACE_Fortify")) then {
 };
 
 // Adds objects spawned by Zues
-{ 
+{
 	_x addEventHandler ["CuratorObjectPlaced", {
-		params ["_curator", "_entity"];
+		params ["", "_entity"];
 		if !((_entity isKindOf "Tank")||(_entity isKindOf "Air")||(_entity isKindOf "Logic")||(_entity isKindOf "Man")||(_entity isKindOf "House")) then {
 				[_entity] call DSL_fn_add_sling_action;
 			};
@@ -72,9 +74,8 @@ if (!isNil "zen_custom_modules_fnc_register") then {
 
 DSL_fn_sling = {
 	params ["_cargo"];
-	private ["_nObject","_pilot","_Rope1","_Rope2","_Rope3","_Rope4"];
+	private ["_nObject","_Rope1","_Rope2","_Rope3","_Rope4"];
 	_nObject = nearestObject [_cargo, "Helicopter"];
-	_pilot = currentPilot _nObject;
 
 	if (count attachedObjects _nObject != 0) exitWith {
 		hint "Helicopter already has cargo sling loaded";
@@ -87,28 +88,28 @@ DSL_fn_sling = {
 
 	_cargo attachTo [_nObject, [0, 1.1, -7]];
 
-	_ropelength = (_cargo distance _nObject);
+	private _ropelength = (_cargo distance _nObject);
 	_Rope1 = ropeCreate [_nObject, [0,1.1,-2], _ropelength];
 	_Rope2 = ropeCreate [_nObject, [0,1.1,-2], _ropelength];
 	_Rope3 = ropeCreate [_nObject, [0,1.1,-2], _ropelength];
 	_Rope4 = ropeCreate [_nObject, [0,1.1,-2], _ropelength];
 
-	_attachmentPoints = [_cargo] call ASL_Get_Corner_Points;
+	private _attachmentPoints = [_cargo] call ASL_Get_Corner_Points;
 	[_cargo, _attachmentPoints select 0, [0,0,-1]] ropeAttachTo _Rope1;
 	[_cargo, _attachmentPoints select 1, [0,0,-1]] ropeAttachTo _Rope2;
 	[_cargo, _attachmentPoints select 2, [0,0,-1]] ropeAttachTo _Rope3;
 	[_cargo, _attachmentPoints select 3, [0,0,-1]] ropeAttachTo _Rope4;
 
-	[_nObject, ["<t color='#FF0000'>Release Cargo</t>", {  
-		private ["_heli","_cargoRopes","_pos"];     
+	[_nObject, ["<t color='#FF0000'>Release Cargo</t>", {
+		private ["_heli","_cargoRopes","_pos"];
 		_heli = _this select 0;
-		if ((getPosATL _heli) select 2 > 20 ) exitWith { 
-			hint "You are too High to release cargo" 
+		if ((getPosATL _heli) select 2 > 20 ) exitWith {
+			hint "You are too High to release cargo"
 		};
 		_cargoRopes = ropes _heli;
 		{
 			ropeDestroy _x;
-		} forEach _cargoRopes; 
+		} forEach _cargoRopes;
 
 		{
 			detach _x;
@@ -119,7 +120,7 @@ DSL_fn_sling = {
 	},nil,1.5,true,true,"","true",8,false,"",""]] remoteExec ["addAction"];
 };
 
-/* 
+/*
 	Credits for finding rope points go to seth duda from Advanced Sling Loading.
 	https://github.com/sethduda/
 	https://github.com/sethduda/AdvancedSlingLoading
