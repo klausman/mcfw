@@ -123,7 +123,10 @@ if (hasInterface) then {
                     name player,
                     roleDescription player
                 ]] call CBA_fnc_serverEvent;
-                if (missionNamespace getVariable ['mc_respawnTickets', -1] >= 0) then {
+                if (missionNamespace getVariable ['mc_respawnTickets_blufor', -1] >= 0
+                    || missionNamespace getVariable ['mc_respawnTickets_opfor', -1] >= 0
+                    || missionNamespace getVariable ['mc_respawnTickets_indep', -1] >= 0
+                ) then {
                     _this remoteExecCall ['mc_fnc_handlePlayerRespawn', 2];
                 };
                 private _loadout = player getVariable ['f_var_assignGear', 'NO_LOADOUT'];
@@ -185,11 +188,21 @@ private _edCount = 0;
 };
 
 if (isServer) then {
-    private _ticketCount = -1;
-    if (!isNil "mc_respawnTicket_initialValue") then {
-        _ticketCount = mc_respawnTicket_initialValue;
+    private _bluforTicketCount = -1;
+    private _opforTicketCount = -1;
+    private _indepTicketCount = -1;
+    if (!isNil "mc_respawnTicket_blufor_initialValue") then {
+        _bluforTicketCount = mc_respawnTicket_blufor_initialValue;
     };
-    missionNamespace setVariable ["mc_respawnTickets", _ticketCount, true];
+    if (!isNil "mc_respawnTicket_opfor_initialValue") then {
+        _opforTicketCount = mc_respawnTicket_opfor_initialValue;
+    };
+    if (!isNil "mc_respawnTicket_indep_initialValue") then {
+        _indepTicketCount = mc_respawnTicket_indep_initialValue;
+    };
+    missionNamespace setVariable ["mc_respawnTickets_blufor", _bluforTicketCount, true];
+    missionNamespace setVariable ["mc_respawnTickets_opfor", _opforTicketCount, true];
+    missionNamespace setVariable ["mc_respawnTickets_indep", _indepTicketCount, true];
 
     // Globally declared variable containing player UIDs
     mc_stats_players = [];
