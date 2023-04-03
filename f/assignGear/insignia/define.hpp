@@ -1,3 +1,18 @@
+class MC_Badge01 {
+	displayName = "MC Badge 01";
+	author = "MC";
+	texture = "f\assignGear\insignia\mc01.paa";
+};
+class MC_Badge02 {
+	displayName = "MC Badge 02";
+	author = "MC";
+	texture = "f\assignGear\insignia\mc02.paa";
+};
+class MC_Badge03 {
+	displayName = "MC Badge 03";
+	author = "MC";
+	texture = "f\assignGear\insignia\mc03.paa";
+};  
 class AAF_A1_Badge {
 	displayName = "AAF A1";
 	author = "F3 Framework";
