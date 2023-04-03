@@ -21,7 +21,7 @@ if (_target in allMapMarkers) then {
 _players = [];
 {
     if (isPlayer _x) then {
-        _addPlayer = true;
+        private _addPlayer = true;
 
         if (_checkGround) then {
             // Add player only if:

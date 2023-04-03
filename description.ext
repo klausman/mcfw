@@ -108,7 +108,6 @@ class cfgNotifications {
 
 // Start of Params code blocks.
 class Params {
-    // - Debug Mode
     class f_param_debugMode {
             title = "Debug Mode";
             values[] = {0,1};
@@ -116,33 +115,12 @@ class Params {
             default = 0;
             code = "f_var_debugMode = %1";
     };
-
-    // Folk Assign Gear Script
-    class f_param_backpacks {
-            title = "Loadouts";
-            values[] = {0,1,2};
-            texts[] = {"Light","Medium","Heavy"};
-            default = 1;
-            code = "f_param_backpacks = %1";
-    };
-
-    // Mission Timer/Safe Start
     class f_param_mission_timer {
             title = "Safe Start (minutes)";
             values[] = {0,1,2,3,4,5,6,7,8,9,10,15};
             texts[] = {"Off","1","2","3","4","5","6","7","8","9","10","15"};
             default = 5;
             code = "f_param_mission_timer = %1";
-    };
-
-    // Clientside Caching
-    // Credits: Captainblaffer
-    class mc_param_cscaching {
-        title = "Enable Clientside caching? NOTE: Disable this when spawning AI with Zeus";
-        values[] = {0,1};
-        texts[] = {"Off","On"};
-        default = 0;
-        code = "mc_param_cscaching = %1";
     };
     class mc_murk_headless {
         title = "Enable Headless Client takeover of murk-spawned units";
@@ -189,13 +167,12 @@ class Params {
         code = "mc_enable_atw = %1";
     };
     class mc_enable_dsl {
-        title = "Enable Simple Slingloading (DSL)";
+        title = "Enable Dagger's Simple Slingloading (DSL)";
         values[] = {0, 1};
         texts[] = {"Off", "On"};
         default = 1;
         code = "mc_enable_dsl = %1";
     };
-    // Respawn system
     class mc_respawnTicket_initialValue {
         title = "Respawn tickets";
         values[] = {-1, 0, 1, 5, 10, 15, 20, 25, 30};
@@ -299,14 +276,6 @@ class CfgFunctions {
     };
 
     class mc {
-        class ClientsideCaching {
-            file = "extras";
-            class ClientsideCaching{};
-        };
-        class CscGroupmanagement {
-            file = "extras";
-            class CscGroupmanagement{};
-        };
         class log {
             file = "extras\log";
             class rptlog{};
