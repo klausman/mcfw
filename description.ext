@@ -250,7 +250,7 @@ class CfgFunctions {
             class nearPlayer{};
         };
         class assignGear {
-            file = "f\assignGear_simple";
+            file = "f\assignGear";
             class assignGear{};
         };
         class setGroupID {

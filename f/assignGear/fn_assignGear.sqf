@@ -1,8 +1,8 @@
-// klausman's simple assignGear
+// klausman's assignGear
 params ["_typeOfUnit", "_unit", ["_faction", ""]];
 private ["_ff"];
 
-scriptName "f/assignGear_simple/fn_assignGear.sqf";
+scriptName "f/assignGear/fn_assignGear.sqf";
 
 // The unit's faction is defined by the base game (or the mod) and
 // can be an arbitrary string, though "BLU_F" and OPF_F" are

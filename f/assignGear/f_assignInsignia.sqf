@@ -1,7 +1,7 @@
 // Assign Insignia
 params ["_typeOfUnit", "_unit"];
 private ["_group","_badge","_groupBadges","_roleBadge","_faction"];
-scriptName "f/assignGear_simple/f_assignInsignia.sqf";
+scriptName "f/assignGear/f_assignInsignia.sqf";
 
 _badge = "";
 _faction = toLower (faction _unit);
