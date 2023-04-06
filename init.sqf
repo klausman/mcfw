@@ -102,42 +102,46 @@ if (!isserver && hasInterface) then {
 if (hasInterface) then {
     []spawn {
         waitUntil {sleep 1; !isNull player};
-
+        // Quickly remove player body on death or respawn
         player addEventHandler [
             "killed",
-            "params ['_unit', '_killer', '_instigator', '_useEffects'];
-             [_unit] spawn {
-                private _corpse = _this select 0;
-                sleep 3;
-                hideBody _corpse;
-                sleep 10;
-                deleteVehicle _corpse;
-             };"];
-
+            {
+                params ["_unit", "_", "_", "_"];
+                [_unit] spawn {
+                    private _corpse = _this select 0;
+                    sleep 3;
+                    hideBody _corpse;
+                    sleep 10;
+                    deleteVehicle _corpse;
+                };
+            }
+        ];
+        // Re-apply assignGear loadout on respawn
         player addEventHandler [
             "respawn",
-             "_this spawn {
-                waitUntil {sleep 1; !isNull player};
-                ['mc_playerRespawned', [
-                    getPlayerUID player,
-                    name player,
-                    roleDescription player
-                ]] call CBA_fnc_serverEvent;
-                if (missionNamespace getVariable ['mc_respawnTickets', -1] >= 0) then {
-                    _this remoteExecCall ['mc_fnc_handlePlayerRespawn', 2];
+            {
+                _this spawn {
+                    waitUntil {sleep 1; !isNull player};
+                    ["mc_playerRespawned", [
+                        getPlayerUID player, name player, roleDescription player]
+                    ] call CBA_fnc_serverEvent;
+                    if (missionNamespace getVariable ["mc_respawnTickets", -1] >= 0) then {
+                        _this remoteExecCall ["mc_fnc_handlePlayerRespawn", 2];
+                    };
+                    private _loadout = player getVariable ["f_var_assignGear", "NO_LOADOUT"];
+                    if (_loadout!="NO_LOADOUT") then {
+                        player setVariable ["f_var_assignGear_done",false,true];
+                        [_loadout, player] call f_fnc_assignGear;
+                    } else {
+                        ["respawnEH", "Unit %1 had no aG loadout, doing nothing"] call mc_fnc_rptlog;
+                    };
+                    sleep 5;
+                    call mc_fnc_telepole_reinit;
                 };
-                private _loadout = player getVariable ['f_var_assignGear', 'NO_LOADOUT'];
-                if (_loadout!='NO_LOADOUT') then {
-                    player setVariable ['f_var_assignGear_done',false,true];
-                    [_loadout, player] call f_fnc_assignGear;
-                } else {
-                    ['respawnEH', 'Unit %1 had no aG loadout, doing nothing'] call mc_fnc_rptlog;
-                };
-                sleep 5;
-                call mc_fnc_telepole_reinit;
-             };"];
+            }
+        ];
     };
-
+    // Trigger event for stats
     ["mc_playerSpawned", [
         getPlayerUID player,
         name player,
