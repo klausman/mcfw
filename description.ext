@@ -24,6 +24,10 @@ loadScreen = "mc.paa";
 // Debug Console
 enableDebugConsole = 1;
 
+// When editing, recompiling functions may be necessary during debugging
+// When playing, this should be 0
+allowFunctionsRecompile = 0;
+
 // Respawn Settings
 //
 // More Info:
