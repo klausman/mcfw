@@ -36,7 +36,7 @@ _unit setVariable ["f_var_assignGear",_typeofUnit,true];
 _unit setVariable ["f_var_assignGear_done", false, true];
 
 if (f_var_debugMode == 1) then {
-    ["Unit faction: %1",_faction] call mc_fnc_bothlog;
+    ["AssignGear", "Unit faction: %1",_faction] call mc_fnc_bothlog;
 };
 
 // Any unit with a faction of "blu_f" gets a NATO loadout.

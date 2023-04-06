@@ -19,7 +19,7 @@ if !(_curator in allCurators) then {
 
 // If curator is null or not the correct logic exit with an error message.
 if (isNull _curator || typeOf _curator != "ModuleCurator_F") exitWith {
-    ["Error: curator==null (%1) or wrong type. Wanted ModuleCurator_F, got %2",
+    ["ZeusAddons", "Error: curator==null (%1) or wrong type. Wanted ModuleCurator_F, got %2",
         isNull _curator,typeOf _curator] call mc_fnc_bothlog;
 };
 

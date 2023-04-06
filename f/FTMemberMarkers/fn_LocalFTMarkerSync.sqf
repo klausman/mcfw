@@ -27,7 +27,7 @@ while{_unit == (leader _grp) && alive _unit} do {
             if((_x getvariable ["assignedTeam","ColorWhite"]) != _colorTeam) then {
                 // debug messages
                 if (f_var_debugMode == 1) then {
-                    ["%1 -> %2 by %3",
+                    ["FTMarkers", "%1 -> %2 by %3",
                      (_x getvariable ["assignedTeam","ColorWhite"]),
                      _colorTeam,_unit] call mc_fnc_bothlog;
                 };

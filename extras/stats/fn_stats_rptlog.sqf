@@ -1,4 +1,4 @@
-scriptName "mc_fnc_stats_rptlog";
+// Log player stats to RPT (for MC)
 
 if (!isServer) exitWith {};
 
@@ -14,7 +14,7 @@ if (!isServer) exitWith {};
     private _playerStats = missionNamespace getVariable ["mc_stats_player_" + _x, nil];
     if (isNil "_playerStats") exitwith {
         if (f_var_debugMode == 1) then {
-            ["%1 does not exist in missionNamespace", "mc_stats_player_" + _x] call mc_fnc_bothlog;
+            ["Stats-Rptlog", "%1 does not exist in missionNamespace", "mc_stats_player_" + _x] call mc_fnc_bothlog;
         };
     };
     _playerStats params ["_playerName", "_respawnCount", "_roles"];

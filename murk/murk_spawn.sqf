@@ -112,7 +112,7 @@ private _triggerObject = (synchronizedObjects _unit) select 0;
 
 if (isnil "_triggerObject") then {
     // Always log, ...
-    ["The trigger object for %1 is not defined.", _unit] call mc_fnc_bothlog;
+    ["Murk-Spawn", "The trigger object for %1 is not defined.", _unit] call mc_fnc_bothlog;
     // ... but only mark things on the map if debugging is on
     if (_debug) exitWith {
         private _mname = format ["mstestmrk_%1",_unit];
@@ -137,13 +137,13 @@ private _unitGroup = group _unit;
 private _unitsInGroupAdd = [];
 private _side = side _unitGroup;
 private _grpHCBL = _unitGroup getVariable ["acex_headless_blacklist", false];
-["Murk'd group %1 has HCBL status %2", _unitGroup, _grpHCBL] call mc_fnc_rptlog;
+["Murk-Spawn", "Murk'd group %1 has HCBL status %2", _unitGroup, _grpHCBL] call mc_fnc_rptlog;
 
 while { count units _unitGroup > 0 } do {
     // The currently worked on unit
     private _unitsInGroup = units _unitGroup;
     private _unit = _unitsInGroup select 0;
-    ["Handling unit %1, units left: %2", _unit, count units _unitGroup
+    ["Murk-Spawn", "Handling unit %1, units left: %2", _unit, count units _unitGroup
         ] call mc_fnc_rptlog;
     // Check if it's a vehicle
     if ( (vehicle _unit) isKindOf "LandVehicle" OR (vehicle _unit) isKindOf "Air") then {
@@ -219,7 +219,7 @@ _countWaypoints = count(waypoints _unitGroup);
 for "_i" from 0 to _countWaypoints do {
     private _wppos =  waypointPosition [_unitGroup, _i];
     if (_wppos isEqualTo [0,0,0]) then {
-        ["Group %1 waypoint %2 is 000, dropping", _unitGroup, _i
+        ["Murk-Spawn", "Group %1 waypoint %2 is 000, dropping", _unitGroup, _i
             ] call mc_fnc_rptlog;
     } else {
         private _waypointsEntry = [
@@ -243,7 +243,7 @@ for "_i" from 0 to _countWaypoints do {
 };
 
 if (_debug) then {
-    ["Waypoints: %1", _waypointsArray] call mc_fnc_rptlog;
+    ["Murk-Spawn", "Waypoints: %1", _waypointsArray] call mc_fnc_rptlog;
 };
 
 deleteGroup _unitGroup;
@@ -404,7 +404,7 @@ private _fnc_spawnUnit = {
     params ["_oldgroup", "_side", "_waypointsArray","_grpHCBL"];
     private _newGroup = createGroup _side;
     // Disable ACEX Headless messing with this group until we're done
-    ["Adding new group %1 to ACEX Headless blacklist during setup", _newgroup
+    ["Murk-Spawn", "Adding new group %1 to ACEX Headless blacklist during setup", _newgroup
         ] call mc_fnc_rptlog;
     _newGroup setVariable ["acex_headless_blacklist", true];
     // If the old group doesnt have any units in it its a spawned group rather
@@ -446,7 +446,7 @@ private _fnc_spawnUnit = {
                 _spawnUnit = _unitType createVehicle _unitPos;
             };
             _spawnUnit setVariable ["acex_headless_blacklist", _unitHCBL];
-            ["New vehicle %1 HCBL status: %2", _spawnUnit, _unitHCBL] call mc_fnc_rptlog;
+            ["Murk-Spawn", "New vehicle %1 HCBL status: %2", _spawnUnit, _unitHCBL] call mc_fnc_rptlog;
             // Create the entire crew
             private _crew = [];
             {
@@ -462,7 +462,7 @@ private _fnc_spawnUnit = {
             // Otherwise its infantry
             _spawnUnit = _newGroup createUnit [_unitType,_unitPos, [], 0, "NONE"];
             _spawnUnit setVariable ["acex_headless_blacklist", _unitHCBL];
-            ["New unit %1 HCBL status: %2", _spawnUnit, _unitHCBL] call mc_fnc_rptlog;
+            ["Murk-Spawn", "New unit %1 HCBL status: %2", _spawnUnit, _unitHCBL] call mc_fnc_rptlog;
             removeAllWeapons _spawnUnit;
             removeAllItems _spawnUnit;
             removeAllAssignedItems _spawnUnit;
@@ -551,13 +551,13 @@ private _fnc_spawnUnit = {
     // Enable ACEX Headless for this group and trigger a rebalance pass
     // But *only* if the MM has not put the group on the HC blacklist.
     if (mc_murk_headless == 1 && ! _grpHCBL) then {
-        ["Removing group %1 from ACEX HC blacklist and triggering rebalance",
+        ["Murk-Spawn", "Removing group %1 from ACEX HC blacklist and triggering rebalance",
             _newgroup] call mc_fnc_rptlog;
         _newGroup setVariable ["acex_headless_blacklist", false];
         [false] call acex_headless_fnc_rebalance;
     };
     if (_grpHCBL) then {
-        ["Group %1 was put on ACEX HC blacklist by MM, leaving it there",
+        ["Murk-Spawn", "Group %1 was put on ACEX HC blacklist by MM, leaving it there",
             _newgroup] call mc_fnc_rptlog;
     };
 
@@ -628,7 +628,7 @@ if (_spawntype == "reset") then {
 // ONCE MODE
 if (_spawntype == "once") then {
     private _unitGroup = [_unitGroup,_side,_waypointsArray,_grpHCBL] call _fnc_spawnUnit;
-    ["Spawned group %1", _unitGroup] call mc_fnc_rptlog;
+    ["Murk-Spawn", "Spawned group %1", _unitGroup] call mc_fnc_rptlog;
     ["mc_murk_spawned", [_unitGroup]] call CBA_fnc_serverEvent;
 };
 
