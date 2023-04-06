@@ -18,7 +18,7 @@ if (isNil "_scheduled") then {_scheduled=false;};
 if (isNil "_quiet") then {_quiet=false;};
 
 if (!_quiet && !_scheduled) then {
-    ["Initializing object %1 for side %2", _tObj, _tSide] call mc_fnc_rptlog;
+    ["Telepole", "Initializing object %1 for side %2", _tObj, _tSide] call mc_fnc_rptlog;
 };
 
 removeAllActions _tObj;
@@ -28,7 +28,7 @@ if (!_scheduled) then {
     [_tSide, _tObj]spawn {
 	params ["_tSide", "_tObj"];
         while {true} do {
-            //["Scheduled update for %1/%2", _tObj, _tSide] call mc_fnc_rptlog;
+            //["Telepole", "Scheduled update for %1/%2", _tObj, _tSide] call mc_fnc_rptlog;
             [_tObj, _tSide, true, true] call mc_fnc_telepole;
             sleep 60;
         };
@@ -65,7 +65,7 @@ if (mc_teleport_telepole == 1) then {
       //if (side _l == _tSide && alive _l) then {
       if (isPlayer _l && side _l == _tSide && alive _l) then {
         if (!_quiet) then {
-            ["Leader %1 is a player, alive and on side %2, adding TP entry",
+            ["Telepole", "Leader %1 is a player, alive and on side %2, adding TP entry",
              _l, _tSide] call mc_fnc_rptlog;
         };
         _grpLeaders pushBack _l
@@ -88,7 +88,7 @@ if (mc_teleport_telepole == 1) then {
 // Add call-for-helicopter action
 if (mc_pilot_ping_telepole == 1 && count _pilots > 0) then {
     if (!_quiet) then {
-        ["Adding transport request (%1) action", _pilots] call mc_fnc_rptlog;
+        ["Telepole", "Adding transport request (%1) action", _pilots] call mc_fnc_rptlog;
     };
     _tObj addAction ["Call for helicopter", {
         params ["", "_caller", "", "_arguments"];
@@ -96,7 +96,7 @@ if (mc_pilot_ping_telepole == 1 && count _pilots > 0) then {
         hintsilent "Request sent to Pilots. Expect transport shortly!";
         {
           format ["%1 (%2) requests transport!", _caller, name _caller] remoteExec ["hint", _x];
-          ["fn_telepole.sqf", "Transport request %1 (%2) -> %3 (%4)", _caller, name _caller, _x, name _x] call mc_fnc_ehlog;
+          ["fn_telepole.sqf", "Transport request %1 (%2) -> %3 (%4)", _caller, name _caller, _x, name _x] call mc_fnc_rptlog;
         } foreach _pilots;
     },
     _pilots];

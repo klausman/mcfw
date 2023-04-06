@@ -164,7 +164,7 @@ _group = (group _unit);
 } forEach _groupBadges;
 
 if (format ["%1",_group] == "") then {
-    ["Unit %1 (type %2) has an empty group.", _unit, _typeOfUnit
+    ["assignInsignia", "Unit %1 (type %2) has an empty group.", _unit, _typeOfUnit
         ] call mc_fnc_rptlog;
 };
 

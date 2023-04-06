@@ -55,7 +55,7 @@ _unitsInGroup = units _unitGroup;
 _unitsInGroupAdd = [];
 _side = side _unitGroup;
 _grpHCBL = _unitGroup getVariable ["acex_headless_blacklist", false];
-["Murk-Building group %1 has HCBL status %2", _unitGroup, _grpHCBL] call mc_fnc_rptlog;
+["Murk-Building", "Group %1 has HCBL status %2", _unitGroup, _grpHCBL] call mc_fnc_rptlog;
 
 while { count units _unitGroup > 0 } do {
     // The currently worked on unit
@@ -186,7 +186,7 @@ private _fnc_spawnUnit = {
     params ["_oldGroup", "_side", "_grpHCBL"];
     private _newGroup = createGroup _side;
     // Disable ACEX Headless messing with this group until we're done
-    ["Adding new group %1 to ACEX Headless blacklist", _newgroup
+    ["Murk-Building", "Adding new group %1 to ACEX Headless blacklist", _newgroup
         ] call mc_fnc_rptlog;
     _newGroup setVariable ["acex_headless_blacklist", true];
     // If the old group doesn't have any units in it its a spawned group rather
@@ -227,13 +227,13 @@ private _fnc_spawnUnit = {
             // Count the turrets and move the men inside
             private _turrets = [configFile >> "CfgVehicles" >> _unitType >> "turrets"] call _fnc_returnVehicleTurrets;
             [_turrets, [], 1, _crew, _spawnUnit] call _fnc_moveInTurrets;
-            ["New vic %1 HCBL status: %2", _spawnUnit, _unitHCBL] call mc_fnc_rptlog;
+            ["Murk-Building", "New vic %1 HCBL status: %2", _spawnUnit, _unitHCBL] call mc_fnc_rptlog;
         }
         // Otherwise its infantry
         else {
             _spawnUnit = _newGroup createUnit [_unitType,_unitPos, [], 0, "NONE"];
             commandstop _spawnUnit;
-            ["New unit %1 HCBL status: %2", _spawnUnit, _unitHCBL] call mc_fnc_rptlog;
+            ["Murk-Building", "New unit %1 HCBL status: %2", _spawnUnit, _unitHCBL] call mc_fnc_rptlog;
         };
         // Set all the things common to the spawned unit
         _spawnUnit setVariable ["lambs_danger_disableAI", true];
@@ -276,13 +276,13 @@ private _fnc_spawnUnit = {
     };
     // Enable ACEX Headless for this group and trigger a rebalance pass
     if (mc_murk_headless == 1 && !_grpHCBL) then {
-    ["Removing group %1 from ACEX Headless blacklist and triggering rebalance",
+    ["Murk-Building", "Removing group %1 from ACEX Headless blacklist and triggering rebalance",
      _newgroup] call mc_fnc_rptlog;
         _newGroup setVariable ["acex_headless_blacklist", false];
         [false] call acex_headless_fnc_rebalance;
     };
     if (_grpHCBL) then {
-        ["New group %1 was put on HCBL by MM, keeping it there", _newgroup
+        ["Murk-Building", "New group %1 was put on HCBL by MM, keeping it there", _newgroup
             ] call mc_fnc_rptlog;
     };
 

@@ -17,12 +17,12 @@ if (isNull _unit) exitWith {};
 
 // Exit if this already is a Zeus
 if !(isNull (getAssignedCuratorLogic _unit)) exitWith {
-    ["Zeus already assigned to %1.",_unit] call mc_fnc_bothlog;
+    ["ZeusInit", "Zeus already assigned to %1.",_unit] call mc_fnc_bothlog;
 };
 
 // Exit if the unit is not a player
 if !(isPlayer _unit) exitWith {
-    ["Did not assign Zeus to %1 because it is not under control of a player.",
+    ["ZeusInit", "Did not assign Zeus to %1 because it is not under control of a player.",
         _unit] call mc_fnc_bothlog;
 };
 

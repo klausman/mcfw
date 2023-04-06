@@ -281,7 +281,6 @@ class CfgFunctions {
             class rptlog{};
             class chatlog{};
             class bothlog{};
-            class ehlog{};
         };
         class teleport {
             file = "extras\telepole";

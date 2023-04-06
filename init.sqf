@@ -131,7 +131,7 @@ if (hasInterface) then {
                     player setVariable ['f_var_assignGear_done',false,true];
                     [_loadout, player] call f_fnc_assignGear;
                 } else {
-                    ['respawnEH', 'Unit %1 had no aG loadout, doing nothing'] call mc_fnc_ehlog;
+                    ['respawnEH', 'Unit %1 had no aG loadout, doing nothing'] call mc_fnc_rptlog;
                 };
                 sleep 5;
                 call mc_fnc_telepole_reinit;
@@ -157,7 +157,7 @@ private _editedVicsAD = [];
 private _editedVicsES = [];
 private _edCount = 0;
 
-["vicsaver", "Making vehicles inert"] call mc_fnc_ehlog;
+["vicsaver", "Making vehicles inert"] call mc_fnc_rptlog;
 {
     if (simulationEnabled _x || isDamageAllowed _x) then {
         _edCount = _edCount+1;
@@ -172,15 +172,15 @@ private _edCount = 0;
         _editedVicsES pushBack _x;
     };
 } foreach vehicles;
-["vicsaver", "Made %1 vehicles inert", _edCount] call mc_fnc_ehlog;
+["vicsaver", "Made %1 vehicles inert", _edCount] call mc_fnc_rptlog;
 
 [_editedVicsAD, _editedVicsES] spawn {
     params ["_editedVicsAD", "_editedVicsES"];
     sleep 2; // This only starts ticking once in-mission
-    ["vicsaver", "Enabling simulation on vehicles"] call mc_fnc_ehlog;
+    ["vicsaver", "Enabling simulation on vehicles"] call mc_fnc_rptlog;
     {_x allowDamage true} foreach _editedVicsAD;
     {_x enableSimulationGlobal true} foreach _editedVicsES;
-    ["vicsaver", "Enabling simulation on vehicles complete"] call mc_fnc_ehlog;
+    ["vicsaver", "Enabling simulation on vehicles complete"] call mc_fnc_rptlog;
 };
 
 if (isServer) then {
@@ -195,14 +195,14 @@ if (isServer) then {
 
     ["mc_playerSpawned", {
         params ["_uid", "_name", "_role"];
-        ["mc_playerSpawned", "%1", _name] call mc_fnc_ehlog;
+        ["mc_playerSpawned", "%1", _name] call mc_fnc_rptlog;
 
         [_uid, _name, _role, true] remoteExecCall ["mc_fnc_stats_handleRespawn", 2];
     }] call CBA_fnc_addEventHandler;
 
     ["mc_playerRespawned", {
         params ["", "_name", ""];
-        ["mc_playerRespawned", "%1", _name] call mc_fnc_ehlog;
+        ["mc_playerRespawned", "%1", _name] call mc_fnc_rptlog;
 
         _this remoteExecCall ["mc_fnc_stats_handleRespawn", 2];
     }] call CBA_fnc_addEventHandler;

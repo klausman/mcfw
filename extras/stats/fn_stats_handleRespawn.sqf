@@ -53,5 +53,5 @@ mc_stats_players pushBackUnique _uid;
 ] call CBA_fnc_debug;
 
 if (f_var_debugMode == 1) then {
-    ["_playerStats = %1", str _playerStats] call mc_fnc_bothlog;
+    ["StatsOnRespawn", "_playerStats = %1", str _playerStats] call mc_fnc_bothlog;
 };

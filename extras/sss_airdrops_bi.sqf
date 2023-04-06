@@ -12,7 +12,7 @@ scriptName "sss_airdrops_bi.sqf";
 
 _boxdef = _boxes select _boxidx;
 
-["Initizializing box %1 (type %2, %3)", _box, _boxidx, _boxdef
+["SAD-Boxinit", "Initizializing box %1 (type %2, %3)", _box, _boxidx, _boxdef
     ] call mc_fnc_rptlog;
 
 _stuff = _boxdef select 4;
@@ -51,7 +51,7 @@ if (count _markers > 0) then {
    {isNull (_this select 0)|| {getPos (_this select 0) select 2 < 2}},
    // Code
    {params ["_pos", "_smks"];
-    ["Popping markers at %1 (one each of %2)", _pos, _smks ] call mc_fnc_rptlog;
+    ["SAD-Boxinit", "Popping markers at %1 (one each of %2)", _pos, _smks ] call mc_fnc_rptlog;
     {_x createVehicle _pos;} foreach _smks;
    },
    // Params

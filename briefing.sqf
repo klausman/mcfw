@@ -1,27 +1,25 @@
 // Briefing
 
-scriptName "briefing.sqf";
-
-// MAKE SURE THE PLAYER INITIALIZES PROPERLY
+// Make sure the player initializes properly
 if (!isDedicated && (isNull player)) then {
     waitUntil {sleep 0.1; !isNull player};
 };
 
-// DECLARE VARIABLES AND FUNCTIONS
+// Declare variables and functions
 private ["_unitSide"];
 
 waitUntil {!isnil "f_var_debugMode"};
 
-// DETECT PLAYER FACTION
+// Detect player faction
 // The following code detects what side the player's slot belongs to, and
 // stores it in the private variable _unitSide
 _unitSide = side player;
 
 if (f_var_debugMode == 1) then {
-    ["Player faction: %1",str _unitSide] call mc_fnc_rptlog;
+    ["Briefing", "Player faction: %1",str _unitSide] call mc_fnc_rptlog;
 };
 
-// BRIEFING: ADMIN
+// Briefing: admin
 // The following block of code executes only if the player is the current host
 // it automatically includes a file which contains the appropriate briefing
 // data.
@@ -29,11 +27,11 @@ if (f_var_debugMode == 1) then {
 if (serverCommandAvailable "#kick") then {
 #include "f\briefing\f_briefing_admin.sqf"
     if (f_var_debugMode == 1) then {
-        ["Briefing for host selected."] call mc_fnc_rptlog;
+        ["Briefing", "Briefing for host selected."] call mc_fnc_rptlog;
     };
 };
 
-// BRIEFING: WEST
+// Briefing: WEST
 // The following block of code executes only if the player is in a BLU slot;
 // it automatically includes a file which contains the appropriate briefing
 // data.
@@ -42,7 +40,7 @@ if (_unitSide == west) exitwith {
     true;
 };
 
-// BRIEFING: EAST
+// Briefing: EAST
 // The following block of code executes only if the player is in a OPF slot;
 // it automatically includes a file which contains the appropriate briefing
 // data.
@@ -51,7 +49,7 @@ if (_unitSide == east) exitwith {
     true;
 };
 
-// BRIEFING: INDEPENDENT
+// Briefing: INDEPENDENT
 // The following block of code executes only if the player is in a GUER slot;
 // it automatically includes a file which contains the appropriate briefing
 // data.
@@ -60,7 +58,7 @@ if (_unitSide == resistance) exitwith {
     true;
 };
 
-// BRIEFING: CIVILIAN
+// Briefing: CIVILIAN
 // The following block of code executes only if the player is in a CIVILIAN
 // slot; it automatically includes a file which contains the appropriate
 // briefing data.
@@ -73,9 +71,9 @@ if (_unitSide == civilian) exitwith {
 // mostly here to make the error message below more useful.
 if (_unitSide == sideLogic) exitwith {};
 
-// ERROR CHECKING
+// Error checking
 // If the faction of the unit cannot be defined, the script exits with an
 // error.
-["Side %1 has no briefing defined.", str _unitSide] call mc_fnc_rptlog;
+["Briefing", "Side %1 has no briefing defined.", str _unitSide] call mc_fnc_rptlog;
 
 // vim: sts=-1 ts=4 et sw=4

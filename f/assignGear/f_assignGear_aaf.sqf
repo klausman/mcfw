@@ -128,7 +128,7 @@ switch (_typeofUnit) do {
   // not have a known type. So do nothing except warn the MM about this
   default {
     // the if (true) is necessary due to the way exitWith works
-    ["Unit:%1. Gear template %2 does not exist, loadout not changed.", _unit, _typeofunit
+    ["AssignGear-AAF", "Unit:%1. Gear template %2 does not exist, loadout not changed.", _unit, _typeofunit
         ] call mc_fnc_bothlog;
   };
 // End of loadouts

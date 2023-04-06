@@ -21,7 +21,7 @@ _keep_going = true;
 // _mindist meters away (in case multiple people of the same unit respawn at
 // the same time).
 if (_leader == _caller) then {
-    ["%1 (%2) is a leader, looking for a distant squad member",
+    ["Telepole", "%1 (%2) is a leader, looking for a distant squad member",
         _callerfn, _caller] call mc_fnc_rptlog;
     private _seenmin = 10000000; // 10'000 km
     private _found = false;
@@ -29,7 +29,7 @@ if (_leader == _caller) then {
     {
         private _dst = _x distance2d _caller;
         if (_dst > _mindist && _dst < _seenmin) then {
-            ["Best candidate so far: %1 (%2) is %3m from caller",
+            ["Telepole", "Best candidate so far: %1 (%2) is %3m from caller",
                 name _x, _x, _dst] call mc_fnc_rptlog;
             _leader = _x;
             _leaderfn = format ["%1 (%2)", name _leader, _leader];
@@ -39,7 +39,7 @@ if (_leader == _caller) then {
     } foreach units _caller;
 
     if (_found) then {
-        ["%1 is closest to %1, using as TP location",
+        ["Telepole", "%1 is closest to %1, using as TP location",
             _leaderfn, _callerfn, _seenmin] call mc_fnc_rptlog;
     } else {
         hintSilent "All members of this squad are close to you, not teleporting.";
@@ -53,13 +53,13 @@ _lpos = getPos _leader;
 _lalt = _lpos select 2;
 _lvic = vehicle _leader;
 
-["Leader is %1, vic is %2, alt is %4", _leader, _lvic, _lalt
+["Telepole", "Leader is %1, vic is %2, alt is %4", _leader, _lvic, _lalt
     ] call mc_fnc_rptlog;
 
 switch(true) do {
     // Leader is not in a vehicle and close to the ground/a walkable surface
     case (_lalt<=2 && (_lvic == _leader)): {
-        ["%1 is on/near the ground and not in a vehicle, direct teleport",
+        ["Telepole", "%1 is on/near the ground and not in a vehicle, direct teleport",
             _leaderfn] call mc_fnc_rptlog;
         _tgt = _lpos findEmptyPosition [1, 10];
         _caller setPos _tgt;
@@ -90,7 +90,7 @@ switch(true) do {
 
     default {
         // Can't-happen catchall.
-        ["Dunno what to do! leader: %1 lalt: %2, lvic: %3",
+        ["Telepole", "Dunno what to do! leader: %1 lalt: %2, lvic: %3",
             _leader, _lalt, _lvic] call mc_fnc_rptlog;
         hintSilent format [
             "Teleport script broke! Take a screenshot and send it to klausman. leader: %1 caller: %2 lpos: %3 lalt: %4 lvic: %5",
