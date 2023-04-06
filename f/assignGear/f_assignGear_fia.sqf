@@ -127,8 +127,8 @@ switch (_typeofUnit) do {
   // This block is executed if the unit assignGear was called on does
   // not have a known type. So do nothing except warn the MM about this
   default {
-      ["AssignGear-FIA", "Unit:%1. Gear template %2 does not exist, loadout not changed.", _unit, _typeofunit
-          ] call mc_fnc_bothlog;
+      ["AssignGear-FIA", "Unit:%1. Gear template %2 does not exist, loadout not changed.",
+         _unit, _typeofunit] call mc_fnc_bothlog;
   };
 // End of loadouts
 };
